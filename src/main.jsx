@@ -1,6 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { HomePageUrl, RegisterPageUrl, LoginPageUrl } from "./constants/urls"
 import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { HomePage } from "./pages/HomePage/HomePage"
+import { RegisterPage } from "./pages/RegisterPage/RegisterPage"
+import { LoginPage } from "./pages/LoginPage/LoginPage"
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -8,8 +12,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <Routes>
 
-        <Route path='/' element={<h1>Home Page</h1>} /> 
-        <Route path='/register' element={<h1>Register Page</h1>} /> 
+        <Route path={HomePageUrl} element={<HomePage/>} /> 
+        <Route path={RegisterPageUrl} element={<RegisterPage/>} /> 
+        <Route path={LoginPageUrl} element={<LoginPage/>} /> 
 
       </Routes>
     </BrowserRouter>

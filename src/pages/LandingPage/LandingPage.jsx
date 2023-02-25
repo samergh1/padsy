@@ -1,12 +1,12 @@
 import { useState } from 'react'
-import { NavBar } from './components/NavBar/NavBar'
+import { NavBar } from './components/NavBar'
+import { Main } from './components/Main'
 
 export function LandingPage() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
   return (
     <>
     <NavBar/>
+    <Main/>
     <h1>HomePage</h1>
     </>
   )

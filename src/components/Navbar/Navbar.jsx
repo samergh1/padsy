@@ -1,81 +1,61 @@
-// import {Link} from "react-router-dom"
-// import {
-//     HomePageUrl, 
-//     RegisterPageUrl,
-//     LoginPageUrl,
-// } from "../../constants/urls";
-
-// import styles from "./Navbar.module.css"
-
-import { Link, useNavigate } from "react-router-dom";
-import {
-    HomePageUrl, 
-    RegisterPageUrl,
-    LoginPageUrl,
-} from "../../constants/urls";
-// import { useUserContext } from "../../contexts/UserContext";
-import styles from "./Navbar.module.css";
-// import { logout } from "../../firebase/auth";
+import { useState } from "react";
+import { UilSearch, UilCommentAltDots, UilAngleDoubleLeft, UilSignout} from '@iconscout/react-unicons'
+import logo from "../../assets/logo.svg"
 
 export function Navbar() {
-  const navigate = useNavigate();
-//   const { user, isLoadingUser } = useUserContext();
-
-//   const handleLogout = async () => {
-//     await logout(() => navigate(HomePageUrl));
-//   };
+  const [open, setOpen] = useState(true);
+  const Menus = [
+    { title: "Search doctors", src: UilSearch },
+    { title: "My chats", src: UilCommentAltDots}
+  ];
 
   return (
-    <nav className={styles.navbar}>
-      <ul className={styles.menuList}>
-        <li className={`${styles.menuItem} ${styles.menuItemLeft}`}>
-          <Link to={HomePageUrl} className={styles.link}>
-            <span>Personajes</span>
-          </Link>
-        </li>
-        {/* <li className={`${styles.menuItem} ${styles.menuItemLeft}`}>
-          <Link to={FAVORITES_URL} className={styles.link}>
-            <span>Favoritos</span>
-          </Link>
-        </li> */}
-      </ul>
-
-      {/* {!isLoadingUser && (
-        <ul className={styles.menuList}>
-          {!!user ? (
-            <>
-              <li className={`${styles.menuItem} ${styles.menuItemRight}`}>
-                <Link to={PROFILE_URL} className={styles.link}>
-                  <div className={styles.userAvatar} />
-                  <span>{user.name}</span>
-                </Link>
-              </li>
-              <li className={`${styles.menuItem} ${styles.menuItemRight}`}>
-                <button
-                  type="button"
-                  className={`${styles.link} ${styles.logoutBtn}`}
-                //   onClick={handleLogout}
-                >
-                  <span>Salir</span>
-                </button>
-              </li>
-            </>
-          ) : (
-            <>
-              <li className={`${styles.menuItem} ${styles.menuItemRight}`}>
-                <Link to={LOGIN_URL} className={styles.link}>
-                  <span>Iniciar sesión</span>
-                </Link>
-              </li>
-              <li className={`${styles.menuItem} ${styles.menuItemRight}`}>
-                <Link to={REGISTER_URL} className={styles.link}>
-                  <span>Registro</span>
-                </Link>
-              </li>
-            </>
-          )}
-        </ul>
-      )} */}
-    </nav>
+    <div className="flex h-screen">
+        <div
+            className={`${
+            open ? "w-72" : "w-20 "
+            } bg-gray h-full p-5 pt-8 relative duration-300 flex-col justify-between`}
+        >
+            <UilAngleDoubleLeft 
+                className={`absolute cursor-pointer -right-3 top-9 w-7 border-dark-purple
+                border-2 rounded-full  ${!open && "rotate-180"}`}
+            onClick={() => setOpen(!open)}
+            />
+            <div className="flex gap-x-4 items-center">
+                <div className="w-16 h-16 bg-green rounded-md"></div>
+                    <h1
+                        className={`text-black origin-left font-medium text-xl duration-200 ${
+                        !open && "scale-0"
+                        }`}
+                    >
+                    @USUARIO
+                    </h1>
+            </div>
+            <div className="flex">
+                <ul className="pt-6 flex-col items-center" >
+                    {Menus.map((Menu, index) => (
+                    <li
+                        key={index}
+                        className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-black-300 text-sm items-center gap-x-4 
+                        ${Menu.gap ? "mt-9" : "mt-2"} ${
+                            index === 0 && "bg-light-white"
+                        } `}
+                        >
+                        <Menu.src/>
+                        <span className={`${!open && "hidden"} origin-left duration-200 not-italic font-normal text-base leading-6 flex items-center text-center text-black`}>
+                            {Menu.title}
+                        </span>
+                    </li>
+                ))}
+                </ul>
+            </div>
+            <div className="mt-96 flex-col-reverse">
+                <img src = {logo}/>
+            </div>
+        </div>
+        <div className="h-screen flex-1 p-7">
+            <h1 className="text-2xl font-semibold ">Home Page</h1>
+        </div>
+    </div>
   );
-}
+};

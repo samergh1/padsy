@@ -6,7 +6,7 @@ export function HomePage() {
   return (
     <>
     <Navbar/>
-    <h1 className={styles.title}>HomePage</h1>
+    <h1 className={styles.title}></h1>
     </>
   )
 }

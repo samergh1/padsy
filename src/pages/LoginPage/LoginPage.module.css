@@ -67,11 +67,22 @@
     background-color: #F8F8F8;
     border-radius: 6px;
     padding: 15px;
-    width: 70%;
+    width: 60%;
     border: none;
     margin-bottom: 10px;
 }
 
+.logo {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.signInOptions button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .signInOptions button:hover {
     cursor: pointer;
@@ -85,6 +96,7 @@
     background: #00786A;
     border-radius: 6px;
     border: none;
+    height: 40px;
 }
 
 .continue:hover {

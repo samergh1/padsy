@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { UilMessage } from '@iconscout/react-unicons'
 
 const Table = ({name, speciality, location, cost, rating}) => {
     return(
@@ -71,9 +71,12 @@ export function SearchPage() {
                     <div className='flex flex-row-reverse items-center gap-4 pr-6'>
                             <div className="flex items-center space-x-2">
                                 <div className="relative">
-                                    <button className="relative z-0 inline-flex text-sm rounded-md shadow-sm focus:ring-accent-500 focus:border-accent-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1">
+                                    <button className="relative z-0 inline-flex text-sm rounded-md shadow-sm focus:ring-accent-500 focus:border-accent-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 w-50  lg: h-15 w-17">
                                         <span className="relative inline-flex items-center px-3 py-3 space-x-2 text-sm font-medium text-gray-600 bg-white border border-gray- rounded-md sm:py-2">
-                                            <div className="hidden sm:block">
+                                        <div>
+                                            <UilMessage className="h-3 w-4"/>
+                                            </div>
+                                            <div className="hidden sm:block lg: w-16">
                                                 Search
                                             </div>
                                         </span>

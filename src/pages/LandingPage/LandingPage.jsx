@@ -1,13 +1,14 @@
-import { useState } from 'react'
 import { NavBar } from './components/NavBar'
-import { Main } from './components/Main'
+import { Body } from './components/Body'
+import { Features } from './components/Features'
 
 export function LandingPage() {
   return (
     <>
-    <NavBar/>
-    <Main/>
-    <h1>HomePage</h1>
+      <NavBar />
+      <Body />
+      <Features />
+      <h1>HomePage</h1>
     </>
   )
 }

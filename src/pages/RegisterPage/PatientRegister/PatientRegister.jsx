@@ -1,9 +1,15 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { LoginPageUrl } from '../../../constants/urls'
 import googleLogo from "../../../assets/google.png"
 import facebookLogo from "../../../assets/facebook.png"
+import { signInWithGoogle } from '../../../firebase/auth-service'
 
 export function PatientRegister() {
+  const handleSignWithGoogle = async () => {
+    console.log("holis")
+    await signInWithGoogle();
+  }
+
   return (
     <>
       <div className="sm:grid sm:grid-cols-5 w-screen h-screen">
@@ -86,7 +92,7 @@ export function PatientRegister() {
               </div>
 
               <div className="flex flex-col gap-4 sm:items-center">
-                <button className="flex justify-center sm:w-3/4 lg:w-1/2 items-center bg-white rounded-md p-3 hover:scale-105 transition-all">
+                <button onClick={handleSignWithGoogle} className="flex justify-center sm:w-3/4 lg:w-1/2 items-center bg-white rounded-md p-3 hover:scale-105 transition-all">
                   <img src={googleLogo} alt="Google" className="w-7 h-7 mr-3"/>
                   Sign up with Google
                 </button>

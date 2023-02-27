@@ -1,6 +1,6 @@
 * {
     box-sizing: border-box;
-    height: 100%;
+    height: screen;
 }
 
 .title {
@@ -53,7 +53,7 @@
 
 .signInOptions {
     display: flex;
-    flex-direction: column;
+    gap: 15px;
     justify-content: center;
     align-items: center;
     width: 100%;

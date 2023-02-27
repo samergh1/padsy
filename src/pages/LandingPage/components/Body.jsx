@@ -1,14 +1,14 @@
 export function Body() {
     return (
-        <main>
-            <div class="mx-auto max-w-2xl py-32 sm:py-40 lg:py-32">
-                <div class="hidden sm:mb-8 sm:flex sm:justify-center">
-                    {/* Title */}
+        <section id="#" className="bg-white">
+            <div class="mx-auto max-w-2xl items-center py-24 px-4 sm:px-6 sm:py-32 lg:max-w-7xl lg:px-8">
+                <div class="mx-auto max-w-3xl hidden sm:mb-8 sm:flex sm:justify-center">
+                    {/* Go to doctors */}
                     <div class="relative rounded-full py-1 px-3 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-                        Get to know our specialists better. <a href="#" class="font-semibold text-indigo-600"><span class="absolute inset-0" aria-hidden="true"></span>Go to doctors</a>
+                        Get to know our specialists better. <a href="#doctors" class="font-semibold text-indigo-600"><span class="absolute inset-0" aria-hidden="true"></span>Go to doctors</a>
                     </div>
                 </div>
-                <div class="text-center">
+                <div class="mx-auto max-w-3xl text-center">
                     {/* Title */}
                     <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Specialists are waiting for you</h1>
                     {/* Subtitle */}
@@ -21,6 +21,6 @@ export function Body() {
                     </div>
                 </div>
             </div>
-        </main>
+        </section>
     )
 }

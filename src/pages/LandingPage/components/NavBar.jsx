@@ -5,19 +5,19 @@ import { UilBars, UilTimes } from '@iconscout/react-unicons'
 const menuOptions = [
   {
     name: 'Features',
-    href: '#',
+    href: '#features',
   },
   {
     name: 'Doctors',
-    href: '#',
+    href: '#doctors',
   },
   {
     name: 'Pages',
-    href: '#',
+    href: '#pages',
   },
   {
     name: 'Contact',
-    href: '#',
+    href: '#contact',
   },
 ]
 
@@ -64,22 +64,23 @@ export function NavBar() {
         {/* Authentication Buttons */}
 
         <div className="hidden ml-6 lg:flex">
-          <span className="ml-3 sm:block">
+          <a href='login' className="ml-3 sm:block">
             <button
+              onclick="login"
               type="button"
               className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               Sign in
             </button>
-          </span>
-          <span className="sm:ml-3">
+          </a>
+          <a href='register' className="sm:ml-3">
             <button
               type="button"
               className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               Sign up
             </button>
-          </span>
+          </a>
         </div>
       </nav>
 
@@ -118,13 +119,13 @@ export function NavBar() {
 
               <div className="space-y-2 py-6">
                 <a
-                  href="#"
+                  href='register'
                   className="-mx-3 bg-indigo-600 hover:bg-indigo-700 block rounded-lg py-2.5 px-3 text-base font-semibold leading-7 text-white"
                 >
                   Sign up
                 </a>
                 <a
-                  href="#"
+                  href='login'
                   className="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Sign in

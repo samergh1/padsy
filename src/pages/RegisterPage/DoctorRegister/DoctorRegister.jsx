@@ -1,9 +1,32 @@
 import { Link } from 'react-router-dom'
-import { LoginPageUrl } from '../../../constants/urls'
+import { LoginPageUrl, HomePageUrl } from '../../../constants/urls'
 import googleLogo from "../../../assets/google.png"
 import facebookLogo from "../../../assets/facebook.png"
+import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { registerWithEmailAndPasswordDoctor } from '../../../firebase/authentication/authentication'
 
 export function DoctorRegister() {
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({});
+
+  const onSuccess = () => {
+    navigate(HomePageUrl);
+  };
+
+  const onRegisterWithEmailAndPassword = async (event) => {
+    event.preventDefault();
+    const isDoctor = true;
+    const { name, email, password, phoneNumber, address, specialty } = formData;
+    await registerWithEmailAndPasswordDoctor({ name: name, email: email, password: password, phoneNumber:phoneNumber, address:address, isDoctor:isDoctor, specialty:specialty, onSuccess: onSuccess });
+  };
+
+  const onChange = (event) => {
+    const {name, value} = event.target;
+    setFormData((oldData) => ({...oldData, [name]:value}));
+  };
+
   return (
     <>
       <div className="sm:grid sm:grid-cols-5 w-screen h-screen">
@@ -42,6 +65,7 @@ export function DoctorRegister() {
                     name="email"
                     type="email"
                     autoComplete="email"
+                    onChange={onChange}
                     required
                     className="relative block w-full mt-1 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                     placeholder="Email address"
@@ -56,6 +80,7 @@ export function DoctorRegister() {
                     name="password"
                     type="password"
                     autoComplete="current-password"
+                    onChange={onChange}
                     required
                     className="relative block w-full mt-1 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                     placeholder="Password"
@@ -69,6 +94,7 @@ export function DoctorRegister() {
                     id="name"
                     name="name"
                     type="text"
+                    onChange={onChange}
                     required
                     className="relative block w-full mt-1 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                     placeholder="Full name"
@@ -79,9 +105,10 @@ export function DoctorRegister() {
                     Phone number
                   </label>
                   <input
-                    id="phone-number"
-                    name="phone-number"
+                    id="phoneNumber"
+                    name="phoneNumber"
                     type="number"
+                    onChange={onChange}
                     required
                     className="relative block w-full mt-1 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                     placeholder="Phone number"
@@ -95,6 +122,7 @@ export function DoctorRegister() {
                     id="address"
                     name="address"
                     type="text"
+                    onChange={onChange}
                     required
                     className="relative block w-full mt-1 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                     placeholder="Full address"
@@ -108,6 +136,7 @@ export function DoctorRegister() {
                     id="specialty"
                     name="specialty"
                     type="text"
+                    onChange={onChange}
                     required
                     className="relative block w-full mt-1 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                     placeholder="Specialty"
@@ -129,6 +158,7 @@ export function DoctorRegister() {
 
               <div className="flex justify-center items-center">
                 <button
+                  onClick={onRegisterWithEmailAndPassword}
                   type="submit"
                   className="w-3/4 sm:w-1/4 rounded-md border border-transparent bg-[#00786A] py-2 px-4 text-sm font-medium text-white focus:outline-none hover:scale-105 transition-all"
                 >

@@ -1,14 +1,31 @@
 import { Link } from 'react-router-dom'
-import { LoginPageUrl } from '../../../constants/urls'
+import { LoginPageUrl, HomePageUrl } from '../../../constants/urls'
 import googleLogo from "../../../assets/google.png"
 import facebookLogo from "../../../assets/facebook.png"
-import { signInWithGoogle } from '../../../firebase/auth-service'
+import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { registerWithEmailAndPasswordPatient } from '../../../firebase/authentication/authentication'
 
 export function PatientRegister() {
-  const handleSignWithGoogle = async () => {
-    console.log("holis")
-    await signInWithGoogle();
-  }
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({});
+
+  const onSuccess = () => {
+    navigate(HomePageUrl);
+  };
+
+  const onRegisterWithEmailAndPassword = async (event) => {
+    event.preventDefault();
+    const isDoctor = false;
+    const { name, email, password, phoneNumber } = formData;
+    await registerWithEmailAndPasswordPatient({ name: name, email: email, password: password, phoneNumber:phoneNumber, isDoctor:isDoctor, onSuccess: onSuccess });
+  };
+
+  const onChange = (event) => {
+    const {name, value} = event.target;
+    setFormData((oldData) => ({...oldData, [name]:value}));
+  };
 
   return (
     <>
@@ -44,6 +61,7 @@ export function PatientRegister() {
                     name="email"
                     type="email"
                     autoComplete="email"
+                    onChange={onChange}
                     required
                     className="relative block w-full mt-1 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                     placeholder="Email address"
@@ -58,6 +76,7 @@ export function PatientRegister() {
                     name="password"
                     type="password"
                     autoComplete="current-password"
+                    onChange={onChange}
                     required
                     className="relative block w-full mt-1 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                     placeholder="Password"
@@ -71,6 +90,7 @@ export function PatientRegister() {
                     id="name"
                     name="name"
                     type="text"
+                    onChange={onChange}
                     required
                     className="relative block w-full mt-1 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                     placeholder="Full name"
@@ -81,9 +101,10 @@ export function PatientRegister() {
                     Phone number
                   </label>
                   <input
-                    id="phone-number"
-                    name="phone-number"
+                    id="phoneNumber"
+                    name="phoneNumber"
                     type="number"
+                    onChange={onChange}
                     required
                     className="relative block w-full mt-1 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                     placeholder="Phone number"
@@ -92,7 +113,7 @@ export function PatientRegister() {
               </div>
 
               <div className="flex flex-col gap-4 sm:items-center">
-                <button onClick={handleSignWithGoogle} className="flex justify-center sm:w-3/4 lg:w-1/2 items-center bg-white rounded-md p-3 hover:scale-105 transition-all">
+                <button className="flex justify-center sm:w-3/4 lg:w-1/2 items-center bg-white rounded-md p-3 hover:scale-105 transition-all">
                   <img src={googleLogo} alt="Google" className="w-7 h-7 mr-3"/>
                   Sign up with Google
                 </button>
@@ -104,6 +125,7 @@ export function PatientRegister() {
 
               <div className="flex justify-center items-center">
                 <button
+                  onClick={onRegisterWithEmailAndPassword}
                   type="submit"
                   className="w-3/4 sm:w-1/4 rounded-md border border-transparent bg-[#00786A] py-2 text-sm font-medium text-white focus:outline-none hover:scale-105 transition-all"
                 >

@@ -4,7 +4,7 @@ import googleLogo from "../../../assets/google.png"
 import facebookLogo from "../../../assets/facebook.png"
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
-import { registerWithEmailAndPasswordPatient } from '../../../firebase/authentication/authentication'
+import { registerWithEmailAndPasswordPatient, signInWithGoogle } from '../../../firebase/authentication/authentication'
 
 export function PatientRegister() {
   const navigate = useNavigate();
@@ -51,7 +51,7 @@ export function PatientRegister() {
 
             <form className="mt-2 space-y-6">
               <input type="hidden" name="remember" defaultValue="true" />
-              <div className="-space-y-px shadow-sm grid grid-cols-2 gap-7">
+              <div className="-space-y-px grid grid-cols-2 gap-7">
                 <div>
                   <label htmlFor="email-address">
                     Email
@@ -113,7 +113,7 @@ export function PatientRegister() {
               </div>
 
               <div className="flex flex-col gap-4 sm:items-center">
-                <button className="flex justify-center sm:w-3/4 lg:w-1/2 items-center bg-white rounded-md p-3 hover:scale-105 transition-all">
+                <button onClick={() => signInWithGoogle({isDoctor:false, onSuccess:onSuccess})} className="flex justify-center sm:w-3/4 lg:w-1/2 items-center bg-white rounded-md p-3 hover:scale-105 transition-all">
                   <img src={googleLogo} alt="Google" className="w-7 h-7 mr-3"/>
                   Sign up with Google
                 </button>

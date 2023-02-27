@@ -18,17 +18,20 @@ import {
 
 const googleProvider = new GoogleAuthProvider();
 
-const signInWithGoogle = async ({ onSuccess }) => {
+const signInWithGoogle = async ({ isDoctor, onSuccess }) => {
     try {
         const res = await signInWithPopup(auth, googleProvider);
         const user = res.user;
+        console.log(user);
         const q = query(collection(db, "users"), where("uid", "==", user.uid));
         const docs = await getDocs(q);
         if (docs.docs.length === 0) {
-            await addDoc(collection(db, "users"), {
+            await setDoc(doc(db, "users", user.uid), {
                 uid: user.uid,
                 name: user.displayName,
+                phoneNumber: user.phoneNumber,
                 authProvider: "google",
+                isDoctor: isDoctor,
                 email: user.email,
             });
         }

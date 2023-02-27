@@ -17,7 +17,7 @@ import {
 
 const googleProvider = new GoogleAuthProvider();
 
-const signInWithGoogle = async () => {
+const signInWithGoogle = async ({ onSuccess }) => {
     try {
         const res = await signInWithPopup(auth, googleProvider);
         const user = res.user;
@@ -31,22 +31,30 @@ const signInWithGoogle = async () => {
                 email: user.email,
             });
         }
+
+        if (onSuccess) {
+            onSuccess();
+        }
     } catch (err) {
         console.error(err);
         alert(err.message);
     }
 };
 
-const logInWithEmailAndPassword = async (email, password) => {
+const logInWithEmailAndPassword = async ({ email, password, onSuccess }) => {
     try {
         await signInWithEmailAndPassword(auth, email, password);
+
+        if (onSuccess) {
+            onSuccess();
+        }
     } catch (err) {
         console.error(err);
         alert(err.message);
     }
 };
 
-const registerWithEmailAndPassword = async (name, email, password) => {
+const registerWithEmailAndPassword = async ({ name, email, password, onSuccess }) => {
     try {
         const res = await createUserWithEmailAndPassword(auth, email, password);
         const user = res.user;
@@ -56,6 +64,10 @@ const registerWithEmailAndPassword = async (name, email, password) => {
             authProvider: "local",
             email,
         });
+
+        if (onSuccess) {
+            onSuccess();
+        }
     } catch (err) {
         console.error(err);
         alert(err.message);

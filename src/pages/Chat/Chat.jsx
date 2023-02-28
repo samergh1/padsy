@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../context/auth";
+import { UserContext } from "../../context/userContext";
 import { ChatContext } from "../../context/chat";
 import { useNavigate } from "react-router-dom";
 // import Moment from "react-moment";
@@ -8,16 +8,12 @@ const userId = 'from';
 
 export function ChatPage() {
 	const navigate = useNavigate();
-	const { user, persistUser, signOut } = useContext(AuthContext);
+	const { user, persistUser, signOut } = useContext(UserContext);
 	const { sendMessage, getChatHistory, chatData, loading, updateChatHistory } =
 		useContext(ChatContext);
 	const [messageToSave, setMessageToSave] = useState("");
 
 	useEffect(() => {
-		if (!persistUser()) {
-			return navigate("/admin/login");
-		}
-
 		getChatHistory();
 		//eslint-disable-next-line
 	}, []);
@@ -138,17 +134,14 @@ export function ChatPage() {
 
 					</div>
 
-					<div className='chat-form-container'>
+					<div className="bg-gray-300 p-4">
 						<form onSubmit={handleSubmit} className='chat-form'>
-							<div className='chat-input-container'>
-								<input
-									className='chat-input'
-									type='text'
-									value={messageToSave}
-									onChange={(e) => setMessageToSave(e.target.value)}
-								/>
-								<input className='chat-send' type='submit' value='Send' />
-							</div>
+							<input
+								className='flex items-center h-10 w-full rounded px-3 text-sm'
+								type='text'
+								value={messageToSave}
+								onChange={(e) => setMessageToSave(e.target.value)}
+							/>
 						</form>
 					</div>
 				</div>

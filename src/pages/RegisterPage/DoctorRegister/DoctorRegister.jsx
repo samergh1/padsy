@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { LoginPageUrl, LandingPageUrl } from '../../../constants/urls'
+import { LoginPageUrl, ChatPageUrl } from '../../../constants/urls'
 import googleLogo from "../../../assets/google.png"
 import facebookLogo from "../../../assets/facebook.png"
 import { useNavigate } from 'react-router-dom'
@@ -12,7 +12,7 @@ export function DoctorRegister() {
   const [formData, setFormData] = useState({});
 
   const onSuccess = () => {
-    navigate(LandingPageUrl);
+    navigate(ChatPageUrl);
   };
 
   const onRegisterWithEmailAndPassword = async (event) => {

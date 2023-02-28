@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styles from "./LoginPage.module.css";
 import googleLogo from "../../assets/google.png"
 import facebookLogo from "../../assets/facebook.png"
-import { RegisterPageUrl, HomePageUrl } from "../../constants/urls"
+import { RegisterPageUrl, LandingPageUrl } from "../../constants/urls"
 import { Link, useNavigate } from 'react-router-dom';
 import { signInWithGoogle, logInWithEmailAndPassword } from "./../../firebase/authentication/authentication";
 
@@ -12,7 +12,7 @@ export function LoginPage() {
   const [formData, setFormData] = useState({});
 
   const onSuccess = () => {
-    navigate(HomePageUrl);
+    navigate(LandingPageUrl);
   };
 
   const onLogInWithEmailAndPassword = async (event) => {

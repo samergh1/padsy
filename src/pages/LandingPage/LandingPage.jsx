@@ -7,12 +7,12 @@ import { Pages } from './components/Pages'
 export function LandingPage() {
   return (
     <>
+      <h1>HomePage</h1>
       <NavBar />
       <Body />
-      <Features />
+      {/* <Features />
       <Doctors />
-      <Pages />
-      <h1>HomePage</h1>
+      <Pages /> */}
     </>
   )
 }

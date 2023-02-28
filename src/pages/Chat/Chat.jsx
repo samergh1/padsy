@@ -1,26 +1,51 @@
-import React from 'react'
-
-const chatHistory = [
-	{
-		time: 'time',
-		from: 'from',
-		message: '1',
-	},
-	{
-		time: 'time',
-		from: 'dif',
-		message: '2',
-	},
-	{
-		time: 'time',
-		from: 'from',
-		message: '3',
-	},
-]
+import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../context/auth";
+import { ChatContext } from "../../context/chat";
+import { useNavigate } from "react-router-dom";
+// import Moment from "react-moment";
 
 const userId = 'from';
 
-function Chat() {
+export function ChatPage() {
+	const navigate = useNavigate();
+	const { user, persistUser, signOut } = useContext(AuthContext);
+	const { sendMessage, getChatHistory, chatData, loading, updateChatHistory } =
+		useContext(ChatContext);
+	const [messageToSave, setMessageToSave] = useState("");
+
+	useEffect(() => {
+		if (!persistUser()) {
+			return navigate("/admin/login");
+		}
+
+		getChatHistory();
+		//eslint-disable-next-line
+	}, []);
+
+	const signUserOut = () => {
+		signOut();
+		navigate("/admin/login");
+	};
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		const { email } = user;
+		await sendMessage(email, messageToSave);
+		updateChatHistory();
+		setMessageToSave("");
+	};
+
+	const chatHistory =
+		chatData.length > 0
+			? chatData.sort((a, b) => {
+				return a.time - b.time;
+			})
+			: null;
+
+	if (loading) {
+		return <div className='container'>Loading chat...</div>;
+	}
+
 	return (
 		<div className='grid grid-flow-col grid-cols-2'>
 
@@ -87,7 +112,7 @@ function Chat() {
 
 					<div className="overflow-auto h-screen px-8">
 						{chatHistory?.map((c) => {
-							return c.from === userId ? (
+							return c.from === user.email ? (
 								<div className="flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end">
 									<div>
 										<div className="bg-[#00786a] text-white p-3 rounded-l-lg rounded-br-lg">
@@ -113,8 +138,18 @@ function Chat() {
 
 					</div>
 
-					<div className="bg-gray-300 p-4">
-						<input className="flex items-center h-10 w-full rounded px-3 text-sm" type="text" placeholder="Type your message…" />
+					<div className='chat-form-container'>
+						<form onSubmit={handleSubmit} className='chat-form'>
+							<div className='chat-input-container'>
+								<input
+									className='chat-input'
+									type='text'
+									value={messageToSave}
+									onChange={(e) => setMessageToSave(e.target.value)}
+								/>
+								<input className='chat-send' type='submit' value='Send' />
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
@@ -123,5 +158,3 @@ function Chat() {
 		</div>
 	)
 }
-
-export default Chat

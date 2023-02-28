@@ -1,24 +1,32 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { HomePageUrl, RegisterPageUrl, LoginPageUrl } from "./constants/urls"
+import { HomePageUrl, RegisterPageUrl, LoginPageUrl, ChatPageUrl } from "./constants/urls"
 import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { AuthProvider } from "./context/auth";
+import { ChatProvider } from "./context/chat";
 import { HomePage } from "./pages/HomePage/HomePage"
 import { RegisterPage } from "./pages/RegisterPage/RegisterPage"
 import { LoginPage } from "./pages/LoginPage/LoginPage"
-// import { db } from "./firebase/config"
+import { ChatPage } from "./pages/Chat/Chat"
 import './index.css'
-import Chat from './pages/Chat/Chat'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
+    {/* <AuthProvider> */}
+    <ChatProvider>
+      <BrowserRouter>
+        <Routes>
 
-        <Route path={HomePageUrl} element={<HomePage />} />
-        <Route path={RegisterPageUrl} element={<RegisterPage />} />
-        <Route path={LoginPageUrl} element={<LoginPage />} />
+          <Route path={HomePageUrl} element={<HomePage />} />
+          <Route path={RegisterPageUrl} element={<RegisterPage />} />
+          <Route path={LoginPageUrl} element={<LoginPage />} />
+          <Route path={ChatPageUrl} element={<ChatPage />} />
 
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
+    </ChatProvider>
+    {/* </AuthProvider> */}
+
+
   </React.StrictMode>,
 )

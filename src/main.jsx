@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { UserContextProvider } from './context/userContext'
 import { HomePageUrl, RegisterPageUrl, LoginPageUrl, RegisterDoctorUrl, RegisterPatientUrl } from "./constants/urls"
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { HomePage } from "./pages/HomePage/HomePage"
@@ -12,6 +13,7 @@ import { PatientRegister } from './pages/RegisterPage/PatientRegister/PatientReg
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
+    <UserContextProvider>
     <BrowserRouter>
       <Routes>
 
@@ -23,5 +25,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
       </Routes>
     </BrowserRouter>
+    </UserContextProvider>
+    
   </React.StrictMode>,
 )

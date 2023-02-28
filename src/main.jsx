@@ -7,10 +7,10 @@ import { RegisterPage } from "./pages/RegisterPage/RegisterPage"
 import { LoginPage } from "./pages/LoginPage/LoginPage"
 import { firestore } from "./firebase/config"
 import './index.css'
-import Chat from './pages/Chat'
+import Chat from './pages/Chat/Chat'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Chat/>
+    <Chat />
   </React.StrictMode>,
 )

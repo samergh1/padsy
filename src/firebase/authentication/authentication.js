@@ -12,22 +12,26 @@ import {
     getDocs,
     collection,
     where,
-    addDoc,
+    setDoc,
+    doc,
 } from "firebase/firestore";
 
 const googleProvider = new GoogleAuthProvider();
 
-const signInWithGoogle = async ({ onSuccess }) => {
+const signInWithGoogle = async ({ isDoctor, onSuccess }) => {
     try {
         const res = await signInWithPopup(auth, googleProvider);
         const user = res.user;
+        console.log(user);
         const q = query(collection(db, "users"), where("uid", "==", user.uid));
         const docs = await getDocs(q);
         if (docs.docs.length === 0) {
-            await addDoc(collection(db, "users"), {
+            await setDoc(doc(db, "users", user.uid), {
                 uid: user.uid,
                 name: user.displayName,
+                phoneNumber: user.phoneNumber,
                 authProvider: "google",
+                isDoctor: isDoctor,
                 email: user.email,
             });
         }
@@ -54,15 +58,40 @@ const logInWithEmailAndPassword = async ({ email, password, onSuccess }) => {
     }
 };
 
-const registerWithEmailAndPassword = async ({ name, email, password, onSuccess }) => {
+const registerWithEmailAndPasswordDoctor = async ({ name, email, password, phoneNumber, address, specialty, isDoctor, onSuccess }) => {
     try {
         const res = await createUserWithEmailAndPassword(auth, email, password);
         const user = res.user;
-        await addDoc(collection(db, "users"), {
+        await setDoc(doc(db, "users", user.uid), {
             uid: user.uid,
             name,
             authProvider: "local",
             email,
+            phoneNumber,
+            address,
+            specialty,
+            isDoctor
+        });
+
+        if (onSuccess) {
+            onSuccess();
+        }
+    } catch (err) {
+        console.error(err);
+        alert(err.message);
+    }
+};
+const registerWithEmailAndPasswordPatient = async ({ name, email, password, phoneNumber, isDoctor, onSuccess }) => {
+    try {
+        const res = await createUserWithEmailAndPassword(auth, email, password);
+        const user = res.user;
+        await setDoc(doc(db, "users", user.uid), {
+            uid: user.uid,
+            name,
+            authProvider: "local",
+            email,
+            phoneNumber,
+            isDoctor
         });
 
         if (onSuccess) {
@@ -88,4 +117,4 @@ const logout = () => {
     signOut(auth);
 };
 
-export { signInWithGoogle, logInWithEmailAndPassword, registerWithEmailAndPassword, sendPasswordReset, logout }
+export { signInWithGoogle, logInWithEmailAndPassword, registerWithEmailAndPasswordDoctor, registerWithEmailAndPasswordPatient, sendPasswordReset, logout }

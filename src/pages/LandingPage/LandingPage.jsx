@@ -7,7 +7,7 @@ import { Pages } from './components/Pages'
 export function LandingPage() {
   return (
     <>
-      <h1>HomePage</h1>
+      {/* <h1>HomePage</h1> */}
       <NavBar />
       <Body />
       {/* <Features />

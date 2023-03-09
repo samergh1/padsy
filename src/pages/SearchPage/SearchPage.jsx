@@ -6,6 +6,26 @@ import { useState } from "react";
 
 export function SearchPage() {
   const [open, setOpen] = useState(false);
+  const [selectedDoctor, setSelectedDoctor] = useState({});
+
+  let list = [
+    {
+      name: "Paola",
+      speciality: "Lloradera",
+      location: "Ni ella sabe",
+      cost: "120",
+      rating: "no tiene comparcion",
+      setOpen: { setOpen },
+    },
+    {
+      name: "Samer",
+      speciality: "Psicologo",
+      location: "Caracas",
+      cost: "12",
+      rating: "1/10",
+      setOpen: { setOpen },
+    },
+  ];
 
   return (
     <div className="flex flex-col">
@@ -84,24 +104,18 @@ export function SearchPage() {
         </div>
         <div>
           <Table
-            name="Samer"
-            speciality="Psicologo"
-            location="Caracas"
-            cost="12"
-            rating="10/10"
+            list={list}
             setOpen={setOpen}
-          />
-          <Table
-            name="Samer"
-            speciality="Psicologo"
-            location="Caracas"
-            cost="12"
-            rating="10/10"
-            setOpen={setOpen}
-          />
+            setSelectedDoctor={setSelectedDoctor}
+          ></Table>
         </div>
       </div>
-      <DashBoard open={open} setOpen={setOpen} />
+      <DashBoard
+        open={open}
+        setOpen={setOpen}
+        selectedDoctor={selectedDoctor}
+        setSelectedDoctor={setSelectedDoctor}
+      />
     </div>
 
     // <div className="relative overflow-x-auto shadow-md sm:rounded-lg">

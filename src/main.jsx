@@ -12,7 +12,6 @@ import './index.css'
 import { DoctorRegister } from './pages/RegisterPage/DoctorRegister/DoctorRegister';
 import { PatientRegister } from './pages/RegisterPage/PatientRegister/PatientRegister';
 
-
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     {/* <AuthProvider> */}

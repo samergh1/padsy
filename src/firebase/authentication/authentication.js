@@ -81,6 +81,7 @@ const registerWithEmailAndPasswordDoctor = async ({ name, email, password, phone
         alert(err.message);
     }
 };
+
 const registerWithEmailAndPasswordPatient = async ({ name, email, password, phoneNumber, isDoctor, onSuccess }) => {
     try {
         const res = await createUserWithEmailAndPassword(auth, email, password);

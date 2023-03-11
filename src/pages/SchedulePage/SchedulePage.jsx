@@ -153,7 +153,7 @@ export function SchedulePage() {
             <div className="flex flex-col justify-center items-center my-3">
               {Hours.map((hour) => (
                 <button
-                  onClick={console.log("holis")}
+                  onClick={<div className="bg-black w-96 h-96">Holis</div>}
                   className="bg-white my-0.5 w-48 hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
                 >
                   {hour.title}

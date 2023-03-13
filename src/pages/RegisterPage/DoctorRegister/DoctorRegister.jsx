@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AccountDetailsDoctor } from "./AccountDetailsDoctor";
 import { PersonalDetailsDoctor } from "./PersonalDetailsDoctor";
 import { ProfessionalDetailsDoctor } from "./ProfessionalDetailsDoctor";
-import { registerWithEmailAndPasswordDoctor } from "../../../firebase/authentication/authentication";
+import { registerWithEmailAndPasswordDoctor, signUpWithGoogle } from "../../../firebase/authentication/authentication";
 import { signInWithGoogle } from '../../../firebase/authentication/authentication'
 import googleLogo from "../../../assets/google.png"
 import facebookLogo from "../../../assets/facebook.png"
@@ -69,6 +69,11 @@ export function DoctorRegister() {
         await registerWithEmailAndPasswordDoctor({ name: values.name, email: values.email, password: values.password, phoneNumber: values.phoneNumber, address: values.address, specialty: values.specialty, isDoctor: values.isDoctor, onSuccess: onSuccess });
         console.log(values);
     };
+
+    const handleGoogleClick = () => {
+        const user = signUpWithGoogle({isDoctor:false, onSuccess: onSuccess});
+
+    }
     
     const onChange = (event) => {
         const {name, value} = event.target;
@@ -76,7 +81,7 @@ export function DoctorRegister() {
     };
 
     const onSuccess = () => {
-        navigate(ChatPageUrl);
+        setPage(1);
     };
 
     return (
@@ -113,7 +118,7 @@ export function DoctorRegister() {
                 
                 {page == 0 ? 
                 <div className="flex flex-col gap-4 sm:items-center">
-                    <button onClick={() => signInWithGoogle({isDoctor:true, onSuccess:onSuccess})} className="flex justify-center items-center bg-white rounded-md p-3 hover:scale-105 transition-all">
+                    <button onClick={handleGoogleClick} className="flex justify-center items-center bg-white rounded-md p-3 hover:scale-105 transition-all">
                         <img src={googleLogo} alt="Google" className="w-7 h-7 mr-3"/>
                         Sign up with Google
                     </button>

@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AccountDetailsPatient } from "./AccountDetailsPatient";
 import { PersonalDetailsPatient } from "./PersonalDetailsPatient";
-import { registerWithEmailAndPasswordPatient } from "../../../firebase/authentication/authentication";
+import { registerWithEmailAndPasswordPatient, signUpWithGoogle } from "../../../firebase/authentication/authentication";
 import { signInWithGoogle } from '../../../firebase/authentication/authentication'
 import googleLogo from "../../../assets/google.png"
 import facebookLogo from "../../../assets/facebook.png"
-import { LoginPageUrl, ChatPageUrl } from "../../../constants/urls";
+import { LoginPageUrl, ChatPageUrl, LandingPageUrl } from "../../../constants/urls";
 
 export function PatientRegister() {
     const navigate = useNavigate();
@@ -59,6 +59,10 @@ export function PatientRegister() {
         await registerWithEmailAndPasswordPatient({ name: values.name, email: values.email, password: values.password, phoneNumber: values.password, isDoctor: values.isDoctor, onSuccess: onSuccess });
         console.log(values);
     };
+
+    const handleGoogleClick = () => {
+        signUpWithGoogle({isDoctor:false, onSuccess: onSuccess});
+    }
     
     const onChange = (event) => {
         const {name, value} = event.target;
@@ -66,7 +70,7 @@ export function PatientRegister() {
     };
 
     const onSuccess = () => {
-        navigate(ChatPageUrl);
+        navigate(LandingPageUrl);
     };
 
     return (
@@ -95,7 +99,7 @@ export function PatientRegister() {
                 
                 {page == 0 ? 
                 <div className="flex flex-col gap-4 sm:items-center">
-                    <button onClick={() => signInWithGoogle({isDoctor:false, onSuccess:onSuccess})} className="flex justify-center items-center bg-white rounded-md p-3 hover:scale-105 transition-all">
+                    <button onClick={handleGoogleClick} className="flex justify-center items-center bg-white rounded-md p-3 hover:scale-105 transition-all">
                         <img src={googleLogo} alt="Google" className="w-7 h-7 mr-3"/>
                         Sign up with Google
                     </button>

@@ -1,5 +1,5 @@
-import { getUsersDoctors } from "../../../firebase/users/functions";
-
+import { getUsersDoctors } from "../../../firebase/users"
+// ESTO LO QUE HACE ES CONSEGUIR UN ARREGLO DE DOCTORES, Y LUEGO SELECCIONAR 3 AL AZAR ENTRE ELLOS PARA MOSTRARLOS EN LA PAGINA
 // const getDoctors = async () => {
 //     const data = await getUsersDoctors();
 //     setList(data);
@@ -7,6 +7,8 @@ import { getUsersDoctors } from "../../../firebase/users/functions";
 //     setFilterList(data);
 //   };
 
+// var shuffled = getDoctors.sort(function(){return .5 - Math.random()});
+// var selected=shuffled.slice(0,3);
 
 // const posts = [
 //     {
@@ -56,7 +58,8 @@ export function Doctors() {
                     </p>
                 </div>
                 <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-y-16 gap-x-8 border-t border-gray-400 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-                    {/* {getDoctors.map((doctor) => (
+                    {/* ESTO DE AQUI DEBERIA MAPEAR LOS DOCTORES EN UN FORMATO DE CARDS */}
+                    {/* {selected.map((doctor) => (
                         <article className="flex max-w-xl flex-col items-start justify-between">
                             <div className="relative mt-8 flex items-center gap-x-4">
                                 

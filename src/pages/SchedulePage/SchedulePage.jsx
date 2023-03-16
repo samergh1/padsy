@@ -119,6 +119,7 @@ export function SchedulePage() {
               {days.map((day, dayIdx) => (
                 <div
                   title={day.toString()}
+                  key={dayIdx}
                   className={classNames(
                     dayIdx === 0 && colStartClasses[getDay(day)],
                     "py-1.5"
@@ -129,7 +130,6 @@ export function SchedulePage() {
                     onClick={() => {
                       setSelectedDay(day);
                       createSchedule(day);
-                      // console.log(selectedDay);
                     }}
                     className={classNames(
                       isEqual(day, selectedDay) && "text-white",
@@ -158,13 +158,6 @@ export function SchedulePage() {
                       {format(day, "d")}
                     </time>
                   </button>
-                  {/* <div className="w-1 h-1 mx-auto mt-1">
-                    {meetings.some((meeting) =>
-                      isSameDay(parseISO(meeting.startDatetime), day)
-                    ) && (
-                      <div className="w-1 h-1 rounded-full bg-sky-500"></div>
-                    )}
-                  </div> */}
                 </div>
               ))}
             </div>
@@ -177,10 +170,9 @@ export function SchedulePage() {
               </time>
             </h2>
             <div className="flex flex-col justify-center items-center my-3">
-              {hours.map((hour) => (
-                <div key={hour.title}>
+              {hours.map((hour, idxHour) => (
+                <div key={idxHour}>
                   <button
-                    // key={hour.title}
                     onClick={() => {
                       const newTime = new Date(
                         selectedDay.getFullYear(),
@@ -193,24 +185,10 @@ export function SchedulePage() {
                       setSelectedTime(newTime);
                       console.log(hour.busy);
                     }}
-                    // className={`bg-${
-                    //   hour.busy ? "green-400" : "white"
-                    // } my-0.5 w-48 hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow`}
-                    // className={() =>
-                    //   classNames(
-                    //     hour.busy
-                    //       ? "cursor-pointer bg-white text-gray-900 hover:bg-gray-100 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
-                    //       : "cursor-not-allowed bg-black text-gray-200 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
-                    //     active ? "ring-2 ring-indigo-500" : "",
-                    //     "group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6"
-                    //   )
-                    // }
-
                     className={
                       hour.busy === true
-                        ? "cursor-not-allowed bg-gray-200 text-gray-200 font-semibold py-2 px-4 rounded shadow my-0.5 w-48 text-gray-100 font-semibold py-2 px-4 borderrounded shadow"
-                        : "cursor-pointer bg-white text-gray-900 hover:bg-gray-100 font-semibold py-2 px-4 border border-gray-400 rounded shadow my-0.5 w-48 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
-                      // "group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6",
+                        ? "cursor-not-allowed bg-gray-200 text-gray-400 rounded my-0.5 w-48 font-semibold py-2 px-4 borderrounded shadow"
+                        : "cursor-pointer bg-white hover:bg-gray-100 my-0.5 w-48 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
                     }
                   >
                     {hour.title}

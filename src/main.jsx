@@ -8,6 +8,8 @@ import {
   RegisterDoctorUrl,
   RegisterPatientUrl,
   ChatPageUrl,
+  DoctorProfileUrl,
+  PatientProfileUrl,
 } from "./constants/urls";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { LandingPage } from "./pages/LandingPage/LandingPage";
@@ -21,6 +23,8 @@ import { SearchPage } from "./pages/SearchPage/SearchPage";
 import { DoctorRegister } from "./pages/RegisterPage/DoctorRegister/DoctorRegister";
 import { PatientRegister } from "./pages/RegisterPage/PatientRegister/PatientRegister";
 import { SearchContextProvider } from "./context/SearchContext";
+import { DoctorProfile } from "./pages/ProfilePage/DoctorProfile";
+import { PatientProfile } from "./pages/ProfilePage/PatientProfile";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -35,8 +39,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Route path={RegisterDoctorUrl} element={<DoctorRegister />} />
             <Route path={RegisterPatientUrl} element={<PatientRegister />} />
             <Route path={ChatPageUrl} element={<ChatPage />} />
-            {/* <Route path={SearchPageurl} element={<SearchPage />} /> */}
-
+            <Route path={DoctorProfileUrl} element={<DoctorProfile />} />
+            <Route path={PatientProfileUrl} element={<PatientProfile />} />
             <Route
               path={SearchPageurl}
               element={

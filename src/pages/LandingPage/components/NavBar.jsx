@@ -4,9 +4,14 @@ import { Dialog } from "@headlessui/react";
 import { UilBars, UilTimes, UilSignout } from "@iconscout/react-unicons";
 import { logout } from "../../../firebase/authentication/authentication";
 import { useUserContext } from "../../../context/userContext";
-import { LoginPageUrl } from "../../../constants/urls";
-import { RegisterPageUrl } from "../../../constants/urls";
+import {
+  DoctorProfileUrl,
+  PatientProfileUrl,
+  LoginPageUrl,
+  RegisterPageUrl,
+} from "../../../constants/urls";
 import { Link } from "react-router-dom";
+
 const menuOptions = [
   {
     name: "Values",
@@ -22,6 +27,11 @@ const menuOptions = [
   },
   {
     name: "Contact Us",
+    name: "Pages",
+    href: "#pages",
+  },
+  {
+    name: "Contact",
     href: "#contact",
   },
 ];
@@ -31,13 +41,21 @@ export function NavBar() {
   const { user, isLoadingUser } = useUserContext();
   const navigate = useNavigate();
 
+  const handleProfile = () => {
+    if (user.isDoctor) {
+      navigate(DoctorProfileUrl);
+    } else if (!user.isDoctor) {
+      navigate(PatientProfileUrl);
+    }
+  };
+
   const handleLogout = async () => {
     logout();
     navigate(LoginPageUrl);
   };
 
   return (
-    <header className="bg-gray-100 sticky top-0 z-50">
+    <header className="bg-white sticky top-0 z-50">
       <nav
         className="mx-auto flex max-w-7xl items-center justify-between p-6 px-6 pt-6 lg:px-8"
         aria-label="Global"
@@ -80,6 +98,9 @@ export function NavBar() {
         {/* User Name */}
         {!isLoadingUser && !!user ? (
           <div className="flex items-center ml-8">
+            <span className="mr-8 cursor-pointer" onClick={handleProfile}>
+              Profile
+            </span>
             <span className="text-black mr-5">{user.name}</span>
 
             {/* Logout */}

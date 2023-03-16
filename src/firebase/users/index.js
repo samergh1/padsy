@@ -32,6 +32,26 @@ import {
     const userRef = doc(db, USERS_COLLECTION, userId);
     return getDoc(userRef);
   }
+
+
+  export async function getUsersDoctors() {
+    const userDoctorQuery = query(
+      collection(db, USERS_COLLECTION),
+      where("isDoctor", "==", true)
+    );
+    const results = await getDocs(userDoctorQuery);
+
+    if (results.size > 0) {
+      const doctors = results.docs.map((item) => ({
+        ...item.data(),
+        id: item.id,
+      }));
+     
+      return doctors;
+    }
+
+    return null;
+  }
   
   export async function getUserProfile(email) {
     const userQuery = query(
@@ -46,7 +66,6 @@ import {
         ...item.data(),
         id: item.id,
       }));
-      console.log(user);
       return user;
     }
   

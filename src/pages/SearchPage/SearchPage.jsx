@@ -1,31 +1,64 @@
-import { React } from "react";
+import React, { useContext } from "react";
 import { UilMessage } from "@iconscout/react-unicons";
 import { Table } from "./Table";
 import { DashBoard } from "./DashBoard";
-import { useState } from "react";
+import { getUsersDoctors } from "../../firebase/users";
+import { Loading } from "../../components/Loading";
+import { SearchContext } from "../../context/SearchContext";
 
 export function SearchPage() {
-  const [open, setOpen] = useState(false);
-  const [selectedDoctor, setSelectedDoctor] = useState({});
+  const {
+    open,
+    setOpen,
+    selectedDoctor,
+    setSelectedDoctor,
+    loading,
+    filterList,
+    setFilterList,
+    getDoctors,
+  } = useContext(SearchContext);
 
-  let list = [
-    {
-      name: "Paola",
-      speciality: "Lloradera",
-      location: "Ni ella sabe",
-      cost: "120",
-      rating: "no tiene comparcion",
-      setOpen: { setOpen },
-    },
-    {
-      name: "Samer",
-      speciality: "Psicologo",
-      location: "Caracas",
-      cost: "12",
-      rating: "1/10",
-      setOpen: { setOpen },
-    },
-  ];
+  const handleSearch = () => {
+    getDoctors();
+  };
+
+  const handleInput = (text) => {
+    searchFilterFunction(text);
+  };
+
+  // const [open, setOpen] = useState(false);
+  // const [selectedDoctor, setSelectedDoctor] = useState({});
+  // const [loading, setIsLoading] = useState(true);
+  // const [list, setList] = useState([]);
+  // const [filterList, setFilterList] = useState([]);
+
+  // const getDoctors = async () => {
+  //   const data = await getUsersDoctors();
+  //   setList(data);
+  //   setIsLoading(false);
+  //   setFilterList(data);
+  // };
+
+  // const searchFilterFunction = (text) => {
+  //   if (text) {
+  //     const newList = list.filter((user) => {
+  //       const userList = user.name ? user.name.toUpperCase() : "".toUpperCase;
+  //       const textBar = text.toUpperCase();
+  //       return userList.indexOf(textBar) > -1;
+  //     });
+  //     setFilterList(newList);
+  //   } else {
+  //     setFilterList(list);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getDoctors();
+  // }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className="flex flex-col">
@@ -34,24 +67,11 @@ export function SearchPage() {
           <div className="pl-2 font-bold pt-2 text-x-3  lg:pl-3">
             <p>Directory Search</p>
           </div>
-          <div className="flex flex-row-reverse items-center gap-4 pr-6">
+          <div className="flex flex-row-reverse items-center gap-4 pr-2 lg:pr-6">
             <div className="flex items-center space-x-2">
               <div className="relative">
-                <button className="relative z-0 inline-flex text-sm rounded-md shadow-sm focus:ring-accent-500 focus:border-accent-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 w-50  lg: h-15 w-17">
-                  <span className="relative inline-flex items-center px-3 py-3 space-x-2 text-sm font-medium text-gray-600 bg-white border border-gray- rounded-md sm:py-2">
-                    <div>
-                      <UilMessage className="h-3 w-4" />
-                    </div>
-                    <div className="hidden sm:block lg: w-16">Search</div>
-                  </span>
-                </button>
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-2">
-              <div className="relative">
-                <button className="relative z-0 inline-flex text-sm rounded-md shadow-sm focus:ring-accent-500 focus:border-accent-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1">
-                  <span className="relative inline-flex items-center px-3 py-3 space-x-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md sm:py-2">
+                <button className="relative  z-0 inline-flex text-sm rounded-md shadow-sm focus:ring-accent-500 focus:border-accent-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1">
+                  <span className="relative inline-flex items-center px-3 py-3 space-x-2 text-sm font-medium text-white -600 bg-[#00786A] border border-gray-300 rounded-md sm:py-2">
                     <div>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -64,32 +84,60 @@ export function SearchPage() {
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+                          d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
                         />
                       </svg>
                     </div>
-                    <div className="hidden sm:block">Filters</div>
+                    <div className="hidden sm:block">Search</div>
                   </span>
                 </button>
               </div>
             </div>
-
+            <div className="flex items-center space-x-2">
+              <div className="relative">
+                <button className="relative  z-0 inline-flex text-sm rounded-md shadow-sm focus:ring-accent-500 focus:border-accent-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1">
+                  <span className="relative inline-flex items-center px-3 py-3 space-x-2 text-sm font-medium text-black -600 bg-white border border-gray-300 rounded-md sm:py-2">
+                    <div>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-3 h-3 lg:h-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+                        />
+                      </svg>
+                    </div>
+                    {/* <div className="hidden sm:block">Filters</div> */}
+                  </span>
+                </button>
+              </div>
+            </div>
             {/* Esto es el buscador */}
             <div className="relative max-w-xs">
               <label htmlFor="hs-table-search" className="sr-only">
                 Search
               </label>
+
               <input
                 type="text"
                 name="hs-table-search"
                 id="hs-table-search"
-                className="block w-full p-3 pl-10 text-sm border-gray-200 rounded-md focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
-                placeholder="Search..."
+                className="block w-full p-3 pl-10 text-sm border-gray-200 rounded-md dark:bg-white dark:border-gray-00 dark:text-gray-700"
+                placeholder="Search...."
+                onChange={(e) => {
+                  handleInput(e.target.value);
+                }}
               />
               {/* div de la lupa */}
               <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
                 <svg
-                  className="h-3.5 w-3.5 text-gray-400"
+                  className="h-3.5 w-3.5 text-gray-700 "
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
                   height="16"
@@ -104,7 +152,7 @@ export function SearchPage() {
         </div>
         <div>
           <Table
-            list={list}
+            list={filterList}
             setOpen={setOpen}
             setSelectedDoctor={setSelectedDoctor}
           ></Table>

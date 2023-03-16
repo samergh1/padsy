@@ -1,6 +1,7 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
 
 export function DashBoard({
   open,
@@ -8,7 +9,6 @@ export function DashBoard({
   selectedDoctor,
   setSelectedDoctor,
 }) {
-  console.log(selectedDoctor);
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -21,7 +21,7 @@ export function DashBoard({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          <div className="fixed inset-0 bg-gray-400 bg-opacity-75 transition-opacity" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-hidden">
@@ -69,7 +69,7 @@ export function DashBoard({
                     <div className="relative mt-6 flex-1 px-4 sm:px-6">
                       {/* Your content */}
                       {/* primera parte es la foto */}
-                      <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                      <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-200 dark:border-gray-400">
                         <div className="flex justify-end px-4 pt-4"></div>
                         <div className="flex flex-col items-center pb-10">
                           <img
@@ -77,20 +77,22 @@ export function DashBoard({
                             src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/800px-Image_created_with_a_mobile_phone.png"
                             alt="Bonnie image"
                           />
-                          <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
+                          <h5 className="mb-1 text-xl font-medium text-black">
                             {selectedDoctor.name}
                           </h5>
                           <span className="text-sm text-gray-500 dark:text-gray-400">
                             Visual Designer
+                            {/* {selectedDOctor.speciality} */}
                           </span>
                           <h4 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
                             500$
+                            {/* {selectedDoctor.cost} */}
                           </h4>
                           <div className="mb-1 text-xl font-medium text-gray-900 dark:text-white"></div>
                           <div className="flex mt-4 space-x-3 md:mt-6">
                             <a
                               href="#"
-                              className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 text-center"
+                              className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-[#00786A] rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 "
                             >
                               Make an appointment
                             </a>

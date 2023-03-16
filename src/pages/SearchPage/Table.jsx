@@ -42,7 +42,7 @@ export const Table = ({ list, setOpen, setSelectedDoctor }) => {
           <tbody className="divide-y divide-gray-200">
             {list.map((doctor, doctorIdx) => (
               <tr
-                id={doctorIdx}
+                key={doctorIdx}
                 onClick={() => {
                   setOpen(true);
                   setSelectedDoctor(doctor);

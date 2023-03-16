@@ -1,6 +1,7 @@
+import './index.css'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { LandingPageUrl, RegisterPageUrl, LoginPageUrl, RegisterDoctorUrl, RegisterPatientUrl, ChatPageUrl } from "./constants/urls"
+import { LandingPageUrl, RegisterPageUrl, LoginPageUrl, RegisterDoctorUrl, RegisterPatientUrl, ChatPageUrl, DoctorProfileUrl, PatientProfileUrl } from "./constants/urls"
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { LandingPage } from "./pages/LandingPage/LandingPage"
 import { UserContextProvider } from './context/userContext'
@@ -8,9 +9,10 @@ import { ChatProvider } from "./context/chat";
 import { RegisterPage } from "./pages/RegisterPage/RegisterPage"
 import { LoginPage } from "./pages/LoginPage/LoginPage"
 import { ChatPage } from "./pages/Chat/Chat"
-import './index.css'
 import { DoctorRegister } from './pages/RegisterPage/DoctorRegister/DoctorRegister';
 import { PatientRegister } from './pages/RegisterPage/PatientRegister/PatientRegister';
+import { DoctorProfile } from './pages/ProfilePage/DoctorProfile';
+import { PatientProfile } from './pages/ProfilePage/PatientProfile';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -26,6 +28,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path={RegisterDoctorUrl} element={<DoctorRegister/>} /> 
             <Route path={RegisterPatientUrl} element={<PatientRegister/>} />
             <Route path={ChatPageUrl} element={<ChatPage/>} />
+            <Route path={DoctorProfileUrl} element={<DoctorProfile/>} />
+            <Route path={PatientProfileUrl} element={<PatientProfile/>} />
           </Routes>
         </BrowserRouter>
       </ChatProvider>

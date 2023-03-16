@@ -1,3 +1,19 @@
+import {
+  doc,
+  addDoc,
+  collection,
+  updateDoc,
+  getDoc,
+  setDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
+import { firestore as db } from "../config";
+
+export const USERS_COLLECTION = "users";
+
+
 export async function getUsersDoctors() {
     const userDoctorQuery = query(
       collection(db, USERS_COLLECTION),

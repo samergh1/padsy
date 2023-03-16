@@ -1,4 +1,6 @@
-import { getUsersDoctors } from "../../../firebase/users"
+// import { getUsersDoctors } from "../../../firebase/users"
+
+
 // ESTO LO QUE HACE ES CONSEGUIR UN ARREGLO DE DOCTORES, Y LUEGO SELECCIONAR 3 AL AZAR ENTRE ELLOS PARA MOSTRARLOS EN LA PAGINA
 // const getDoctors = async () => {
 //     const data = await getUsersDoctors();
@@ -6,45 +8,44 @@ import { getUsersDoctors } from "../../../firebase/users"
 //     setIsLoading(false);
 //     setFilterList(data);
 //   };
-
 // var shuffled = getDoctors.sort(function(){return .5 - Math.random()});
 // var selected=shuffled.slice(0,3);
 
-// const posts = [
-//     {
-//         href: '#',
-//         description:
-//             'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
-//         author: {
-//             name: 'Michael Foster',
-//             role: 'Co-Founder / CTO',
-//             imageUrl:
-//                 'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-//         },
-//     },
-//     {
-//         href: '#',
-//         description:
-//             'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
-//         author: {
-//             name: 'Michael Foster',
-//             role: 'Co-Founder / CTO',
-//             imageUrl:
-//                 'image',
-//         },
-//     },
-//     {
-//         href: '#',
-//         description:
-//             'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
-//         author: {
-//             name: 'Michael Foster',
-//             role: 'Co-Founder / CTO',
-//             imageUrl:
-//                 'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-//         },
-//     },
-// ]
+const posts = [
+    {
+        href: '#',
+        description:
+            'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
+        author: {
+            name: 'Michael Foster',
+            role: 'Co-Founder / CTO',
+            imageUrl:
+                'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+        },
+    },
+    {
+        href: '#',
+        description:
+            'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
+        author: {
+            name: 'Michael Foster',
+            role: 'Co-Founder / CTO',
+            imageUrl:
+                'image',
+        },
+    },
+    {
+        href: '#',
+        description:
+            'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
+        author: {
+            name: 'Michael Foster',
+            role: 'Co-Founder / CTO',
+            imageUrl:
+                'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+        },
+    },
+]
 
 export function Doctors() {
     return (
@@ -58,7 +59,7 @@ export function Doctors() {
                     </p>
                 </div>
                 <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-y-16 gap-x-8 border-t border-gray-400 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-                    {/* ESTO DE AQUI DEBERIA MAPEAR LOS DOCTORES EN UN FORMATO DE CARDS */}
+                    
                     {/* {selected.map((doctor) => (
                         <article className="flex max-w-xl flex-col items-start justify-between">
                             <div className="relative mt-8 flex items-center gap-x-4">
@@ -72,7 +73,7 @@ export function Doctors() {
                                         </p>
                                     
                                     
-                                        <p className="text-gray-600">{doctor.specialty}</p>
+                                        <p className="text-gray-600">{doctor.speciality}</p>
                                     
                                 </div>
                             </div>
@@ -81,6 +82,8 @@ export function Doctors() {
                             
                         </article>
                     ))} */}
+
+                    
                 </div>
             </div>
         </section>

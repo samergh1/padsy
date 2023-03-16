@@ -35,7 +35,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Route path={RegisterDoctorUrl} element={<DoctorRegister />} />
             <Route path={RegisterPatientUrl} element={<PatientRegister />} />
             <Route path={ChatPageUrl} element={<ChatPage />} />
-            <Route path={SearchPageurl} element={<SearchPage />} />
+            {/* <Route path={SearchPageurl} element={<SearchPage />} /> */}
 
             <Route
               path={SearchPageurl}

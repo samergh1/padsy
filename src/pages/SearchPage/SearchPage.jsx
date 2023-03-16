@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useState, useEffect } from "react";
 import { UilMessage } from "@iconscout/react-unicons";
 import { Table } from "./Table";
 import { DashBoard } from "./DashBoard";
@@ -15,46 +16,8 @@ export function SearchPage() {
     loading,
     filterList,
     setFilterList,
-    getDoctors,
+    searchFilterFunction,
   } = useContext(SearchContext);
-
-  const handleSearch = () => {
-    getDoctors();
-  };
-
-  const handleInput = (text) => {
-    searchFilterFunction(text);
-  };
-
-  // const [open, setOpen] = useState(false);
-  // const [selectedDoctor, setSelectedDoctor] = useState({});
-  // const [loading, setIsLoading] = useState(true);
-  // const [list, setList] = useState([]);
-  // const [filterList, setFilterList] = useState([]);
-
-  // const getDoctors = async () => {
-  //   const data = await getUsersDoctors();
-  //   setList(data);
-  //   setIsLoading(false);
-  //   setFilterList(data);
-  // };
-
-  // const searchFilterFunction = (text) => {
-  //   if (text) {
-  //     const newList = list.filter((user) => {
-  //       const userList = user.name ? user.name.toUpperCase() : "".toUpperCase;
-  //       const textBar = text.toUpperCase();
-  //       return userList.indexOf(textBar) > -1;
-  //     });
-  //     setFilterList(newList);
-  //   } else {
-  //     setFilterList(list);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getDoctors();
-  // }, []);
 
   if (loading) {
     return <Loading />;
@@ -131,7 +94,7 @@ export function SearchPage() {
                 className="block w-full p-3 pl-10 text-sm border-gray-200 rounded-md dark:bg-white dark:border-gray-00 dark:text-gray-700"
                 placeholder="Search...."
                 onChange={(e) => {
-                  handleInput(e.target.value);
+                  searchFilterFunction(e.target.value);
                 }}
               />
               {/* div de la lupa */}

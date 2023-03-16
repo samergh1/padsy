@@ -47,6 +47,7 @@ export const Table = ({ list, setOpen, setSelectedDoctor }) => {
                   setOpen(true);
                   setSelectedDoctor(doctor);
                 }}
+                className="hover-bg-grey-400"
               >
                 <td className="py-3 pl-4 pr-0">
                   <div className="flex-shrink-0 pl-4 pr-0">
@@ -61,7 +62,7 @@ export const Table = ({ list, setOpen, setSelectedDoctor }) => {
                   {doctor.name}
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                  {doctor.speciality}
+                  {doctor.specialty}
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                   {doctor.location}

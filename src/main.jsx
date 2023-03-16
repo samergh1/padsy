@@ -5,11 +5,12 @@ import {
   RegisterPageUrl,
   LoginPageUrl,
   SearchPageurl,
+  DoctorProfileUrl,
+  PatientProfileUrl,
   RegisterDoctorUrl,
   RegisterPatientUrl,
   ChatPageUrl,
-  DoctorProfileUrl,
-  PatientProfileUrl,
+  SchedulePageUrl,
 } from "./constants/urls";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { LandingPage } from "./pages/LandingPage/LandingPage";
@@ -25,6 +26,7 @@ import { PatientRegister } from "./pages/RegisterPage/PatientRegister/PatientReg
 import { SearchContextProvider } from "./context/SearchContext";
 import { DoctorProfile } from "./pages/ProfilePage/DoctorProfile";
 import { PatientProfile } from "./pages/ProfilePage/PatientProfile";
+import { SchedulePage } from "./pages/SchedulePage/SchedulePage";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -33,6 +35,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <ChatProvider>
         <BrowserRouter>
           <Routes>
+            {/* <Route path={HomePageUrl} element={<HomePage />} /> */}
             <Route path={LandingPageUrl} element={<LandingPage />} />
             <Route path={RegisterPageUrl} element={<RegisterPage />} />
             <Route path={LoginPageUrl} element={<LoginPage />} />
@@ -49,10 +52,12 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 </SearchContextProvider>
               }
             />
-          </Routes>
-        </BrowserRouter>
-      </ChatProvider>
-    </UserContextProvider>
+            <Route path={SchedulePageUrl} element={<SchedulePage />} />
+
+          </Routes >
+        </BrowserRouter >
+      </ChatProvider >
+    </UserContextProvider >
     {/* </AuthProvider> */}
-  </React.StrictMode>
+  </React.StrictMode >
 );

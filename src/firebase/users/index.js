@@ -59,7 +59,11 @@ export async function getUserProfile(email) {
 
 export async function getUserById(userId) {
   const userRef = doc(db, USERS_COLLECTION, userId);
-  return getDoc(userRef);
+  const item = await getDoc(userRef)
+  return ({
+    ...item.data(),
+    id: item.id,
+  });
 }
 
 

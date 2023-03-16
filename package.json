@@ -11,9 +11,11 @@
   "dependencies": {
     "@emailjs/browser": "^3.10.0",
     "@headlessui/react": "^1.7.12",
-    "@heroicons/react": "^2.0.16",
+    "@heroicons/react": "v1",
     "@iconscout/react-unicons": "^1.1.6",
+    "@styled-icons/heroicons-outline": "^10.47.0",
     "@tailwindcss/line-clamp": "^0.4.2",
+    "date-fns": "^2.29.3",
     "firebase": "^9.17.1",
     "headlessui": "^0.0.0",
     "heroicons": "^2.0.16",

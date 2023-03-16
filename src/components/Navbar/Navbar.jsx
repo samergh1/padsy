@@ -20,7 +20,7 @@ export function Navbar() {
   };
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen sticky top-0">
         <div
             className={`${
             open ? "w-72" : "w-20 "

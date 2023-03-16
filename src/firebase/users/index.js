@@ -13,7 +13,7 @@ import { firestore as db } from "../config";
 
 export const USERS_COLLECTION = "users";
 
-
+// Funcion que consigue un arreglo de doctores de la DB
 export async function getUsersDoctors() {
     const userDoctorQuery = query(
       collection(db, USERS_COLLECTION),

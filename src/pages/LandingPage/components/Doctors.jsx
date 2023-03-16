@@ -15,34 +15,37 @@ const posts = [
     {
         href: '#',
         description:
-            'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
+            'Graduado de la UCV con 10 años de experiencia.',
         author: {
-            name: 'Michael Foster',
-            role: 'Co-Founder / CTO',
+            name: 'Daniel',
+            country: 'Caracas, Venezuela',
             imageUrl:
-                'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+                'https://touchtaiwan.com/images/default.jpg',
+            correo: 'daniel@gmail.com'
         },
     },
     {
         href: '#',
         description:
-            'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
+            'Graduado de University of Miammi',
         author: {
-            name: 'Michael Foster',
-            role: 'Co-Founder / CTO',
+            name: 'Fernando',
+            country: 'Miami, USA',
             imageUrl:
-                'image',
+                'https://touchtaiwan.com/images/default.jpg',
+            correo: 'fernando@mail.com'
         },
     },
     {
         href: '#',
         description:
-            'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
+            'Graduado de Universidad cooperativa de Colombia',
         author: {
-            name: 'Michael Foster',
-            role: 'Co-Founder / CTO',
+            name: 'Luis',
+            country: 'Cali, Colombia',
             imageUrl:
-                'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+                'https://touchtaiwan.com/images/default.jpg',
+            correo: 'luis@email.com'
         },
     },
 ]
@@ -82,9 +85,29 @@ export function Doctors() {
                             
                         </article>
                     ))} */}
-
-                    
-                </div>
+                    {posts.map((post) => (
+                        <article className="flex max-w-xl flex-col items-start justify-between">
+                            <div className="relative mt-8 flex items-center gap-x-4">
+                                <a href={post.href}>
+                                    <img src={post.author.imageUrl} alt="" className="h-10 w-10 rounded-full bg-gray-50" />
+                                </a>
+                                <div className="text-sm leading-6">
+                                    <a href={post.href}>
+                                        <p className="font-semibold text-gray-900">
+                                            {post.author.name}
+                                        </p>
+                                    </a>
+                                    <a href={post.href}>
+                                        <p className="text-gray-600">{post.author.country}</p>
+                                    </a>
+                                </div>
+                            </div>
+                            <a href={post.href}>
+                                <p className="mt-5 text-lg leading-6 text-gray-600 line-clamp-3">{post.description}<br/><strong>Correo:</strong> {post.author.correo}</p>
+                            </a>
+                        </article>
+                    ))}
+                 </div>
             </div>
         </section>
     )

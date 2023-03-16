@@ -1,6 +1,9 @@
-import { useState } from 'react'
-import { Dialog } from '@headlessui/react'
-import { UilBars, UilTimes } from '@iconscout/react-unicons'
+import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import { Dialog } from '@headlessui/react';
+import { UilBars, UilTimes, UilSignout } from '@iconscout/react-unicons';
+import { logout } from '../../../firebase/authentication/authentication';
+import { useUserContext } from '../../../context/userContext';
 
 const menuOptions = [
   {
@@ -22,7 +25,14 @@ const menuOptions = [
 ]
 
 export function NavBar() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user, isLoadingUser } = useUserContext();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    logout();
+    navigate(LoginPageUrl);
+  };
 
   return (
     <header className="bg-white sticky top-0 z-50">
@@ -63,25 +73,45 @@ export function NavBar() {
 
         {/* Authentication Buttons */}
 
-        <div className="hidden ml-6 lg:flex">
-          <a href='login' className="ml-3 sm:block">
-            <button
-              onclick="login"
-              type="button"
-              className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-            >
-              Sign in
-            </button>
-          </a>
-          <a href='register' className="sm:ml-3">
-            <button
-              type="button"
-              className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-            >
-              Sign up
-            </button>
-          </a>
-        </div>
+        {/* User Name */}
+        {!isLoadingUser && !!user ? (
+          <div className="flex items-center ml-8">
+            <span className="text-black mr-5">{user.name}</span>
+
+            {/* Logout */}
+            <div>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="rounded-full p-1 text-gray-400"
+              >
+                <span className="sr-only">Logout</span>
+                <UilSignout />
+              </button>
+            </div>
+          </div>
+          ) : (
+          <div className="hidden ml-6 lg:flex">
+            <a href='login' className="ml-3 sm:block">
+              <button
+                onclick="login"
+                type="button"
+                className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              >
+                Sign in
+              </button>
+            </a>
+            <a href='register' className="sm:ml-3">
+              <button
+                type="button"
+                className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              >
+                Sign up
+              </button>
+            </a>
+          </div>
+          )
+        }
       </nav>
 
       {/* Hamburger Menu */}

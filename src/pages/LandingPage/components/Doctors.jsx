@@ -1,41 +1,48 @@
-import getDoctors from "../controller/doctors"
+import { getUsersDoctors } from "../../../firebase/users/functions";
 
-// const posts = getDoctors();
-const posts = [
-    {
-        href: '#',
-        description:
-            'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
-        author: {
-            name: 'Michael Foster',
-            role: 'Co-Founder / CTO',
-            imageUrl:
-                'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        },
-    },
-    {
-        href: '#',
-        description:
-            'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
-        author: {
-            name: 'Michael Foster',
-            role: 'Co-Founder / CTO',
-            imageUrl:
-                'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        },
-    },
-    {
-        href: '#',
-        description:
-            'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
-        author: {
-            name: 'Michael Foster',
-            role: 'Co-Founder / CTO',
-            imageUrl:
-                'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        },
-    },
-]
+// const getDoctors = async () => {
+//     const data = await getUsersDoctors();
+//     setList(data);
+//     setIsLoading(false);
+//     setFilterList(data);
+//   };
+
+
+// const posts = [
+//     {
+//         href: '#',
+//         description:
+//             'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
+//         author: {
+//             name: 'Michael Foster',
+//             role: 'Co-Founder / CTO',
+//             imageUrl:
+//                 'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+//         },
+//     },
+//     {
+//         href: '#',
+//         description:
+//             'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
+//         author: {
+//             name: 'Michael Foster',
+//             role: 'Co-Founder / CTO',
+//             imageUrl:
+//                 'image',
+//         },
+//     },
+//     {
+//         href: '#',
+//         description:
+//             'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
+//         author: {
+//             name: 'Michael Foster',
+//             role: 'Co-Founder / CTO',
+//             imageUrl:
+//                 'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+//         },
+//     },
+// ]
 
 export function Doctors() {
     return (
@@ -49,28 +56,28 @@ export function Doctors() {
                     </p>
                 </div>
                 <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-y-16 gap-x-8 border-t border-gray-400 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-                    {posts.map((post) => (
+                    {/* {getDoctors.map((doctor) => (
                         <article className="flex max-w-xl flex-col items-start justify-between">
                             <div className="relative mt-8 flex items-center gap-x-4">
-                                <a href={post.href}>
-                                    <img src={post.author.imageUrl} alt="" className="h-10 w-10 rounded-full bg-gray-50" />
-                                </a>
+                                
+                                    <img src={doctor.name} alt="https://touchtaiwan.com/images/default.jpg" className="h-10 w-10 rounded-full bg-gray-50" />
+                                
                                 <div className="text-sm leading-6">
-                                    <a href={post.href}>
+                                    
                                         <p className="font-semibold text-gray-900">
-                                            {post.author.name}
+                                            {doctor.name}
                                         </p>
-                                    </a>
-                                    <a href={post.href}>
-                                        <p className="text-gray-600">{post.author.role}</p>
-                                    </a>
+                                    
+                                    
+                                        <p className="text-gray-600">{doctor.specialty}</p>
+                                    
                                 </div>
                             </div>
-                            <a href={post.href}>
-                                <p className="mt-5 text-sm leading-6 text-gray-600 line-clamp-3">{post.description}</p>
-                            </a>
+                            
+                                <p className="mt-5 text-sm leading-6 text-gray-600 line-clamp-3">{doctor.email}</p>
+                            
                         </article>
-                    ))}
+                    ))} */}
                 </div>
             </div>
         </section>

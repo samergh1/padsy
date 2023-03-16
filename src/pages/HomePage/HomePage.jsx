@@ -4,7 +4,7 @@ import { useUserContext } from '../../context/userContext';
 
 export function HomePage() {
   const { user } = useUserContext();
-  console.log(user);
+  // console.log(user);
   return (
     <h1 className={styles.title}>{user.email}</h1>
   )

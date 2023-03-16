@@ -1,8 +1,9 @@
-import { NavBar } from './components/NavBar'
-import { Body } from './components/Body'
-import { Features } from './components/Features'
-import { Doctors } from './components/Doctors'
-import { Pages } from './components/Pages'
+import { NavBar } from "./components/NavBar";
+import { Body } from "./components/Body";
+import { Values } from "./components/Values";
+import { Doctors } from "./components/Doctors";
+import { Contact } from "./components/Contact";
+import { Mission } from "./components/Mission";
 
 export function LandingPage() {
   return (
@@ -10,9 +11,10 @@ export function LandingPage() {
       {/* <h1>HomePage</h1> */}
       <NavBar />
       <Body />
-      {/* <Features />
+      <Values />
       <Doctors />
-      <Pages /> */}
+      <Mission />
+      <Contact />
     </>
-  )
+  );
 }

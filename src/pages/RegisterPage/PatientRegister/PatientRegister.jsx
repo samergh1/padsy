@@ -1,150 +1,148 @@
-import { Link } from 'react-router-dom'
-import { LoginPageUrl, ChatPageUrl } from '../../../constants/urls'
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AccountDetailsPatient } from "./AccountDetailsPatient";
+import { PersonalDetailsPatient } from "./PersonalDetailsPatient";
+import { registerWithEmailAndPasswordPatient, signUpWithGoogle } from "../../../firebase/authentication/authentication";
+import { signInWithGoogle } from '../../../firebase/authentication/authentication'
 import googleLogo from "../../../assets/google.png"
 import facebookLogo from "../../../assets/facebook.png"
-import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
-import { registerWithEmailAndPasswordPatient, signInWithGoogle } from '../../../firebase/authentication/authentication'
+import { LoginPageUrl, ChatPageUrl, LandingPageUrl } from "../../../constants/urls";
 
 export function PatientRegister() {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({});
+    const formList = ["AccountDetails", "PersonalDetails"];
+    const formLength = formList.length;
+    
+    const [page, setPage] = useState(0);
+    
+    const handlePrev = () => {
+        setPage(page === 0 ? formLength - 1 : page - 1);
+    };
+    const handleNext = () => {
+        setPage(page === formLength - 1 ? 0 : page + 1);
+    };
 
-  const onSuccess = () => {
-    navigate(ChatPageUrl);
-  };
+    const initialValues = {
+        email: "",
+        password: "",
+        name: "",
+        phoneNumber: "",
+        isDoctor: false,
+    };
 
-  const onRegisterWithEmailAndPassword = async (event) => {
-    event.preventDefault();
-    const isDoctor = false;
-    const { name, email, password, phoneNumber } = formData;
-    await registerWithEmailAndPasswordPatient({ name: name, email: email, password: password, phoneNumber:phoneNumber, isDoctor:isDoctor, onSuccess: onSuccess });
-  };
+    const [values, setValues] = useState(initialValues);
 
-  const onChange = (event) => {
-    const {name, value} = event.target;
-    setFormData((oldData) => ({...oldData, [name]:value}));
-  };
+    const handleForms = () => {
+        switch (page) {
+            case 0: {
+                return (
+                    <div>
+                        <AccountDetailsPatient formValues={values} onChange={onChange}></AccountDetailsPatient>
+                    </div>
+                );
+            }
+            case 1: {
+                return (
+                    <div>
+                        <PersonalDetailsPatient formValues={values} onChange={onChange}></PersonalDetailsPatient>
+                    </div>
+                );
+            }
+            default:
+                return null;
+        }
+    };
 
-  return (
-    <>
-      <div className="sm:grid sm:grid-cols-5 w-screen h-screen">
-        <div className="flex flex-col justify-center items-center bg-[#00786A] col-span-1">
-          <div className="flex justify-center items-center gap-3">
-            <span className="sm:text-lg text-white">Account details</span>
-            <div className="bg-white w-4 h-4 rounded-lg"></div>
-          </div>
-          <div className="flex justify-center items-center gap-3">
-            <span className="sm:text-lg text-white">Personal details</span>
-            <div className="bg-white w-4 h-4 rounded-lg"></div>
-          </div>
-        </div>
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        await registerWithEmailAndPasswordPatient({ name: values.name, email: values.email, password: values.password, phoneNumber: values.password, isDoctor: values.isDoctor, onSuccess: onSuccess });
+        console.log(values);
+    };
 
-        <div className="flex flex-col bg-white col-span-4 p-10 h-screen">
-          <div className="bg-[#F8F8F8] justify-center items-center w-full h-full p-8">
-            <div>
-              <h2 className="text-center text-3xl font-semibold text-gray-900 -mt-2">
-                Account details
-              </h2>
+    const handleGoogleClick = () => {
+        signUpWithGoogle({isDoctor:false, onSuccess: onSuccess});
+    }
+    
+    const onChange = (event) => {
+        const {name, value} = event.target;
+        setValues((oldData) => ({...oldData, [name]:value}));
+    };
+
+    const onSuccess = () => {
+        navigate(LandingPageUrl);
+    };
+
+    return (
+        <div className="flex gap-4 place-content-center items-center h-screen place-items-center w-screen">
+            <div className="bg-[#efefef] p-6 rounded-lg shadow-md w-3/4 sm:w-1/2">
+                <div className="flex mb-4">
+                    <div
+                    className={`w-3/4 border-r border-gray-400 ${
+                        page === 0 ? "bg-[#00786A] text-white" : "bg-white"
+                    } p-2 text-center cursor-pointer`}
+                    onClick={() => setPage(0)}
+                    >
+                    Account details
+                    </div>
+                    <div
+                    className={`w-3/4 ${
+                        page === 1 ? "bg-[#00786A] text-white" : "bg-white"
+                    } p-2 text-center cursor-pointer`}
+                    onClick={() => setPage(1)}
+                    >
+                    Personal details
+                    </div>
+                </div>
+
+                <div className="flex-1">{handleForms()}</div>
+                
+                {page == 0 ? 
+                <div className="flex flex-col gap-4 sm:items-center">
+                    <button onClick={handleGoogleClick} className="flex justify-center items-center bg-white rounded-md p-3 hover:scale-105 transition-all">
+                        <img src={googleLogo} alt="Google" className="w-7 h-7 mr-3"/>
+                        Sign up with Google
+                    </button>
+                    <button className="flex justify-center items-center bg-white rounded-md p-3 hover:scale-105 transition-all">
+                        <img src={facebookLogo} alt="Facebook" className="w-7 h-7 mr-3"/>
+                        Sign up with Facebook
+                    </button>
+                    <div className="flex items-center justify-center">
+                        <div className="text-sm">
+                            <span>Already have an account? </span>
+                            <Link to={LoginPageUrl} className="font-medium text-indigo-600 hover:text-indigo-500">
+                                Sign in
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+                : null}
+                
+                <div className="flex gap-4 justify-center items-center mt-10">
+                    <button
+                    onClick={handlePrev}
+                    className="bg-[#00786A]  hover:scale-105 transition-all rounded-md text-white py-2 px-4 disabled:bg-gray-400 "
+                    disabled={page === 0}
+                    >
+                        Prev
+                    </button>
+                    {page === 1 ? (
+                    <button
+                        onClick={handleSubmit}
+                        className="bg-[#00786A] hover:scale-105 transition-all rounded-md text-white py-2 px-4 "
+                    >
+                        Submit
+                    </button>
+                    ) : (
+                    <button
+                        onClick={handleNext}
+                        className="bg-[#00786A] hover:scale-105 transition-all rounded-md text-white py-2 px-4 "
+                    >
+                        Next
+                    </button>
+                    )}
+                </div>
             </div>
-
-            <form className="mt-2 space-y-6">
-              <input type="hidden" name="remember" defaultValue="true" />
-              <div className="-space-y-px grid grid-cols-2 gap-7">
-                <div>
-                  <label htmlFor="email-address">
-                    Email
-                  </label>
-                  <input
-                    id="email-address"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    onChange={onChange}
-                    required
-                    className="relative block w-full mt-1 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                    placeholder="Email address"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="password">
-                    Password
-                  </label>
-                  <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    autoComplete="current-password"
-                    onChange={onChange}
-                    required
-                    className="relative block w-full mt-1 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                    placeholder="Password"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="name">
-                    Name
-                  </label>
-                  <input
-                    id="name"
-                    name="name"
-                    type="text"
-                    onChange={onChange}
-                    required
-                    className="relative block w-full mt-1 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                    placeholder="Full name"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="phone-number">
-                    Phone number
-                  </label>
-                  <input
-                    id="phoneNumber"
-                    name="phoneNumber"
-                    type="number"
-                    onChange={onChange}
-                    required
-                    className="relative block w-full mt-1 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                    placeholder="Phone number"
-                  />
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-4 sm:items-center">
-                <button onClick={() => signInWithGoogle({isDoctor:false, onSuccess:onSuccess})} className="flex justify-center sm:w-3/4 lg:w-1/2 items-center bg-white rounded-md p-3 hover:scale-105 transition-all">
-                  <img src={googleLogo} alt="Google" className="w-7 h-7 mr-3"/>
-                  Sign up with Google
-                </button>
-                <button className="flex justify-center sm:w-3/4 lg:w-1/2 items-center bg-white rounded-md p-3 hover:scale-105 transition-all">
-                  <img src={facebookLogo} alt="Facebook" className="w-7 h-7 mr-3"/>
-                  Sign up with Facebook
-                </button>
-              </div>
-
-              <div className="flex justify-center items-center">
-                <button
-                  onClick={onRegisterWithEmailAndPassword}
-                  type="submit"
-                  className="w-3/4 sm:w-1/4 rounded-md border border-transparent bg-[#00786A] py-2 text-sm font-medium text-white focus:outline-none hover:scale-105 transition-all"
-                >
-                  Continue
-                </button>
-              </div>
-
-              <div className="flex items-center justify-center">
-                <div className="text-sm -mt-3">
-                  <span>Already have an account? </span>
-                  <Link to={LoginPageUrl} className="font-medium text-indigo-600 hover:text-indigo-500">
-                    Sign in
-                  </Link>
-                </div>
-              </div>
-            </form>
-          </div>
         </div>
-      </div>
-    </>
-  )
+    );
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   add,
   eachDayOfInterval,
@@ -21,25 +21,47 @@ import {
   ChevronRightIcon,
   ChevronDownIcon,
 } from "@heroicons/react/solid";
+import { useSchedule } from "../../hooks/useSchedule";
+import setYear from "date-fns/fp/setYear";
 
-const Hours = [
-  { title: "9:00am- 10:00am" },
-  { title: "10:00am- 11:00am" },
-  { title: "11:00am- 12:00m" },
-  { title: "2:00pm- 3:00pm" },
-  { title: "3:00pm- 4:00pm" },
-];
+// let hours = () => createSchedule();
+// const Hours = [
+//   { title: "9:00am - 10:00am" },
+//   { title: "10:00am - 11:00am" },
+//   { title: "11:00am - 12:00m" },
+//   { title: "2:00pm - 3:00pm" },
+//   { title: "3:00pm - 4:00pm" },
+//   { title: "3:00pm - 4:00pm" },
+//   { title: "3:00pm - 4:00pm" },
+//   { title: "4:00pm - 5:00pm" },
+//   { title: "5:00pm - 6:00pm" },
+// ];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export function SchedulePage() {
+  const { hours, createSchedule, busySchedule } = useSchedule();
   let today = startOfToday();
   let [selectedDay, setSelectedDay] = useState(today);
+  let [selectedTime, setSelectedTime] = useState(
+    new Date(
+      selectedDay.getFullYear(),
+      selectedDay.getMonth(),
+      selectedDay.getDate(),
+      0,
+      0,
+      0
+    )
+  );
+  useEffect(() => {
+    createSchedule(selectedDay);
+  }, [createSchedule]);
+
   let [currentMonth, setCurrentMonth] = useState(format(today, "MMM-yyyy"));
   let firstDayCurrentMonth = parse(currentMonth, "MMM-yyyy", new Date());
-
+  // console.log(selectedTime);
   let days = eachDayOfInterval({
     start: firstDayCurrentMonth,
     end: endOfMonth(firstDayCurrentMonth),
@@ -104,7 +126,11 @@ export function SchedulePage() {
                 >
                   <button
                     type="button"
-                    onClick={() => setSelectedDay(day)}
+                    onClick={() => {
+                      setSelectedDay(day);
+                      createSchedule(day);
+                      // console.log(selectedDay);
+                    }}
                     className={classNames(
                       isEqual(day, selectedDay) && "text-white",
                       !isEqual(day, selectedDay) &&
@@ -151,13 +177,45 @@ export function SchedulePage() {
               </time>
             </h2>
             <div className="flex flex-col justify-center items-center my-3">
-              {Hours.map((hour) => (
-                <button
-                  onClick={<div className="bg-black w-96 h-96">Holis</div>}
-                  className="bg-white my-0.5 w-48 hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
-                >
-                  {hour.title}
-                </button>
+              {hours.map((hour) => (
+                <div key={hour.title}>
+                  <button
+                    // key={hour.title}
+                    onClick={() => {
+                      const newTime = new Date(
+                        selectedDay.getFullYear(),
+                        selectedDay.getMonth(),
+                        selectedDay.getDate(),
+                        hour.startSchedule,
+                        0,
+                        0
+                      );
+                      setSelectedTime(newTime);
+                      console.log(hour.busy);
+                    }}
+                    // className={`bg-${
+                    //   hour.busy ? "green-400" : "white"
+                    // } my-0.5 w-48 hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow`}
+                    // className={() =>
+                    //   classNames(
+                    //     hour.busy
+                    //       ? "cursor-pointer bg-white text-gray-900 hover:bg-gray-100 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+                    //       : "cursor-not-allowed bg-black text-gray-200 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+                    //     active ? "ring-2 ring-indigo-500" : "",
+                    //     "group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6"
+                    //   )
+                    // }
+
+                    className={
+                      hour.busy === true
+                        ? "cursor-not-allowed bg-gray-200 text-gray-200 font-semibold py-2 px-4 rounded shadow my-0.5 w-48 text-gray-100 font-semibold py-2 px-4 borderrounded shadow"
+                        : "cursor-pointer bg-white text-gray-900 hover:bg-gray-100 font-semibold py-2 px-4 border border-gray-400 rounded shadow my-0.5 w-48 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+                      // "group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6",
+                    }
+                  >
+                    {hour.title}
+                  </button>
+                </div>
               ))}
             </div>
           </section>

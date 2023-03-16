@@ -15,7 +15,7 @@ import {
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { LandingPage } from "./pages/LandingPage/LandingPage";
 import { UserContextProvider } from "./context/userContext";
-import { ChatProvider } from "./context/chat";
+import { ChatsProvider } from "./context/chatsContext";
 import { RegisterPage } from "./pages/RegisterPage/RegisterPage";
 import { LoginPage } from "./pages/LoginPage/LoginPage";
 import { ChatPage } from "./pages/Chat/Chat";
@@ -32,7 +32,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     {/* <AuthProvider> */}
     <UserContextProvider>
-      <ChatProvider>
+      <ChatsProvider>
         <BrowserRouter>
           <Routes>
             {/* <Route path={HomePageUrl} element={<HomePage />} /> */}
@@ -56,7 +56,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 
           </Routes >
         </BrowserRouter >
-      </ChatProvider >
+      </ChatsProvider >
     </UserContextProvider >
     {/* </AuthProvider> */}
   </React.StrictMode >

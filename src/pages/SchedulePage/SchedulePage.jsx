@@ -15,12 +15,11 @@ import {
 } from "date-fns";
 import { Fragment, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import { DotsVerticalIcon } from "@heroicons/react/outline";
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ChevronDownIcon,
-} from "@heroicons/react/solid";
+// import {
+//   ChevronLeftIcon,
+//   ChevronRightIcon,
+//   ChevronDownIcon,
+// } from "@heroicons/react/solid";
 import { useSchedule } from "../../hooks/useSchedule";
 import setYear from "date-fns/fp/setYear";
 
@@ -95,7 +94,7 @@ export function SchedulePage() {
                 className="-my-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
               >
                 <span className="sr-only">Previous month</span>
-                <ChevronLeftIcon className="w-5 h-5" aria-hidden="true" />
+                {/* <ChevronLeftIcon className="w-5 h-5" aria-hidden="true" /> */}
               </button>
               <button
                 onClick={nextMonth}
@@ -103,7 +102,7 @@ export function SchedulePage() {
                 className="-my-1.5 -mr-1.5 ml-2 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
               >
                 <span className="sr-only">Next month</span>
-                <ChevronRightIcon className="w-5 h-5" aria-hidden="true" />
+                {/* <ChevronRightIcon className="w-5 h-5" aria-hidden="true" /> */}
               </button>
             </div>
             <div className="grid grid-cols-7 mt-10 text-xs leading-6 text-center text-gray-500">
@@ -134,23 +133,23 @@ export function SchedulePage() {
                     className={classNames(
                       isEqual(day, selectedDay) && "text-white",
                       !isEqual(day, selectedDay) &&
-                        isToday(day) &&
-                        "text-red-500",
+                      isToday(day) &&
+                      "text-red-500",
                       !isEqual(day, selectedDay) &&
-                        !isToday(day) &&
-                        isSameMonth(day, firstDayCurrentMonth) &&
-                        "text-gray-900",
+                      !isToday(day) &&
+                      isSameMonth(day, firstDayCurrentMonth) &&
+                      "text-gray-900",
                       !isEqual(day, selectedDay) &&
-                        !isToday(day) &&
-                        !isSameMonth(day, firstDayCurrentMonth) &&
-                        "text-gray-400",
+                      !isToday(day) &&
+                      !isSameMonth(day, firstDayCurrentMonth) &&
+                      "text-gray-400",
                       isEqual(day, selectedDay) && isToday(day) && "bg-red-500",
                       isEqual(day, selectedDay) &&
-                        !isToday(day) &&
-                        "bg-gray-900",
+                      !isToday(day) &&
+                      "bg-gray-900",
                       !isEqual(day, selectedDay) && "hover:bg-gray-200",
                       (isEqual(day, selectedDay) || isToday(day)) &&
-                        "font-semibold",
+                      "font-semibold",
                       "mx-auto flex h-8 w-8 items-center justify-center rounded-full"
                     )}
                   >

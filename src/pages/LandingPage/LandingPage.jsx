@@ -4,7 +4,6 @@ import { Values } from "./components/Values";
 import { Contact } from "./components/Contact";
 import { Mission } from "./components/Mission";
 import { Doctors } from "./components/Doctors";
-import { Pages } from "./components/Pages";
 
 export function LandingPage() {
   return (

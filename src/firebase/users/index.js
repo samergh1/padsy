@@ -37,35 +37,6 @@ export async function updateUser(userId, data) {
   return updateDoc(userRef, data);
 }
 
-export async function getUserProfile(email) {
-  const userQuery = query(
-    collection(db, USERS_COLLECTION),
-    where("email", "==", email)
-  );
-
-  const results = await getDocs(userQuery);
-
-  if (results.size > 0) {
-    const [user] = results.docs.map((item) => ({
-      ...item.data(),
-      id: item.id,
-    }));
-    // console.log(user);
-    return user;
-  }
-
-  return null;
-}
-
-export async function getUserById(userId) {
-  const userRef = doc(db, USERS_COLLECTION, userId);
-  const item = await getDoc(userRef)
-  return ({
-    ...item.data(),
-    id: item.id,
-  });
-}
-
 
 export async function getUsersDoctors() {
   const userDoctorQuery = query(

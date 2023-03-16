@@ -1,18 +1,20 @@
 import { NavBar } from './components/NavBar'
 import { Body } from './components/Body'
-import { Features } from './components/Features'
+import { Values } from './components/Values'
 import { Doctors } from './components/Doctors'
-import { Pages } from './components/Pages'
+import { Contact } from './components/Contact'
+import { Mission } from './components/Mission'
+
 
 export function LandingPage() {
   return (
     <>
       <NavBar />
       <Body />
-      <Features />
+      <Values />
       <Doctors />
-      <Pages />
-      <h1>HomePage</h1>
+      <Mission />
+      <Contact/>
     </>
   )
 }

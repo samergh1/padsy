@@ -1,22 +1,24 @@
 import { useState } from 'react'
 import { Dialog } from '@headlessui/react'
 import { UilBars, UilTimes } from '@iconscout/react-unicons'
-
+import { LoginPageUrl } from '../../../constants/urls'
+import { RegisterPageUrl } from '../../../constants/urls'
+import { Link } from 'react-router-dom'
 const menuOptions = [
   {
-    name: 'Features',
-    href: '#features',
+    name: 'Values',
+    href: '#values',
   },
   {
     name: 'Doctors',
     href: '#doctors',
   },
   {
-    name: 'Pages',
-    href: '#pages',
+    name: 'Mission',
+    href: '#mission',
   },
   {
-    name: 'Contact',
+    name: 'Contact Us',
     href: '#contact',
   },
 ]
@@ -25,14 +27,14 @@ export function NavBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <header className="bg-white sticky top-0 z-50">
+    <header className="bg-gray-100 sticky top-0 z-50">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 px-6 pt-6 lg:px-8" aria-label="Global">
 
         {/* Company's Logo */}
 
-        <div className="flex lg:flex-1">
+        <div className="flex lg:flex-1 company-logo text-[30px]">
           <a href="#" className="-m-1.5 p-1.5">
-            <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" />
+            padsy
           </a>
         </div>
 
@@ -64,23 +66,22 @@ export function NavBar() {
         {/* Authentication Buttons */}
 
         <div className="hidden ml-6 lg:flex">
-          <a href='login' className="ml-3 sm:block">
+          <Link to= {LoginPageUrl} className="ml-3 sm:block">
             <button
-              onclick="login"
               type="button"
               className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               Sign in
             </button>
-          </a>
-          <a href='register' className="sm:ml-3">
+          </Link>
+          <Link to= {RegisterPageUrl} className="sm:ml-3">
             <button
               type="button"
-              className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className="inline-flex items-center rounded-md border border-transparent bg-[#00786a] hover:bg-[#00302a]  px-4 py-2 text-sm font-medium text-white shadow-sm  focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               Sign up
             </button>
-          </a>
+          </Link>
         </div>
       </nav>
 
@@ -116,20 +117,24 @@ export function NavBar() {
               </div>
 
               {/* Authentication Buttons */}
-
+            
               <div className="space-y-2 py-6">
-                <a
-                  href='register'
-                  className="-mx-3 bg-indigo-600 hover:bg-indigo-700 block rounded-lg py-2.5 px-3 text-base font-semibold leading-7 text-white"
-                >
+              <Link to = {RegisterPageUrl}>
+                <button
+                type="button"
+                    className="w-full -mx-3 bg-[#00786a] hover:bg-[#00302a] block rounded-lg py-2.5 px-3 text-base font-semibold leading-7 text-white"
+                  >
                   Sign up
-                </a>
-                <a
-                  href='login'
-                  className="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                </button>
+              </Link>
+              <Link to = {LoginPageUrl}>
+              <button
+                type="button"
+                  className="w-full -mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Sign in
-                </a>
+                </button>
+                </Link>
               </div>
             </div>
           </div>

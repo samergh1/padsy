@@ -26,7 +26,6 @@ const menuOptions = [
     href: "#mission",
   },
   {
-    name: "Contact Us",
     name: "Pages",
     href: "#pages",
   },

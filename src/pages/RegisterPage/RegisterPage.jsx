@@ -4,8 +4,8 @@ import { RegisterDoctorUrl, RegisterPatientUrl, LoginPageUrl } from '../../const
 export function RegisterPage() {
   return (
     <>
-      <div className="w-screen h-screen p-10">
-          <div className="bg-[#d7d7d7] justify-center items-center w-full h-full p-8 rounded-md">
+      <div className="flex flex-col justify-center items-center w-screen h-screen p-10">
+          <div className="bg-[#efefef] w-1/2 p-8 rounded-md shadow-md">
             <div>
               <h2 className="mb-10 text-center text-3xl font-semibold text-gray-900">
                 Sign up to padsy

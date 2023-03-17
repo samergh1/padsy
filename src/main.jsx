@@ -53,11 +53,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               }
             />
             <Route path={SchedulePageUrl} element={<SchedulePage />} />
-
-          </Routes >
-        </BrowserRouter >
-      </ChatsProvider >
-    </UserContextProvider >
+          </Routes>
+        </BrowserRouter>
+      </ChatsProvider>
+    </UserContextProvider>
     {/* </AuthProvider> */}
-  </React.StrictMode >
+  </React.StrictMode>
 );

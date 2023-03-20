@@ -33,7 +33,6 @@ export const signInWithGoogle = async ({ onSuccess, onFail }) => {
         // }
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 };
 
@@ -64,7 +63,6 @@ export const signUpWithGoogle = async ({ isDoctor, onSuccess }) => {
         }
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 };
 
@@ -77,7 +75,6 @@ export const logInWithEmailAndPassword = async ({ email, password, onSuccess }) 
         }
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 };
 
@@ -101,11 +98,10 @@ export const registerWithEmailAndPasswordDoctor = async ({ name, email, password
         }
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 };
 
-export const registerWithEmailAndPasswordPatient = async ({ name, email, password, phoneNumber, isDoctor, onSuccess }) => {
+export const registerWithEmailAndPasswordPatient = async ({ name, email, password, phoneNumber, gender, birthdate, isDoctor, onSuccess }) => {
     try {
         const res = await createUserWithEmailAndPassword(auth, email, password);
         const user = res.user;
@@ -115,6 +111,8 @@ export const registerWithEmailAndPasswordPatient = async ({ name, email, passwor
             authProvider: "local",
             email,
             phoneNumber,
+            gender,
+            birthdate,
             isDoctor
         });
 
@@ -123,7 +121,6 @@ export const registerWithEmailAndPasswordPatient = async ({ name, email, passwor
         }
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 };
 
@@ -133,7 +130,6 @@ export const sendPasswordReset = async (email) => {
         alert("Password reset link sent!");
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 };
 

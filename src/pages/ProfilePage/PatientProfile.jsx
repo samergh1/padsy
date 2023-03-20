@@ -8,7 +8,7 @@ export function PatientProfile() {
   return (
     <div className="flex bg-white h-full w-full">
       {/* Sidebar */}
-      <div className="w-1/6 bg-gray-300">
+      <div className="bg-gray-300">
         <Navbar></Navbar>
       </div>
 
@@ -36,46 +36,16 @@ export function PatientProfile() {
                 </div>
                 <div className="flex gap-8">
                   <span>Gender:</span>
-                  <span>{user.address}</span>
+                  <span>{user.gender}</span>
                 </div>
                 <div className="flex gap-8">
                   <span>Birth Date:</span>
-                  <span>17/08/2003</span>
+                  <span>{user.birthdate}</span>
                 </div>
               </div>
             </div>
           </div>
-        ) : (
-          <div className="flex gap-10 bg-white w-full h-full border-b p-10">
-            <img className="w-1/3 bg-gray-100" />
-            <div className="flex flex-col w-full">
-              <div className="flex justify-between items-center mb-16">
-                <h2 className="text-4xl font-bold">Username</h2>
-                <button className="bg-[#00786A] text-center text-white px-6 py-2 hover:scale-105 transition-all rounded-md">
-                  Edit profile
-                </button>
-              </div>
-              <div className="grid grid-cols-2 gap-12">
-                <div className="flex gap-8">
-                  <span>Email:</span>
-                  <span>hola@gmail.com</span>
-                </div>
-                <div className="flex gap-8">
-                  <span>Phone Number:</span>
-                  <span>0424-1164645</span>
-                </div>
-                <div className="flex gap-8">
-                  <span>Gender:</span>
-                  <span>Masculine</span>
-                </div>
-                <div className="flex gap-8">
-                  <span>Birth Date:</span>
-                  <span>17/08/2003</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+        ) : null}
 
         {/* Appointments */}
         <div className="flex gap-10 bg-white w-full h-full border-b p-10">

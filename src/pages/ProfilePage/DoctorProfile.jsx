@@ -8,7 +8,7 @@ export function DoctorProfile() {
   return (
     <div className="flex bg-white h-full w-full">
       {/* Sidebar */}
-      <div className="w-1/6 bg-gray-300">
+      <div className="bg-gray-300">
         <Navbar></Navbar>
       </div>
 

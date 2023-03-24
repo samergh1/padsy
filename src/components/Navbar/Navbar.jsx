@@ -1,16 +1,39 @@
 import { useState } from "react";
+<<<<<<< HEAD
 import { UilSearch, UilCommentAltDots, UilAngleDoubleLeft, UilSignout} from '@iconscout/react-unicons'
 import logo from "../../assets/logo.svg"
 
 export function Navbar() {
   const [open, setOpen] = useState(true);
+=======
+import { useNavigate } from "react-router";
+import { UilSearch, UilCommentAltDots, UilAngleDoubleLeft, UilSignout} from '@iconscout/react-unicons'
+import logo from "../../assets/logo.svg"
+import { logout } from "../../firebase/authentication/authentication";
+import { LoginPageUrl } from "../../constants/urls";
+
+export function Navbar() {
+  const [open, setOpen] = useState(true);
+  const navigate = useNavigate();
+
+>>>>>>> develop
   const Menus = [
     { title: "Search doctors", src: UilSearch },
     { title: "My chats", src: UilCommentAltDots}
   ];
 
+<<<<<<< HEAD
   return (
     <div className="flex h-screen">
+=======
+  const handleLogout = async () => {
+    logout();
+    navigate(LoginPageUrl);
+  };
+
+  return (
+    <div className="flex h-screen sticky top-0">
+>>>>>>> develop
         <div
             className={`${
             open ? "w-72" : "w-20 "
@@ -49,6 +72,7 @@ export function Navbar() {
                 ))}
                 </ul>
             </div>
+<<<<<<< HEAD
             <div className="mt-96 flex-col-reverse">
                 <img src = {logo}/>
             </div>
@@ -56,6 +80,27 @@ export function Navbar() {
         <div className="h-screen flex-1 p-7">
             <h1 className="text-2xl font-semibold ">Home Page</h1>
         </div>
+=======
+            <div className="mt-40 flex-col-reverse">
+                <img src = {logo}/>
+            </div>
+
+            {/* Logout */}
+            <div className="flex gap-3 justify-end mt-8">
+                <span className="text-black">Logout</span>
+                <button
+                    type="button"
+                    onClick={handleLogout}
+                    className="rounded-full p-1 text-black"
+                >
+                    <UilSignout />
+                </button>
+            </div>
+        </div>
+        {/* <div className="h-screen flex-1 p-7">
+            <h1 className="text-2xl font-semibold ">Home Page</h1>
+        </div> */}
+>>>>>>> develop
     </div>
   );
 };

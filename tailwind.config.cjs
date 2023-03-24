@@ -10,7 +10,11 @@ module.exports = {
       'green':'#00786A',
       'white':'#ffffff',
     },
-    extend: {},
+    extend: {fontFamily: {
+      sans: ['Poppins', 'sans-serif']
+    }},
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/line-clamp'),
+  ],
 }

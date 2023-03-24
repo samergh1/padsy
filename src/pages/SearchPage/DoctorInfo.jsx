@@ -1,5 +1,6 @@
 import { SchedulePageUrl } from "../../constants/urls";
 import { Link } from "react-router-dom";
+
 export function DoctorInfo({ selectedDoctor }) {
   return (
     <>

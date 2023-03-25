@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar } from "../../components/Navbar/Navbar";
+import { Navbar } from "../../components/Navbar";
 import { useUserContext } from "../../context/userContext";
 
 export function DoctorProfile() {
@@ -8,16 +8,16 @@ export function DoctorProfile() {
   return (
     <div className="flex bg-white h-full w-full">
       {/* Sidebar */}
-      <div className="w-1/6 bg-gray-300">
-        <Navbar></Navbar>
-      </div>
+      {/* <div className="w-1/6 bg-gray-300">
+      </div> */}
+      <Navbar></Navbar>
 
       {/* Profile */}
       <div className="w-full flex flex-col">
         {/* Information */}
         {!isLoadingUser && !!user && user.isDoctor ? (
           <div className="flex gap-10 bg-white w-full h-full border-b p-10">
-            <img className="w-1/3 bg-gray-100" />
+            {/* <img className="w-1/3 bg-gray-100" /> */}
             <div className="flex flex-col w-full">
               <div className="flex justify-between items-center mb-10">
                 <div className="flex flex-col gap-2">
@@ -61,7 +61,7 @@ export function DoctorProfile() {
           </div>
         ) : (
           <div className="flex gap-10 bg-white w-full h-full border-b p-10">
-            <img className="w-1/3 bg-gray-100" />
+            {/* <img className="w-1/3 bg-gray-100" /> */}
             <div className="flex flex-col w-full">
               <div className="flex justify-between items-center mb-10">
                 <div className="flex flex-col gap-2">
@@ -118,7 +118,7 @@ export function DoctorProfile() {
             <div className="flex h-full gap-10">
               <div className="flex flex-col w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
                 <div className="flex h-1/2 p-3 gap-4 items-center justify-start">
-                  <img className="w-1/5 h-full bg-gray-100" />
+                  {/* <img className="w-1/5 h-full bg-gray-100" /> */}
                   <span>Patient 1</span>
                 </div>
                 <div className="flex h-1/2 bg-gray-100 p-4 items-center justify-between">
@@ -128,7 +128,7 @@ export function DoctorProfile() {
               </div>
               <div className="flex flex-col w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
                 <div className="flex h-1/2 p-3 gap-4 items-center justify-start">
-                  <img className="w-1/5 h-full bg-gray-100" />
+                  {/* <img className="w-1/5 h-full bg-gray-100" /> */}
                   <span>Patient 2</span>
                 </div>
                 <div className="flex h-1/2 bg-gray-100 p-4 items-center justify-between">
@@ -138,7 +138,7 @@ export function DoctorProfile() {
               </div>
               <div className="flex flex-col w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
                 <div className="flex h-1/2 p-3 gap-4 items-center justify-start">
-                  <img className="w-1/5 h-full bg-gray-100" />
+                  {/* <img className="w-1/5 h-full bg-gray-100" /> */}
                   <span>Patient 3</span>
                 </div>
                 <div className="flex h-1/2 bg-gray-100 p-4 items-center justify-between">
@@ -163,7 +163,7 @@ export function DoctorProfile() {
             <div className="flex h-full gap-10">
               <div className="flex flex-col w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
                 <div className="flex h-1/2 p-3 gap-4 items-center justify-start">
-                  <img className="w-1/5 h-full bg-gray-100" />
+                  {/* <img className="w-1/5 h-full bg-gray-100" /> */}
                   <span>Patient 1</span>
                 </div>
                 <div className="flex h-1/2 bg-gray-100 p-4 items-center justify-between">

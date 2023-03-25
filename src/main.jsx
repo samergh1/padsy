@@ -27,6 +27,7 @@ import { SearchContextProvider } from "./context/SearchContext";
 import { DoctorProfile } from "./pages/ProfilePage/DoctorProfile";
 import { PatientProfile } from "./pages/ProfilePage/PatientProfile";
 import { SchedulePage } from "./pages/SchedulePage/SchedulePage";
+import { Layout } from "./pages/Layout/Layout";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -41,6 +42,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Route path={LoginPageUrl} element={<LoginPage />} />
             <Route path={RegisterDoctorUrl} element={<DoctorRegister />} />
             <Route path={RegisterPatientUrl} element={<PatientRegister />} />
+            {/* <Route element={<Layout />}> */}
             <Route path={ChatPageUrl} element={<ChatPage />} />
             <Route path={DoctorProfileUrl} element={<DoctorProfile />} />
             <Route path={PatientProfileUrl} element={<PatientProfile />} />
@@ -53,6 +55,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               }
             />
             <Route path={SchedulePageUrl} element={<SchedulePage />} />
+            {/* </Route> */}
           </Routes>
         </BrowserRouter>
       </ChatsProvider>

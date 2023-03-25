@@ -17,6 +17,7 @@ import { Fragment, useState } from "react";
 import { UilAngleLeft, UilAngleRight } from "@iconscout/react-unicons";
 import { useSchedule } from "../../hooks/useSchedule";
 import setYear from "date-fns/fp/setYear";
+import { Navbar } from "../../components/Navbar";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -62,8 +63,11 @@ export function SchedulePage() {
     isSameDay(parseISO(meeting.startDatetime), selectedDay)
   ) */
   return (
-    <div className="pt-16">
-      <div className="max-w-md px-4 mx-auto sm:px-7 md:max-w-4xl md:px-6">
+    <div className="flex">
+      <div>
+        <Navbar></Navbar>
+      </div>
+      <div className=" pt-16 max-w-md px-4 mx-auto sm:px-7 md:max-w-4xl md:px-6">
         <div className="md:grid md:grid-cols-2 md:divide-x md:divide-gray-200">
           <div className="md:pr-14">
             <div className="flex items-center">

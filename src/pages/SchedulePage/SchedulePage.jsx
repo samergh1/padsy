@@ -14,22 +14,9 @@ import {
   startOfToday,
 } from "date-fns";
 import { Fragment, useState } from "react";
+import { UilAngleLeft, UilAngleRight } from "@iconscout/react-unicons";
 import { useSchedule } from "../../hooks/useSchedule";
 import setYear from "date-fns/fp/setYear";
-import { UilAngleLeft, UilAngleRight } from "@iconscout/react-unicons";
-
-// let hours = () => createSchedule();
-// const Hours = [
-//   { title: "9:00am - 10:00am" },
-//   { title: "10:00am - 11:00am" },
-//   { title: "11:00am - 12:00m" },
-//   { title: "2:00pm - 3:00pm" },
-//   { title: "3:00pm - 4:00pm" },
-//   { title: "3:00pm - 4:00pm" },
-//   { title: "3:00pm - 4:00pm" },
-//   { title: "4:00pm - 5:00pm" },
-//   { title: "5:00pm - 6:00pm" },
-// ];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");

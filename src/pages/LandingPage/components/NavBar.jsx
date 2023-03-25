@@ -4,16 +4,26 @@ import { Dialog } from "@headlessui/react";
 import { UilBars, UilTimes, UilSignout } from "@iconscout/react-unicons";
 import { logout } from "../../../firebase/authentication/authentication";
 import { useUserContext } from "../../../context/userContext";
-import { DoctorProfileUrl, PatientProfileUrl } from "../../../constants/urls";
+import {
+  DoctorProfileUrl,
+  PatientProfileUrl,
+  LoginPageUrl,
+  RegisterPageUrl,
+} from "../../../constants/urls";
+import { Link } from "react-router-dom";
 
 const menuOptions = [
   {
-    name: "Features",
-    href: "#features",
+    name: "Values",
+    href: "#values",
   },
   {
     name: "Doctors",
     href: "#doctors",
+  },
+  {
+    name: "Mission",
+    href: "#mission",
   },
   {
     name: "Pages",
@@ -51,13 +61,9 @@ export function NavBar() {
       >
         {/* Company's Logo */}
 
-        <div className="flex lg:flex-1">
+        <div className="flex lg:flex-1 company-logo text-[30px]">
           <a href="#" className="-m-1.5 p-1.5">
-            <img
-              className="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-              alt=""
-            />
+            padsy
           </a>
         </div>
 
@@ -91,10 +97,15 @@ export function NavBar() {
         {/* User Name */}
         {!isLoadingUser && !!user ? (
           <div className="flex items-center ml-8">
-            <span className="mr-8 cursor-pointer" onClick={handleProfile}>
+            <span
+              className="mr-8 cursor-pointer text-sm py-2 px-3 block rounded-lg font-semibold leading-6 text-gray-900 hover:bg-gray-50"
+              onClick={handleProfile}
+            >
               Profile
             </span>
-            <span className="text-black mr-5">{user.name}</span>
+            <span className="text-[#00786a] mr-5 text-sm py-2 px-3 block rounded-lg font-bold leading-6">
+              {user.name}
+            </span>
 
             {/* Logout */}
             <div>
@@ -167,18 +178,22 @@ export function NavBar() {
               {/* Authentication Buttons */}
 
               <div className="space-y-2 py-6">
-                <a
-                  href="register"
-                  className="-mx-3 bg-indigo-600 hover:bg-indigo-700 block rounded-lg py-2.5 px-3 text-base font-semibold leading-7 text-white"
-                >
-                  Sign up
-                </a>
-                <a
-                  href="login"
-                  className="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Sign in
-                </a>
+                <Link to={RegisterPageUrl}>
+                  <button
+                    type="button"
+                    className="w-full -mx-3 bg-[#00786a] hover:bg-[#00302a] block rounded-lg py-2.5 px-3 text-base font-semibold leading-7 text-white"
+                  >
+                    Sign up
+                  </button>
+                </Link>
+                <Link to={LoginPageUrl}>
+                  <button
+                    type="button"
+                    className="w-full -mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >
+                    Sign in
+                  </button>
+                </Link>
               </div>
             </div>
           </div>

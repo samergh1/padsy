@@ -102,7 +102,7 @@ export const registerWithEmailAndPasswordDoctor = async ({ name, email, password
     }
 };
 
-export const registerWithEmailAndPasswordPatient = async ({ name, email, password, phoneNumber, gender, birthdate, isDoctor, onSuccess }) => {
+export const registerWithEmailAndPasswordPatient = async ({ name, email, password, phoneNumber, gender, birthdate, profileImage, isDoctor, onSuccess }) => {
     try {
         const res = await createUserWithEmailAndPassword(auth, email, password);
         const user = res.user;
@@ -114,6 +114,7 @@ export const registerWithEmailAndPasswordPatient = async ({ name, email, passwor
             phoneNumber,
             gender,
             birthdate,
+            profileImage,
             isDoctor
         });
 

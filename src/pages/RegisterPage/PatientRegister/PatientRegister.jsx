@@ -9,10 +9,15 @@ import {
 import googleLogo from "../../../assets/google.png";
 import facebookLogo from "../../../assets/facebook.png";
 import { LoginPageUrl, LandingPageUrl } from "../../../constants/urls";
+import {
+  getProfileImgUrl,
+  uploadProfileImage,
+} from "../../../firebase/storage/storage";
 
 export function PatientRegister() {
   const [page, setPage] = useState(0);
   const [error, setErrors] = useState({});
+  const [file, setFile] = useState(null);
 
   const navigate = useNavigate();
 
@@ -31,8 +36,9 @@ export function PatientRegister() {
     password: "",
     name: "",
     phoneNumber: "",
-    gender: "",
+    gender: "male",
     birthdate: "",
+    profileImage: "",
     isDoctor: false,
   };
 
@@ -44,6 +50,9 @@ export function PatientRegister() {
     console.log(values);
 
     if (Object.keys(error).length === 0) {
+      const result = await uploadProfileImage(file, values.email);
+      const url = await getProfileImgUrl(values.email);
+
       await registerWithEmailAndPasswordPatient({
         name: values.name,
         email: values.email,
@@ -51,6 +60,7 @@ export function PatientRegister() {
         phoneNumber: values.password,
         gender: values.gender,
         birthdate: values.birthdate,
+        profileImage: url,
         isDoctor: values.isDoctor,
         onSuccess: onSuccess,
       });
@@ -98,6 +108,11 @@ export function PatientRegister() {
     return errors;
   };
 
+  const handleImage = (e) => {
+    console.log(e.target.files[0]);
+    setFile(e.target.files[0]);
+  };
+
   const handleGoogleClick = () => {
     signUpWithGoogle({ isDoctor: false, onSuccess: onSuccess });
   };
@@ -120,6 +135,7 @@ export function PatientRegister() {
               formValues={values}
               onChange={onChange}
               handleBlur={handleBlur}
+              handleImage={handleImage}
               errors={error}
             ></AccountDetailsPatient>
           </div>
@@ -175,10 +191,10 @@ export function PatientRegister() {
               <img src={googleLogo} alt="Google" className="w-7 h-7 mr-3" />
               Sign up with Google
             </button>
-            <button className="flex justify-center items-center bg-white rounded-md p-3 hover:scale-105 transition-all">
+            {/* <button className="flex justify-center items-center bg-white rounded-md p-3 hover:scale-105 transition-all">
               <img src={facebookLogo} alt="Facebook" className="w-7 h-7 mr-3" />
               Sign up with Facebook
-            </button>
+            </button> */}
             <div className="flex items-center justify-center">
               <div className="text-sm">
                 <span>Already have an account? </span>

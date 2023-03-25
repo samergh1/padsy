@@ -4,6 +4,7 @@ export function AccountDetailsPatient({
   formValues,
   onChange,
   handleBlur,
+  handleImage,
   errors,
 }) {
   return (
@@ -44,6 +45,17 @@ export function AccountDetailsPatient({
             {errors.password && (
               <span className="text-red-700">{errors.password}</span>
             )}
+          </div>
+
+          <div>
+            <label htmlFor="profileImg">Profile image</label>
+            <input
+              id="profileImg"
+              name="profileImg"
+              type="file"
+              onChange={handleImage}
+              className="relative block w-full mt-1 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            />
           </div>
         </div>
       </form>

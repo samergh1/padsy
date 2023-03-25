@@ -17,11 +17,13 @@ export function PatientProfile() {
         {/* Information */}
         {!isLoadingUser && !!user && !user.isDoctor ? (
           <div className="md:flex justify-center gap-10 bg-white w-full h-full border-b p-10">
-            <img
-              src={user.profileImage}
-              className="md:w-1/3 bg-gray-100"
-              alt="Profile image"
-            />
+            <div className="flex justify-center">
+              <img
+                src={user.profileImage}
+                className="w-56 h-56 md:w-72 md:h-72 bg-gray-100"
+                alt="Profile image"
+              />
+            </div>
             <div className="flex flex-col w-full">
               <div className="flex justify-between items-center gap-2 mb-16">
                 <h2 className="text-2xl lg:text-4xl font-bold">{user.name}</h2>
@@ -31,19 +33,19 @@ export function PatientProfile() {
               </div>
               <div className="flex flex-col lg:grid lg:grid-cols-2 gap-12">
                 <div className="flex gap-8 justify-center lg:justify-start">
-                  <span>Email:</span>
+                  <span className="font-bold">Email:</span>
                   <span>{user.email}</span>
                 </div>
                 <div className="flex gap-8 justify-center lg:justify-start">
-                  <span>Phone Number:</span>
+                  <span className="font-bold">Phone Number:</span>
                   <span>{user.phoneNumber}</span>
                 </div>
                 <div className="flex gap-8 justify-center lg:justify-start">
-                  <span>Gender:</span>
+                  <span className="font-bold">Gender:</span>
                   <span>{user.gender}</span>
                 </div>
                 <div className="flex gap-8 justify-center lg:justify-start">
-                  <span>Birth Date:</span>
+                  <span className="font-bold">Birth Date:</span>
                   <span>{user.birthdate}</span>
                 </div>
               </div>

@@ -4,6 +4,7 @@ export function AccountDetailsDoctor({
   formValues,
   onChange,
   handleBlur,
+  handleImage,
   errors,
 }) {
   return (
@@ -28,6 +29,7 @@ export function AccountDetailsDoctor({
               <span className="text-red-700">{errors.email}</span>
             )}
           </div>
+
           <div>
             <label htmlFor="password">Password</label>
             <input
@@ -43,6 +45,22 @@ export function AccountDetailsDoctor({
             />
             {errors.password && (
               <span className="text-red-700">{errors.password}</span>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="profileImage">Profile image</label>
+            <input
+              id="profileImage"
+              name="profileImage"
+              type="file"
+              accept="image/png, image/jpeg"
+              onBlur={handleBlur}
+              onChange={handleImage}
+              className="relative block w-full mt-1 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            />
+            {errors.profileImage && (
+              <span className="text-red-700">{errors.profileImage}</span>
             )}
           </div>
         </div>

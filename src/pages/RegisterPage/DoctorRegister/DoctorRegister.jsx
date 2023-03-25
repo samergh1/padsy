@@ -10,10 +10,15 @@ import {
 import googleLogo from "../../../assets/google.png";
 import facebookLogo from "../../../assets/facebook.png";
 import { LandingPageUrl, LoginPageUrl } from "../../../constants/urls";
+import {
+  getProfileImgUrl,
+  uploadProfileImage,
+} from "../../../firebase/storage/storage";
 
 export function DoctorRegister() {
   const [page, setPage] = useState(0);
   const [error, setErrors] = useState({});
+  const [file, setFile] = useState(null);
 
   const navigate = useNavigate();
 
@@ -33,8 +38,9 @@ export function DoctorRegister() {
     name: "",
     phoneNumber: "",
     address: "",
-    specialty: "",
+    specialty: "Clinical Psychology",
     description: "",
+    profileImage: "",
     isDoctor: true,
   };
 
@@ -46,6 +52,9 @@ export function DoctorRegister() {
     console.log(values);
 
     if (Object.keys(error).length === 0) {
+      const result = await uploadProfileImage(file, values.email);
+      const url = await getProfileImgUrl(values.email);
+
       await registerWithEmailAndPasswordDoctor({
         name: values.name,
         email: values.email,
@@ -54,6 +63,7 @@ export function DoctorRegister() {
         address: values.address,
         specialty: values.specialty,
         description: values.description,
+        profileImage: url,
         isDoctor: values.isDoctor,
         onSuccess: onSuccess,
       });
@@ -77,7 +87,7 @@ export function DoctorRegister() {
       errors.email = "Email is invalid";
     }
 
-    if (!value.password.trim()) {
+    if (!value.password) {
       errors.password = "Password is required";
     }
 
@@ -102,7 +112,16 @@ export function DoctorRegister() {
       errors.phoneNumber = "Phone number should be at least 7 characters";
     }
 
+    if (!file) {
+      errors.profileImage = "Profile image is required (formats: .png, .jpeg)";
+    }
+
     return errors;
+  };
+
+  const handleImage = (e) => {
+    console.log(e.target.files[0]);
+    setFile(e.target.files[0]);
   };
 
   const handleGoogleClick = () => {
@@ -127,6 +146,7 @@ export function DoctorRegister() {
               formValues={values}
               onChange={onChange}
               handleBlur={handleBlur}
+              handleImage={handleImage}
               errors={error}
             ></AccountDetailsDoctor>
           </div>
@@ -202,10 +222,10 @@ export function DoctorRegister() {
               <img src={googleLogo} alt="Google" className="w-7 h-7 mr-3" />
               Sign up with Google
             </button>
-            <button className="flex justify-center items-center bg-white rounded-md p-3 hover:scale-105 transition-all">
+            {/* <button className="flex justify-center items-center bg-white rounded-md p-3 hover:scale-105 transition-all">
               <img src={facebookLogo} alt="Facebook" className="w-7 h-7 mr-3" />
               Sign up with Facebook
-            </button>
+            </button> */}
             <div className="flex items-center justify-center">
               <div className="text-sm">
                 <span>Already have an account? </span>

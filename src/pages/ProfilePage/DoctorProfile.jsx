@@ -16,109 +16,70 @@ export function DoctorProfile() {
       <div className="w-full flex flex-col">
         {/* Information */}
         {!isLoadingUser && !!user && user.isDoctor ? (
-          <div className="flex gap-10 bg-white w-full h-full border-b p-10">
-            <img className="w-1/3 bg-gray-100" />
+          <div className="md:flex md:justify-center md:gap-10 bg-white w-full h-full border-b p-10">
+            <div className="flex justify-center">
+              <img
+                src={user.profileImage}
+                className="w-56 h-56 md:w-72 md:h-72 bg-gray-100"
+                alt="Profile image"
+              />
+            </div>
             <div className="flex flex-col w-full">
               <div className="flex justify-between items-center mb-10">
                 <div className="flex flex-col gap-2">
-                  <h2 className="text-4xl font-bold">{user.name}</h2>
-                  <span>{user.specialty}</span>
+                  <h2 className="text-2xl lg:text-4xl font-bold">
+                    {user.name}
+                  </h2>
+                  <span className="text-xs md:text-lg">{user.specialty}</span>
                 </div>
-                <button className="bg-[#00786A] text-center text-white px-6 py-2 hover:scale-105 transition-all rounded-md">
+                <button className="bg-[#00786A] text-center text-white px-2 lg:px-6 py-2 hover:scale-105 transition-all rounded-md">
                   Edit profile
                 </button>
               </div>
-              <div className="grid grid-cols-2 gap-12">
-                <div className="flex flex-col col-span-1">
-                  <span>Description</span>
-                  <span>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Quasi placeat possimus, ex vitae eius ea quidem numquam quo
-                    sequi tempora? Lorem, ipsum dolor sit amet consectetur
-                    adipisicing elit. Tenetur, enim!
-                  </span>
+              <div className="flex flex-col gap-6 justify-center lg:grid lg:grid-cols-2">
+                <div className="flex flex-col gap-4 lg:col-span-1">
+                  <span className="font-bold">Description</span>
+                  <span>{user.description}</span>
                 </div>
-                <div className="flex flex-col col-span-1 justify-evenly">
+                <div className="flex flex-col lg:col-span-1 gap-8">
                   <div className="flex gap-8">
-                    <span>Email:</span>
+                    <span className="font-bold">Email:</span>
                     <span>{user.email}</span>
                   </div>
                   <div className="flex gap-8">
-                    <span>Address:</span>
+                    <span className="font-bold">Address:</span>
                     <span>{user.address}</span>
                   </div>
                   <div className="flex gap-8">
-                    <span>Phone Number:</span>
+                    <span className="font-bold">Phone Number:</span>
                     <span>{user.phoneNumber}</span>
                   </div>
                   <div className="flex gap-8">
-                    <span>Degree:</span>
+                    <span className="font-bold">Degree:</span>
                     <span>Universidad Metropolitana</span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        ) : (
-          <div className="flex gap-10 bg-white w-full h-full border-b p-10">
-            <img className="w-1/3 bg-gray-100" />
-            <div className="flex flex-col w-full">
-              <div className="flex justify-between items-center mb-10">
-                <div className="flex flex-col gap-2">
-                  <h2 className="text-4xl font-bold">Username</h2>
-                  <span>Specialty</span>
-                </div>
-                <button className="bg-[#00786A] text-center text-white px-6 py-2 hover:scale-105 transition-all rounded-md">
-                  Edit profile
-                </button>
-              </div>
-              <div className="grid grid-cols-2 gap-12">
-                <div className="flex flex-col col-span-1">
-                  <span>Description</span>
-                  <span>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Quasi placeat possimus, ex vitae eius ea quidem numquam quo
-                    sequi tempora? Lorem, ipsum dolor sit amet consectetur
-                    adipisicing elit. Tenetur, enim!
-                  </span>
-                </div>
-                <div className="flex flex-col col-span-1 justify-evenly">
-                  <div className="flex gap-8">
-                    <span>Email:</span>
-                    <span>example@gmail.com</span>
-                  </div>
-                  <div className="flex gap-8">
-                    <span>Address:</span>
-                    <span>St. avenue</span>
-                  </div>
-                  <div className="flex gap-8">
-                    <span>Phone Number:</span>
-                    <span>0424-1164645</span>
-                  </div>
-                  <div className="flex gap-8">
-                    <span>Degree:</span>
-                    <span>Universidad Metropolitana</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+        ) : null}
 
         {/* Appointments */}
         <div className="flex gap-10 bg-white w-full h-full border-b p-10">
-          <div className="flex flex-col w-full h-full">
+          <div className="flex flex-col w-full">
             <div className="flex justify-between items-center mb-8">
-              <h2 className="text-3xl font-bold">My appointments</h2>
-              <button className="bg-[#00786A] text-center text-white px-6 py-2 hover:scale-105 transition-all rounded-md">
+              <h2 className="text-1xl lg:text-3xl font-bold">
+                My appointments
+              </h2>
+              <button className="bg-[#00786A] text-center text-white px-2 lg:px-6 py-2 hover:scale-105 transition-all rounded-md">
                 View all
               </button>
             </div>
 
-            <div className="flex h-full gap-10">
-              <div className="flex flex-col w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
+            <div className="flex flex-col lg:flex-row h-full gap-10">
+              <div className="flex flex-col lg:w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
                 <div className="flex h-1/2 p-3 gap-4 items-center justify-start">
-                  <img className="w-1/5 h-full bg-gray-100" />
+                  <img className="w-12 h-12 bg-gray-100" />
                   <span>Patient 1</span>
                 </div>
                 <div className="flex h-1/2 bg-gray-100 p-4 items-center justify-between">
@@ -126,9 +87,9 @@ export function DoctorProfile() {
                   <span>11:00-12:00m</span>
                 </div>
               </div>
-              <div className="flex flex-col w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
+              <div className="flex flex-col lg:w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
                 <div className="flex h-1/2 p-3 gap-4 items-center justify-start">
-                  <img className="w-1/5 h-full bg-gray-100" />
+                  <img className="w-12 h-12 bg-gray-100" />
                   <span>Patient 2</span>
                 </div>
                 <div className="flex h-1/2 bg-gray-100 p-4 items-center justify-between">
@@ -136,9 +97,9 @@ export function DoctorProfile() {
                   <span>11:00-12:00m</span>
                 </div>
               </div>
-              <div className="flex flex-col w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
+              <div className="flex flex-col lg:w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
                 <div className="flex h-1/2 p-3 gap-4 items-center justify-start">
-                  <img className="w-1/5 h-full bg-gray-100" />
+                  <img className="w-12 h-12 bg-gray-100" />
                   <span>Patient 3</span>
                 </div>
                 <div className="flex h-1/2 bg-gray-100 p-4 items-center justify-between">
@@ -154,16 +115,16 @@ export function DoctorProfile() {
         <div className="flex gap-10 bg-white w-full h-full border-b p-10">
           <div className="flex flex-col w-full">
             <div className="flex justify-between items-center mb-8">
-              <h2 className="text-3xl font-bold">My calendar</h2>
-              <button className="bg-[#00786A] text-center text-white px-6 py-2 hover:scale-105 transition-all rounded-md">
+              <h2 className="text-1xl lg:text-3xl font-bold">My calendar</h2>
+              <button className="bg-[#00786A] text-center text-white px-2 lg:px-6 py-2 hover:scale-105 transition-all rounded-md">
                 Edit calendar
               </button>
             </div>
 
-            <div className="flex h-full gap-10">
-              <div className="flex flex-col w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
+            <div className="flex flex-col lg:flex-row h-full gap-10">
+              <div className="flex flex-col lg:w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
                 <div className="flex h-1/2 p-3 gap-4 items-center justify-start">
-                  <img className="w-1/5 h-full bg-gray-100" />
+                  <img className="w-12 h-12 bg-gray-100" />
                   <span>Patient 1</span>
                 </div>
                 <div className="flex h-1/2 bg-gray-100 p-4 items-center justify-between">

@@ -75,10 +75,15 @@ export const logInWithEmailAndPassword = async ({ email, password, onSuccess }) 
         }
     } catch (err) {
         console.error(err);
+        if (err.toString().includes("password")) {
+            alert("Wrong password")
+        } else {
+            alert("Wrong email")
+        }
     }
 };
 
-export const registerWithEmailAndPasswordDoctor = async ({ name, email, password, phoneNumber, address, specialty, description, profileImage, isDoctor, onSuccess }) => {
+export const registerWithEmailAndPasswordDoctor = async ({ name, email, password, phoneNumber, address, specialty, description, profileImage, cost, isDoctor, onSuccess }) => {
     try {
         const res = await createUserWithEmailAndPassword(auth, email, password);
         const user = res.user;
@@ -92,6 +97,7 @@ export const registerWithEmailAndPasswordDoctor = async ({ name, email, password
             specialty,
             description,
             profileImage,
+            cost,
             isDoctor
         });
 

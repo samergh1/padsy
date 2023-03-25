@@ -24,8 +24,9 @@ import {
   }
   
   export async function updateUser(userId, data) {
+    const { uid, ...restData } = data;
     const userRef = doc(db, USERS_COLLECTION, userId);
-    return updateDoc(userRef, data);
+    return updateDoc(userRef, restData);
   }
   
   export async function getUserById(userId) {

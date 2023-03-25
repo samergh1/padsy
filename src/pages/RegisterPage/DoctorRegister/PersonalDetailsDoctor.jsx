@@ -23,6 +23,7 @@ export function PersonalDetailsDoctor({
           />
           {errors.name && <span className="text-red-700">{errors.name}</span>}
         </div>
+
         <div>
           <label htmlFor="phone-number">Phone Number</label>
           <input
@@ -39,6 +40,7 @@ export function PersonalDetailsDoctor({
             <span className="text-red-700">{errors.phoneNumber}</span>
           )}
         </div>
+
         <div>
           <label htmlFor="address">Address</label>
           <input

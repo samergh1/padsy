@@ -13,9 +13,10 @@ import {
 } from "./../../firebase/authentication/authentication";
 
 export function LoginPage() {
-  const navigate = useNavigate();
-
   const [formData, setFormData] = useState({});
+  const [errors, setErrors] = useState({});
+
+  const navigate = useNavigate();
 
   const onSuccess = () => {
     navigate(LandingPageUrl);
@@ -27,7 +28,6 @@ export function LoginPage() {
 
   const onLogInWithEmailAndPassword = async (event) => {
     event.preventDefault();
-
     const { email, password } = formData;
     await logInWithEmailAndPassword({
       email: email,
@@ -87,10 +87,10 @@ export function LoginPage() {
             <img src={googleLogo} alt="Google" className="w-7 h-7 mr-3" />
             Sign in with Google
           </button>
-          <button className="flex justify-center items-center bg-white rounded-md p-3 hover:scale-105 transition-all">
+          {/* <button className="flex justify-center items-center bg-white rounded-md p-3 hover:scale-105 transition-all">
             <img src={facebookLogo} alt="Facebook" className="w-7 h-7 mr-3" />
             Sign in with Facebook
-          </button>
+          </button> */}
           <div className="flex items-center justify-center">
             <div className="text-sm">
               <span>Don't have an account? </span>

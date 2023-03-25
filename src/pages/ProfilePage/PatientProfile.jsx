@@ -1,9 +1,21 @@
 import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
+import EditPatientProfile from "../../components/Navbar/EditProfile/EditPatientProfile";
 import { Navbar } from "../../components/Navbar/Navbar";
 import { useUserContext } from "../../context/userContext";
 
 export function PatientProfile() {
   const { user, isLoadingUser } = useUserContext();
+  const [editProfile, setEditProfile] = useState(false);
+
+  // useEffect(() => {
+  //   if (editProfile) {
+  //     <PatientProfile />;
+  //   } else {
+  //     <EditPatientProfile />;
+  //   }
+  // }, []);
 
   return (
     <div className="flex bg-white h-full w-full">
@@ -15,43 +27,52 @@ export function PatientProfile() {
       {/* Profile */}
       <div className="w-full flex flex-col">
         {/* Information */}
-        {!isLoadingUser && !!user && !user.isDoctor ? (
+        {!isLoadingUser && !!user && !user.isDoctor && !editProfile ? (
           <div className="md:flex justify-center gap-10 bg-white w-full h-full border-b p-10">
-            <div className="flex justify-center">
+            <div className="flex justify-center mb-6 md:mb-0">
               <img
                 src={user.profileImage}
-                className="w-56 h-56 md:w-72 md:h-72 bg-gray-100"
+                className="rounded-md w-56 h-56 md:w-72 md:h-72 bg-gray-100"
                 alt="Profile image"
               />
             </div>
             <div className="flex flex-col w-full">
               <div className="flex justify-between items-center gap-2 mb-16">
                 <h2 className="text-2xl lg:text-4xl font-bold">{user.name}</h2>
-                <button className="bg-[#00786A] text-center text-white px-2 lg:px-6 py-2 hover:scale-105 transition-all rounded-md">
+                <button
+                  onClick={() => {
+                    setEditProfile(true);
+                  }}
+                  className="bg-[#00786A] text-center text-white px-2 lg:px-6 py-2 hover:scale-105 transition-all rounded-md"
+                >
                   Edit profile
                 </button>
               </div>
               <div className="flex flex-col lg:grid lg:grid-cols-2 gap-12">
                 <div className="flex gap-8 justify-center lg:justify-start">
                   <span className="font-bold">Email:</span>
-                  <span>{user.email}</span>
+                  <span className="text-[#646464]">{user.email}</span>
                 </div>
                 <div className="flex gap-8 justify-center lg:justify-start">
                   <span className="font-bold">Phone Number:</span>
-                  <span>{user.phoneNumber}</span>
+                  <span className="text-[#646464]">{user.phoneNumber}</span>
                 </div>
                 <div className="flex gap-8 justify-center lg:justify-start">
                   <span className="font-bold">Gender:</span>
-                  <span>{user.gender}</span>
+                  <span className="text-[#646464]">{user.gender}</span>
                 </div>
                 <div className="flex gap-8 justify-center lg:justify-start">
                   <span className="font-bold">Birth Date:</span>
-                  <span>{user.birthdate}</span>
+                  <span className="text-[#646464]">{user.birthdate}</span>
                 </div>
               </div>
             </div>
           </div>
-        ) : null}
+        ) : !isLoadingUser && !!user && !user.isDoctor && editProfile ? (
+          <EditPatientProfile user={user} setEditProfile={setEditProfile} />
+        ) : (
+          <span>LOADING USER...</span>
+        )}
 
         {/* Appointments */}
         <div className="flex gap-10 bg-white w-full h-full border-b p-10">

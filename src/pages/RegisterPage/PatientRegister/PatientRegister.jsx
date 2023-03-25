@@ -57,7 +57,7 @@ export function PatientRegister() {
         name: values.name,
         email: values.email,
         password: values.password,
-        phoneNumber: values.password,
+        phoneNumber: values.phoneNumber,
         gender: values.gender,
         birthdate: values.birthdate,
         profileImage: url,
@@ -103,6 +103,10 @@ export function PatientRegister() {
 
     if (!value.birthdate.trim()) {
       errors.birthdate = "Birth date is required";
+    }
+
+    if (!file) {
+      errors.profileImage = "Profile image is required (formats: .png, .jpeg)";
     }
 
     return errors;

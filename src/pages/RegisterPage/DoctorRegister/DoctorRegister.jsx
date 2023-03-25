@@ -41,6 +41,7 @@ export function DoctorRegister() {
     specialty: "Clinical Psychology",
     description: "",
     profileImage: "",
+    cost: 0,
     isDoctor: true,
   };
 
@@ -59,11 +60,12 @@ export function DoctorRegister() {
         name: values.name,
         email: values.email,
         password: values.password,
-        phoneNumber: values.password,
+        phoneNumber: values.phoneNumber,
         address: values.address,
         specialty: values.specialty,
         description: values.description,
         profileImage: url,
+        cost: values.cost,
         isDoctor: values.isDoctor,
         onSuccess: onSuccess,
       });
@@ -101,7 +103,7 @@ export function DoctorRegister() {
 
     if (!value.description.trim()) {
       errors.description = "Description is required";
-    } else if (values.description.trim().length > 250) {
+    } else if (value.description.trim().length > 250) {
       errors.description =
         "The description reached the max limit of characters";
     }
@@ -110,6 +112,12 @@ export function DoctorRegister() {
       errors.phoneNumber = "Phone number is required";
     } else if (value.phoneNumber.length < 7) {
       errors.phoneNumber = "Phone number should be at least 7 characters";
+    }
+
+    if (!value.cost) {
+      errors.cost = "Cost of appointment is required";
+    } else if (value.cost < 0) {
+      errors.cost = "Cost must be positive";
     }
 
     if (!file) {

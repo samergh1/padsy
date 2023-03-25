@@ -54,6 +54,7 @@ export function ProfessionalDetailsDoctor({
             ))}
           </select>
         </div>
+
         <div>
           <label htmlFor="College degree">College Degree</label>
           <input
@@ -64,6 +65,7 @@ export function ProfessionalDetailsDoctor({
             className="relative block w-full mt-1 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
           />
         </div>
+
         <div>
           <label htmlFor="certificates">Certificates</label>
           <input
@@ -74,6 +76,7 @@ export function ProfessionalDetailsDoctor({
             className="relative block w-full mt-1 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
           />
         </div>
+
         <div>
           <label htmlFor="description">Description</label>
           <textarea
@@ -88,6 +91,21 @@ export function ProfessionalDetailsDoctor({
           {errors.description && (
             <span className="text-red-700">{errors.description}</span>
           )}
+        </div>
+
+        <div>
+          <label htmlFor="cost">Cost ($)</label>
+          <input
+            id="cost"
+            name="cost"
+            type="number"
+            onChange={onChange}
+            value={formValues.cost}
+            onBlur={handleBlur}
+            className="relative block w-full mt-1 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            placeholder="Cost of the appointment"
+          />
+          {errors.cost && <span className="text-red-700">{errors.cost}</span>}
         </div>
       </form>
     </div>

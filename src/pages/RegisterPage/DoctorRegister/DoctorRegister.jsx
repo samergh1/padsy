@@ -4,6 +4,7 @@ import { AccountDetailsDoctor } from "./AccountDetailsDoctor";
 import { PersonalDetailsDoctor } from "./PersonalDetailsDoctor";
 import { ProfessionalDetailsDoctor } from "./ProfessionalDetailsDoctor";
 import {
+  createDoctorGoogleUser,
   registerWithEmailAndPasswordDoctor,
   signUpWithGoogle,
 } from "../../../firebase/authentication/authentication";
@@ -11,7 +12,9 @@ import googleLogo from "../../../assets/google.png";
 import facebookLogo from "../../../assets/facebook.png";
 import { LandingPageUrl, LoginPageUrl } from "../../../constants/urls";
 import {
+  getCollegeDegreeUrl,
   getProfileImgUrl,
+  uploadDegree,
   uploadProfileImage,
 } from "../../../firebase/storage/storage";
 
@@ -19,6 +22,8 @@ export function DoctorRegister() {
   const [page, setPage] = useState(0);
   const [error, setErrors] = useState({});
   const [file, setFile] = useState(null);
+  const [degree, setDegree] = useState(null);
+  const [googleSignUp, setGoogleSignUp] = useState(false);
 
   const navigate = useNavigate();
 
@@ -41,6 +46,7 @@ export function DoctorRegister() {
     specialty: "Clinical Psychology",
     description: "",
     profileImage: "",
+    collegeDegree: "",
     cost: 0,
     isDoctor: true,
   };
@@ -53,23 +59,44 @@ export function DoctorRegister() {
     console.log(values);
 
     if (Object.keys(error).length === 0) {
-      const result = await uploadProfileImage(file, values.email);
-      const url = await getProfileImgUrl(values.email);
+      const res = await uploadDegree(degree, values.email);
+      const degreeUrl = await getCollegeDegreeUrl(values.email);
 
-      await registerWithEmailAndPasswordDoctor({
-        name: values.name,
-        email: values.email,
-        password: values.password,
-        phoneNumber: values.phoneNumber,
-        address: values.address,
-        specialty: values.specialty,
-        description: values.description,
-        profileImage: url,
-        cost: values.cost,
-        isDoctor: values.isDoctor,
-        onSuccess: onSuccess,
-      });
-      console.log(values);
+      if (!googleSignUp) {
+        const image = await uploadProfileImage(file, values.email);
+        const url = await getProfileImgUrl(values.email);
+
+        await registerWithEmailAndPasswordDoctor({
+          name: values.name,
+          email: values.email,
+          password: values.password,
+          phoneNumber: values.phoneNumber,
+          address: values.address,
+          specialty: values.specialty,
+          description: values.description,
+          profileImage: url,
+          collegeDegree: degreeUrl,
+          cost: values.cost,
+          isDoctor: values.isDoctor,
+          onSuccess: onSuccess,
+        });
+        console.log(values);
+      } else {
+        await createDoctorGoogleUser({
+          name: values.name,
+          email: values.email,
+          uid: values.uid,
+          phoneNumber: values.phoneNumber,
+          address: values.address,
+          specialty: values.specialty,
+          description: values.description,
+          profileImage: values.profileImage,
+          collegeDegree: degreeUrl,
+          cost: values.cost,
+          isDoctor: values.isDoctor,
+          onSuccess: onSuccess,
+        });
+      }
     }
   };
 
@@ -83,14 +110,21 @@ export function DoctorRegister() {
     let regexPassword = /^.{1,6}$/;
     let regexEmail = /^(\w+[/./-]?){1,}@[a-z]+[/.]\w{2,}$/;
 
-    if (!value.email.trim()) {
-      errors.email = "Email is required";
-    } else if (!regexEmail.test(value.email.trim())) {
-      errors.email = "Email is invalid";
-    }
+    if (!googleSignUp) {
+      if (!value.email.trim()) {
+        errors.email = "Email is required";
+      } else if (!regexEmail.test(value.email.trim())) {
+        errors.email = "Email is invalid";
+      }
 
-    if (!value.password) {
-      errors.password = "Password is required";
+      if (!value.password) {
+        errors.password = "Password is required";
+      }
+
+      if (!file) {
+        errors.profileImage =
+          "Profile image is required (formats: .png, .jpeg)";
+      }
     }
 
     if (!value.name.trim()) {
@@ -120,8 +154,8 @@ export function DoctorRegister() {
       errors.cost = "Cost must be positive";
     }
 
-    if (!file) {
-      errors.profileImage = "Profile image is required (formats: .png, .jpeg)";
+    if (!degree) {
+      errors.collegeDegree = "College degree is required (format: .pdf)";
     }
 
     return errors;
@@ -132,8 +166,29 @@ export function DoctorRegister() {
     setFile(e.target.files[0]);
   };
 
-  const handleGoogleClick = () => {
-    const user = signUpWithGoogle({ isDoctor: false, onSuccess: onSuccess });
+  const handleDegree = (e) => {
+    console.log(e.target.files[0]);
+    setDegree(e.target.files[0]);
+  };
+
+  const handleGoogleClick = async () => {
+    const user = await signUpWithGoogle({
+      isDoctor: true,
+      onSuccess: onSuccess,
+    });
+    setGoogleSignUp(true);
+    const { email, photoURL, displayName, uid } = user;
+    setValues((oldData) => ({
+      ...oldData,
+      email: email,
+      profileImage: photoURL,
+      name: displayName,
+      uid: uid,
+    }));
+    setFile(values.profileImage);
+    delete values.password;
+    console.log(values);
+    setPage(1);
   };
 
   const onChange = (event) => {
@@ -179,6 +234,7 @@ export function DoctorRegister() {
               formValues={values}
               onChange={onChange}
               handleBlur={handleBlur}
+              handleDegree={handleDegree}
               errors={error}
             ></ProfessionalDetailsDoctor>
           </div>
@@ -190,19 +246,23 @@ export function DoctorRegister() {
   };
 
   return (
-    <div className="flex gap-4 place-content-center items-center h-screen place-items-center w-screen">
+    <div className="flex gap-4 justify-center items-center h-full w-full">
       <div className="bg-[#efefef] p-6 rounded-lg shadow-md w-3/4 sm:w-1/2">
         <div className="flex mb-4">
+          {googleSignUp ? null : (
+            <div
+              className={`w-1/3 border-r border-gray-400 ${
+                page === 0 ? "bg-[#00786A] text-white" : "bg-white"
+              } p-2 text-center cursor-pointer`}
+              onClick={() => setPage(0)}
+            >
+              Account details
+            </div>
+          )}
           <div
-            className={`w-3/4 border-r border-gray-400 ${
-              page === 0 ? "bg-[#00786A] text-white" : "bg-white"
-            } p-2 text-center cursor-pointer`}
-            onClick={() => setPage(0)}
-          >
-            Account details
-          </div>
-          <div
-            className={`w-3/4 border-r border-gray-400 ${
+            className={`${
+              googleSignUp ? "w-1/2" : "w-1/3"
+            } border-r border-gray-400 ${
               page === 1 ? "bg-[#00786A] text-white" : "bg-white"
             } p-2 text-center cursor-pointer`}
             onClick={() => setPage(1)}
@@ -210,7 +270,7 @@ export function DoctorRegister() {
             Personal details
           </div>
           <div
-            className={`w-3/4 ${
+            className={`${googleSignUp ? "w-1/2" : "w-1/3"} ${
               page === 2 ? "bg-[#00786A] text-white" : "bg-white"
             } p-2 text-center cursor-pointer`}
             onClick={() => setPage(2)}
@@ -249,13 +309,15 @@ export function DoctorRegister() {
         ) : null}
 
         <div className="flex gap-4 justify-center items-center mt-10">
-          <button
-            onClick={handlePrev}
-            className="bg-[#00786A]  hover:scale-105 transition-all rounded-md text-white py-2 px-4 disabled:bg-gray-400 "
-            disabled={page === 0}
-          >
-            Prev
-          </button>
+          {googleSignUp && page === 1 ? null : (
+            <button
+              onClick={handlePrev}
+              className="bg-[#00786A]  hover:scale-105 transition-all rounded-md text-white py-2 px-4 disabled:bg-gray-400 "
+              disabled={page === 0}
+            >
+              Prev
+            </button>
+          )}
           {page === 2 ? (
             <button
               onClick={handleSubmit}

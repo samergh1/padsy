@@ -4,6 +4,7 @@ export function ProfessionalDetailsDoctor({
   formValues,
   onChange,
   handleBlur,
+  handleDegree,
   errors,
 }) {
   const options = [
@@ -61,20 +62,14 @@ export function ProfessionalDetailsDoctor({
             id="collegeDegree"
             name="collegeDegree"
             type="file"
-            onChange={onChange}
+            onChange={handleDegree}
+            onBlur={handleBlur}
+            accept="application/pdf"
             className="relative block w-full mt-1 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
           />
-        </div>
-
-        <div>
-          <label htmlFor="certificates">Certificates</label>
-          <input
-            id="certificates"
-            name="certificates"
-            type="file"
-            onChange={onChange}
-            className="relative block w-full mt-1 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-          />
+          {errors.collegeDegree && (
+            <span className="text-red-700">{errors.collegeDegree}</span>
+          )}
         </div>
 
         <div>

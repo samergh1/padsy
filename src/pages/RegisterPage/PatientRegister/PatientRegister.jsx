@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AccountDetailsPatient } from "./AccountDetailsPatient";
 import { PersonalDetailsPatient } from "./PersonalDetailsPatient";
 import {
+  createPatientGoogleUser,
   registerWithEmailAndPasswordPatient,
   signUpWithGoogle,
 } from "../../../firebase/authentication/authentication";
@@ -17,6 +18,7 @@ import {
 export function PatientRegister() {
   const [page, setPage] = useState(0);
   const [error, setErrors] = useState({});
+  const [googleSignUp, setGoogleSignUp] = useState(false);
   const [file, setFile] = useState(null);
 
   const navigate = useNavigate();
@@ -50,21 +52,35 @@ export function PatientRegister() {
     console.log(values);
 
     if (Object.keys(error).length === 0) {
-      const result = await uploadProfileImage(file, values.email);
-      const url = await getProfileImgUrl(values.email);
+      if (!googleSignUp) {
+        const result = await uploadProfileImage(file, values.email);
+        const url = await getProfileImgUrl(values.email);
 
-      await registerWithEmailAndPasswordPatient({
-        name: values.name,
-        email: values.email,
-        password: values.password,
-        phoneNumber: values.phoneNumber,
-        gender: values.gender,
-        birthdate: values.birthdate,
-        profileImage: url,
-        isDoctor: values.isDoctor,
-        onSuccess: onSuccess,
-      });
-      console.log(values);
+        await registerWithEmailAndPasswordPatient({
+          name: values.name,
+          email: values.email,
+          password: values.password,
+          phoneNumber: values.phoneNumber,
+          gender: values.gender,
+          birthdate: values.birthdate,
+          profileImage: url,
+          isDoctor: values.isDoctor,
+          onSuccess: onSuccess,
+        });
+        console.log(values);
+      } else {
+        await createPatientGoogleUser({
+          name: values.name,
+          email: values.email,
+          uid: values.uid,
+          phoneNumber: values.phoneNumber,
+          gender: values.gender,
+          birthdate: values.birthdate,
+          profileImage: values.profileImage,
+          isDoctor: values.isDoctor,
+          onSuccess: onSuccess,
+        });
+      }
     }
   };
 
@@ -78,18 +94,22 @@ export function PatientRegister() {
     let regexPassword = /^.{1,6}$/;
     let regexEmail = /^(\w+[/./-]?){1,}@[a-z]+[/.]\w{2,}$/;
 
-    if (!value.email.trim()) {
-      errors.email = "Email is required";
-    } else if (!regexEmail.test(value.email.trim())) {
-      errors.email = "Email is invalid";
-    }
+    if (!googleSignUp) {
+      if (!value.email.trim()) {
+        errors.email = "Email is required";
+      } else if (!regexEmail.test(value.email.trim())) {
+        errors.email = "Email is invalid";
+      }
 
-    if (!value.password.trim()) {
-      errors.password = "Password is required";
+      if (!value.password.trim()) {
+        errors.password = "Password is required";
+      }
+
+      if (!file) {
+        errors.profileImage =
+          "Profile image is required (formats: .png, .jpeg)";
+      }
     }
-    // } else if (!regexPassword.test(value.password.trim())) {
-    //   errors.password = "Password should be at least 6 characters";
-    // }
 
     if (!value.name.trim()) {
       errors.name = "Name is required";
@@ -105,10 +125,6 @@ export function PatientRegister() {
       errors.birthdate = "Birth date is required";
     }
 
-    if (!file) {
-      errors.profileImage = "Profile image is required (formats: .png, .jpeg)";
-    }
-
     return errors;
   };
 
@@ -117,8 +133,24 @@ export function PatientRegister() {
     setFile(e.target.files[0]);
   };
 
-  const handleGoogleClick = () => {
-    signUpWithGoogle({ isDoctor: false, onSuccess: onSuccess });
+  const handleGoogleClick = async () => {
+    const user = await signUpWithGoogle({
+      isDoctor: false,
+      onSuccess: onSuccess,
+    });
+    setGoogleSignUp(true);
+    const { email, photoURL, displayName, uid } = user;
+    setValues((oldData) => ({
+      ...oldData,
+      email: email,
+      profileImage: photoURL,
+      name: displayName,
+      uid: uid,
+    }));
+    setFile(values.profileImage);
+    delete values.password;
+    console.log(values);
+    setPage(1);
   };
 
   const onChange = (event) => {
@@ -166,16 +198,18 @@ export function PatientRegister() {
     <div className="flex gap-4 place-content-center items-center h-screen place-items-center w-screen">
       <div className="bg-[#efefef] p-6 rounded-lg shadow-md w-3/4 sm:w-1/2">
         <div className="flex mb-4">
+          {googleSignUp ? null : (
+            <div
+              className={`w-1/2 border-r border-gray-400 ${
+                page === 0 ? "bg-[#00786A] text-white" : "bg-white"
+              } p-2 text-center cursor-pointer`}
+              onClick={() => setPage(0)}
+            >
+              Account details
+            </div>
+          )}
           <div
-            className={`w-1/2 border-r border-gray-400 ${
-              page === 0 ? "bg-[#00786A] text-white" : "bg-white"
-            } p-2 text-center cursor-pointer`}
-            onClick={() => setPage(0)}
-          >
-            Account details
-          </div>
-          <div
-            className={`w-1/2 ${
+            className={`${!googleSignUp ? "w-1/2" : "w-full"} ${
               page === 1 ? "bg-[#00786A] text-white" : "bg-white"
             } p-2 text-center cursor-pointer`}
             onClick={() => setPage(1)}
@@ -214,13 +248,15 @@ export function PatientRegister() {
         ) : null}
 
         <div className="flex gap-4 justify-center items-center mt-10">
-          <button
-            onClick={handlePrev}
-            className="bg-[#00786A]  hover:scale-105 transition-all rounded-md text-white py-2 px-4 disabled:bg-gray-400 "
-            disabled={page === 0}
-          >
-            Prev
-          </button>
+          {googleSignUp ? null : (
+            <button
+              onClick={handlePrev}
+              className="bg-[#00786A]  hover:scale-105 transition-all rounded-md text-white py-2 px-4 disabled:bg-gray-400 "
+              disabled={page === 0}
+            >
+              Prev
+            </button>
+          )}
           {page === 1 ? (
             <button
               onClick={handleSubmit}

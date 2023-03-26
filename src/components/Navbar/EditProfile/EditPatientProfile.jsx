@@ -99,20 +99,22 @@ export default function EditPatientProfile({ user, setEditProfile }) {
           {error.name && <span className="text-red-700">{error.name}</span>}
         </div>
 
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            onBlur={handleBlur}
-            onChange={onChange}
-            value={newUser.email}
-            className="relative block w-full mt-1 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            placeholder="Your address"
-          />
-          {error.email && <span className="text-red-700">{error.email}</span>}
-        </div>
+        {newUser.authProvider === "google" ? null : (
+          <div>
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              onBlur={handleBlur}
+              onChange={onChange}
+              value={newUser.email}
+              className="relative block w-full mt-1 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              placeholder="Your address"
+            />
+            {error.email && <span className="text-red-700">{error.email}</span>}
+          </div>
+        )}
 
         <div>
           <label htmlFor="phone-number">Phone Number</label>

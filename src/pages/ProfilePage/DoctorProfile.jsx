@@ -20,7 +20,7 @@ export function DoctorProfile() {
             <div className="flex justify-center">
               <img
                 src={user.profileImage}
-                className="rounded-md w-56 h-56 md:w-72 md:h-72 bg-gray-100"
+                className="rounded-md w-28 h-28 md:w-20 md:h-20 bg-gray-100"
                 alt="Profile image"
               />
             </div>

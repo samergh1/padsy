@@ -11,13 +11,14 @@ export const uploadDegree = async (file, uid) => {
     return await uploadBytes(storageRef, file);
 };
 
-export const uploadCertficate = async (file, uid) => {
-    const storageRef = ref(storage, `certificates/${uid}`);
-    return await uploadBytes(storageRef, file);
-};
-
 export const getProfileImgUrl = async (email) => {
     const storageRef = ref(storage, `profile-images/${email}`);
     const url = await getDownloadURL(storageRef);
     return url;
 }
+
+export const getCollegeDegreeUrl = async (email) => {
+    const storageRef = ref(storage, `degrees/${email}`);
+    const url = await getDownloadURL(storageRef);
+    return url;
+} 

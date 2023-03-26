@@ -9,6 +9,7 @@ export function SearchContextProvider({ children }) {
   const [loading, setIsLoading] = useState(true);
   const [list, setList] = useState([]);
   const [filterList, setFilterList] = useState([]);
+  const [openFilter, setOpenFilter] = useState(false);
 
   const getDoctors = async () => {
     const data = await getUsersDoctors();
@@ -49,6 +50,8 @@ export function SearchContextProvider({ children }) {
         setFilterList,
         searchFilterFunction,
         getDoctors,
+        openFilter,
+        setOpenFilter,
       }}
     >
       {children}

@@ -47,7 +47,7 @@ export const Table = ({ list, setOpen, setSelectedDoctor }) => {
                   setOpen(true);
                   setSelectedDoctor(doctor);
                 }}
-                className="hover-bg-grey-400"
+                className="hover:bg-gray-200"
               >
                 <td className="py-3 pl-4 pr-0">
                   <div className="flex-shrink-0 pl-4 pr-0">

@@ -2,11 +2,11 @@ import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import { UilMessage } from "@iconscout/react-unicons";
 import { Table } from "./Table";
-import { DashBoard } from "./DashBoard";
+import { DashBoardInfo } from "./DashBoardInfo";
 import { getUsersDoctors } from "../../firebase/users";
 import { Loading } from "../../components/Loading";
 import { SearchContext } from "../../context/SearchContext";
-
+import { DashBoardFilter } from "./DashBoardFilter";
 export function SearchPage() {
   const {
     open,
@@ -17,6 +17,8 @@ export function SearchPage() {
     filterList,
     setFilterList,
     searchFilterFunction,
+    setOpenFilter,
+    openFilter,
   } = useContext(SearchContext);
 
   if (loading) {
@@ -58,7 +60,12 @@ export function SearchPage() {
             </div>
             <div className="flex items-center space-x-2">
               <div className="relative">
-                <button className="relative  z-0 inline-flex text-sm rounded-md shadow-sm focus:ring-accent-500 focus:border-accent-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1">
+                <button
+                  onClick={() => {
+                    setOpenFilter(true);
+                  }}
+                  className="relative  z-0 inline-flex text-sm rounded-md shadow-sm focus:ring-accent-500 focus:border-accent-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1"
+                >
                   <span className="relative inline-flex items-center px-3 py-3 space-x-2 text-sm font-medium text-black -600 bg-white border border-gray-300 rounded-md sm:py-2">
                     <div>
                       <svg
@@ -121,12 +128,13 @@ export function SearchPage() {
           ></Table>
         </div>
       </div>
-      <DashBoard
+      <DashBoardInfo
         open={open}
         setOpen={setOpen}
         selectedDoctor={selectedDoctor}
         setSelectedDoctor={setSelectedDoctor}
       />
+      <DashBoardFilter open={openFilter} setOpen={setOpenFilter} />
     </div>
 
     // <div className="relative overflow-x-auto shadow-md sm:rounded-lg">

@@ -1,9 +1,32 @@
 import React from "react";
+import { useState, useEffect } from "react";
+import EditDoctorProfile from "../../components/Navbar/EditProfile/EditDoctorProfile";
 import { Navbar } from "../../components/Navbar/Navbar";
 import { useUserContext } from "../../context/userContext";
+import { doc, onSnapshot, query } from "@firebase/firestore";
+import { db } from "../../firebase/config";
 
 export function DoctorProfile() {
-  const { user, isLoadingUser } = useUserContext();
+  const { user } = useUserContext();
+  const [editProfile, setEditProfile] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loadingCurrentUser, setLoadingCurrentUser] = useState(true);
+
+  useEffect(() => {
+    if (user != null) {
+      const unsubscribe = getUser(setCurrentUser);
+      setLoadingCurrentUser(false);
+      return () => unsubscribe;
+    }
+  }, [user]);
+
+  async function getUser(setCurrentUser) {
+    const q = query(doc(db, "users", user.uid));
+    return onSnapshot(q, (querySnapshot) => {
+      const snapshotUser = querySnapshot.data();
+      setCurrentUser(snapshotUser);
+    });
+  }
 
   return (
     <div className="flex bg-white h-full w-full">
@@ -15,11 +38,14 @@ export function DoctorProfile() {
       {/* Profile */}
       <div className="w-full flex flex-col">
         {/* Information */}
-        {!isLoadingUser && !!user && user.isDoctor ? (
+        {!loadingCurrentUser &&
+        !!currentUser &&
+        currentUser.isDoctor &&
+        !editProfile ? (
           <div className="md:flex md:justify-center md:gap-10 bg-white w-full h-full border-b p-10">
             <div className="flex justify-center">
               <img
-                src={user.profileImage}
+                src={currentUser.profileImage}
                 className="rounded-md w-28 h-28 md:w-20 md:h-20 bg-gray-100"
                 alt="Profile image"
               />
@@ -30,9 +56,16 @@ export function DoctorProfile() {
                   <h2 className="text-2xl lg:text-4xl font-bold">
                     {user.name}
                   </h2>
-                  <span className="text-xs md:text-lg">{user.specialty}</span>
+                  <span className="text-xs md:text-lg">
+                    {currentUser.specialty}
+                  </span>
                 </div>
-                <button className="bg-[#00786A] text-center text-white px-2 lg:px-6 py-2 hover:scale-105 transition-all rounded-md">
+                <button
+                  onClick={() => {
+                    setEditProfile(true);
+                  }}
+                  className="bg-[#00786A] text-center text-white px-2 lg:px-6 py-2 hover:scale-105 transition-all rounded-md"
+                >
                   Edit profile
                 </button>
               </div>
@@ -40,37 +73,59 @@ export function DoctorProfile() {
                 <div className="flex flex-col gap-4 lg:col-span-1">
                   <div className="flex flex-col gap-2">
                     <span className="font-bold">Description</span>
-                    <span className="text-[#646464]">{user.description}</span>
+                    <span className="text-[#646464]">
+                      {currentUser.description}
+                    </span>
                   </div>
                   <div className="flex gap-6">
                     <span className="font-bold">Cost:</span>
-                    <span className="text-[#646464]">${user.cost}</span>
+                    <span className="text-[#646464]">${currentUser.cost}</span>
                   </div>
                 </div>
                 <div className="flex flex-col lg:col-span-1 gap-8">
                   <div className="flex gap-8">
                     <span className="font-bold">Email:</span>
-                    <span className="text-[#646464]">{user.email}</span>
+                    <span className="text-[#646464]">{currentUser.email}</span>
                   </div>
                   <div className="flex gap-8">
                     <span className="font-bold">Address:</span>
-                    <span className="text-[#646464]">{user.address}</span>
+                    <span className="text-[#646464]">
+                      {currentUser.address}
+                    </span>
                   </div>
                   <div className="flex gap-8">
                     <span className="font-bold">Phone Number:</span>
-                    <span className="text-[#646464]">{user.phoneNumber}</span>
+                    <span className="text-[#646464]">
+                      {currentUser.phoneNumber}
+                    </span>
                   </div>
                   <div className="flex gap-8">
                     <span className="font-bold">Degree:</span>
-                    <span className="text-[#646464]">
-                      Universidad Metropolitana
-                    </span>
+                    <a
+                      href={currentUser.collegeDegree}
+                      className="text-[#646464] underline"
+                      target="_blank"
+                    >
+                      degree.pdf
+                    </a>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        ) : null}
+        ) : !loadingCurrentUser &&
+          !!currentUser &&
+          currentUser.isDoctor &&
+          editProfile ? (
+          <EditDoctorProfile
+            user={currentUser}
+            setEditProfile={setEditProfile}
+          />
+        ) : (
+          <span className="flex justify-center items-center">
+            LOADING USER...
+          </span>
+        )}
 
         {/* Appointments */}
         <div className="flex gap-10 bg-white w-full h-full border-b p-10">

@@ -1,6 +1,5 @@
 import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import EditPatientProfile from "../../components/Navbar/EditProfile/EditPatientProfile";
 import { Navbar } from "../../components/Navbar/Navbar";
 import { useUserContext } from "../../context/userContext";

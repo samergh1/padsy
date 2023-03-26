@@ -36,10 +36,12 @@ export default function EditPatientProfile({ user, setEditProfile }) {
     let regexPassword = /^.{1,6}$/;
     let regexEmail = /^(\w+[/./-]?){1,}@[a-z]+[/.]\w{2,}$/;
 
-    if (!value.email) {
-      errors.email = "Email is required";
-    } else if (!regexEmail.test(value.email.trim())) {
-      errors.email = "Email is invalid";
+    if (newUser.authProvider != "google") {
+      if (!value.email) {
+        errors.email = "Email is required";
+      } else if (!regexEmail.test(value.email.trim())) {
+        errors.email = "Email is invalid";
+      }
     }
 
     if (!value.name) {
@@ -83,7 +85,7 @@ export default function EditPatientProfile({ user, setEditProfile }) {
         </button>
       </div>
 
-      <form action="#" className="grid grid-cols-2 gap-7">
+      <form action="#" className="flex flex-col md:grid md:grid-cols-2 gap-7">
         <div>
           <label htmlFor="name">Name</label>
           <input

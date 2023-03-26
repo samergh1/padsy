@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   add,
   eachDayOfInterval,
@@ -18,6 +18,9 @@ import { UilAngleLeft, UilAngleRight } from "@iconscout/react-unicons";
 import { useSchedule } from "../../hooks/useSchedule";
 import setYear from "date-fns/fp/setYear";
 import { Navbar } from "../../components/Navbar";
+import { Appointment } from "../../components/Appointment";
+import { useUserContext } from "../../context/userContext";
+import { SearchContext } from "../../context/SearchContext";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -25,6 +28,8 @@ function classNames(...classes) {
 
 export function SchedulePage() {
   const { hours, createSchedule, busySchedule } = useSchedule();
+  const { user, isLoadingUser } = useUserContext();
+  const { selectedDoctor } = useContext(SearchContext);
   let today = startOfToday();
   let [selectedDay, setSelectedDay] = useState(today);
   let [selectedTime, setSelectedTime] = useState(
@@ -40,7 +45,7 @@ export function SchedulePage() {
   useEffect(() => {
     createSchedule(selectedDay);
   }, [createSchedule]);
-
+  let [showModal, setShowModal] = useState(false);
   let [currentMonth, setCurrentMonth] = useState(format(today, "MMM-yyyy"));
   let firstDayCurrentMonth = parse(currentMonth, "MMM-yyyy", new Date());
   // console.log(selectedTime);
@@ -159,16 +164,18 @@ export function SchedulePage() {
                 <div key={idxHour}>
                   <button
                     onClick={() => {
+                      console.log(hour.startHour);
                       const newTime = new Date(
                         selectedDay.getFullYear(),
                         selectedDay.getMonth(),
                         selectedDay.getDate(),
-                        hour.startSchedule,
+                        hour.startHour,
                         0,
                         0
                       );
                       setSelectedTime(newTime);
-                      console.log(hour.busy);
+                      console.log(selectedTime);
+                      setShowModal(true);
                     }}
                     className={
                       hour.busy === true
@@ -184,6 +191,19 @@ export function SchedulePage() {
           </section>
         </div>
       </div>
+      <Appointment
+        showModal={showModal}
+        setShowModal={setShowModal}
+        date={selectedTime.toDateString()}
+        hour={selectedTime.toTimeString().split(" ")[0]}
+        user={user}
+        selectedDoctor={selectedDoctor}
+        selectedTime={selectedTime}
+        // month={selectedTime.getMonth()}
+        // day={selectedTime.getDate()}
+        // hour={selectedTime.getHours()}
+      ></Appointment>
+      ;
     </div>
   );
 }

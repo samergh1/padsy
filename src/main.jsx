@@ -34,30 +34,25 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     {/* <AuthProvider> */}
     <UserContextProvider>
       <ChatsProvider>
-        <BrowserRouter>
-          <Routes>
-            {/* <Route path={HomePageUrl} element={<HomePage />} /> */}
-            <Route path={LandingPageUrl} element={<LandingPage />} />
-            <Route path={RegisterPageUrl} element={<RegisterPage />} />
-            <Route path={LoginPageUrl} element={<LoginPage />} />
-            <Route path={RegisterDoctorUrl} element={<DoctorRegister />} />
-            <Route path={RegisterPatientUrl} element={<PatientRegister />} />
-            {/* <Route element={<Layout />}> */}
-            <Route path={ChatPageUrl} element={<ChatPage />} />
-            <Route path={DoctorProfileUrl} element={<DoctorProfile />} />
-            <Route path={PatientProfileUrl} element={<PatientProfile />} />
-            <Route
-              path={SearchPageurl}
-              element={
-                <SearchContextProvider>
-                  <SearchPage />
-                </SearchContextProvider>
-              }
-            />
-            <Route path={SchedulePageUrl} element={<SchedulePage />} />
-            {/* </Route> */}
-          </Routes>
-        </BrowserRouter>
+        <SearchContextProvider>
+          <BrowserRouter>
+            <Routes>
+              {/* <Route path={HomePageUrl} element={<HomePage />} /> */}
+              <Route path={LandingPageUrl} element={<LandingPage />} />
+              <Route path={RegisterPageUrl} element={<RegisterPage />} />
+              <Route path={LoginPageUrl} element={<LoginPage />} />
+              <Route path={RegisterDoctorUrl} element={<DoctorRegister />} />
+              <Route path={RegisterPatientUrl} element={<PatientRegister />} />
+              {/* <Route element={<Layout />}> */}
+              <Route path={ChatPageUrl} element={<ChatPage />} />
+              <Route path={DoctorProfileUrl} element={<DoctorProfile />} />
+              <Route path={PatientProfileUrl} element={<PatientProfile />} />
+              <Route path={SearchPageurl} element={<SearchPage />} />
+              <Route path={SchedulePageUrl} element={<SchedulePage />} />
+              {/* </Route> */}
+            </Routes>
+          </BrowserRouter>
+        </SearchContextProvider>
       </ChatsProvider>
     </UserContextProvider>
     {/* </AuthProvider> */}

@@ -78,12 +78,12 @@ export function DoctorInfo({ selectedDoctor }) {
           <div className="mb-1 text-xl font-medium text-gray-900 dark:text-white"></div>
           <Link to={SchedulePageUrl}>
             <div className="flex mt-4 space-x-3 md:mt-6">
-              <a
+              <span
                 href="#"
                 className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-[#00786A] rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 "
               >
                 Make an appointment
-              </a>
+              </span>
             </div>
           </Link>
         </div>

@@ -17,6 +17,7 @@ import { Fragment, useState } from "react";
 import { UilAngleLeft, UilAngleRight } from "@iconscout/react-unicons";
 import { useSchedule } from "../../hooks/useSchedule";
 import setYear from "date-fns/fp/setYear";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");

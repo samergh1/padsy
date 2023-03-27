@@ -64,6 +64,7 @@ export const createDoctorGoogleUser = async ({name, email, uid, phoneNumber, add
             description: description,
             collegeDegree: collegeDegree,
             cost: cost,
+            busySchedule: [],
         })
 
         if (onSuccess){
@@ -129,7 +130,8 @@ export const registerWithEmailAndPasswordDoctor = async ({ name, email, password
             profileImage,
             collegeDegree,
             cost,
-            isDoctor
+            isDoctor,
+            busySchedule: [],
         });
 
         if (onSuccess) {

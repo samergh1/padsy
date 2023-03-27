@@ -27,6 +27,8 @@ import { SearchContextProvider } from "./context/SearchContext";
 import { DoctorProfile } from "./pages/ProfilePage/DoctorProfile";
 import { PatientProfile } from "./pages/ProfilePage/PatientProfile";
 import { SchedulePage } from "./pages/SchedulePage/SchedulePage";
+import { NotFoundPage } from "./pages/NotFoundPage/NotFoundPage";
+import { PrivateRoute } from "./components/PrivateRoute/PrivateRoute";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -41,18 +43,46 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Route path={LoginPageUrl} element={<LoginPage />} />
             <Route path={RegisterDoctorUrl} element={<DoctorRegister />} />
             <Route path={RegisterPatientUrl} element={<PatientRegister />} />
-            <Route path={ChatPageUrl} element={<ChatPage />} />
-            <Route path={DoctorProfileUrl} element={<DoctorProfile />} />
-            <Route path={PatientProfileUrl} element={<PatientProfile />} />
+            <Route path="*" element={<NotFoundPage />} />
+
+            <Route
+              path={ChatPageUrl}
+              element={
+                <PrivateRoute>
+                  <ChatPage />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path={DoctorProfileUrl()}
+              element={
+                <PrivateRoute>
+                  <DoctorProfile />
+                </PrivateRoute>
+              }
+            />
+
+            <Route path={PatientProfileUrl()} element={<PatientProfile />} />
             <Route
               path={SearchPageurl}
               element={
-                <SearchContextProvider>
-                  <SearchPage />
-                </SearchContextProvider>
+                <PrivateRoute>
+                  <SearchContextProvider>
+                    <SearchPage />
+                  </SearchContextProvider>
+                </PrivateRoute>
               }
             />
-            <Route path={SchedulePageUrl} element={<SchedulePage />} />
+
+            <Route
+              path={SchedulePageUrl}
+              element={
+                <PrivateRoute>
+                  <SchedulePage />
+                </PrivateRoute>
+              }
+            />
           </Routes>
         </BrowserRouter>
       </ChatsProvider>

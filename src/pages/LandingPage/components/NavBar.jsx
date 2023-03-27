@@ -42,9 +42,9 @@ export function NavBar() {
 
   const handleProfile = () => {
     if (user.isDoctor) {
-      navigate(DoctorProfileUrl);
+      navigate(DoctorProfileUrl(user.uid));
     } else if (!user.isDoctor) {
-      navigate(PatientProfileUrl);
+      navigate(PatientProfileUrl(user.uid));
     }
   };
 

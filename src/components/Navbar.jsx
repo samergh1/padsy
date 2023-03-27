@@ -50,19 +50,26 @@ export function Navbar() {
         <div className="flex gap-x-4 items-center w-58">
           {!isLoadingUser && !!user ? (
             <>
-              <div className="w-12 h-12 bg-green-100 rounded-md visible"></div>
-              <button
-                className={`text-black origin-left font-medium text-base duration-200 ${
-                  !open && "scale-0"
-                }`}
-                onClick={() =>
-                  user.isDoctor
-                    ? navigate(DoctorProfileUrl)
-                    : navigate(PatientProfileUrl)
-                }
-              >
-                {user.name}
-              </button>
+              <img
+                src={user.profileImage}
+                className="w-10 h-10 rounded-md"
+              ></img>
+
+              {/* <div className="w-8 h-8 bg-green-100 rounded-md visible"></div> */}
+              {open ? (
+                <button
+                  className={`text-black origin-left font-medium text-base duration-200 ${
+                    !open && "scale-0"
+                  }`}
+                  onClick={() =>
+                    user.isDoctor
+                      ? navigate(DoctorProfileUrl)
+                      : navigate(PatientProfileUrl)
+                  }
+                >
+                  {user.name}
+                </button>
+              ) : null}
             </>
           ) : (
             <>

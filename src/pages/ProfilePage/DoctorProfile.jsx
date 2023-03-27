@@ -1,7 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import EditDoctorProfile from "../../components/Navbar/EditProfile/EditDoctorProfile";
-import { Navbar } from "../../components/Navbar/Navbar";
+import { EditDoctorProfile } from "../../components/EditProfile/EditDoctorProfile";
+// import { Navbar } from "../../components/Navbar/Navbar";
+import { Navbar } from "../../components/Navbar";
 import { useUserContext } from "../../context/userContext";
 import { doc, onSnapshot, query } from "@firebase/firestore";
 import { db } from "../../firebase/config";

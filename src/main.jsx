@@ -29,6 +29,7 @@ import { PatientProfile } from "./pages/ProfilePage/PatientProfile";
 import { SchedulePage } from "./pages/SchedulePage/SchedulePage";
 import { NotFoundPage } from "./pages/NotFoundPage/NotFoundPage";
 import { PrivateRoute } from "./components/PrivateRoute/PrivateRoute";
+import { Layout } from "./pages/Layout/Layout";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

@@ -11,7 +11,7 @@ export function ChatPage() {
 
 	return (
 		<div className='flex'>
-			<section className="bg-white px-10 text-gray-600p-4">
+			<section className="max-w-[48%] bg-white ml-0.5 pl-5 pr-10 text-gray-600p-4">
 				<div className="mx-auto bg-white rounded-lg">
 
 					<header className="pt-6 pb-4 px-5 border-b border-gray-200">
@@ -26,10 +26,10 @@ export function ChatPage() {
 										<div className="flex border border-purple-200 rounded mt-5">
 											<input
 												type="text"
-												className="block w-full px-4 py-2 text-[#00786a] bg-white border rounded-md"
+												className="block w-full pl-1 pr-4 text-xs sm:text-base py-2 text-[#00786a] bg-white border rounded-md"
 												placeholder="Search..."
 											/>
-											<button className="px-4 text-white bg-[#00786a] border-l rounded ">
+											<button className="px-1 text-xs sm:px-4 sm:text-base text-white bg-[#00786a] border-l rounded ">
 												Search
 											</button>
 										</div>
@@ -46,7 +46,7 @@ export function ChatPage() {
 
 				</div>
 			</section>
-			<section className="grow bg-white shadow-xl rounded-lg flex-col flex h-screen">
+			<section className="grow bg-white shadow-xl rounded-lg flex-col flex h-fit sm:h-screen">
 				<ChatHeader />
 
 				<MessagesBox />

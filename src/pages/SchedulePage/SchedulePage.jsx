@@ -13,10 +13,9 @@ import {
   parseISO,
   startOfToday,
 } from "date-fns";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import { UilAngleLeft, UilAngleRight } from "@iconscout/react-unicons";
 import { useSchedule } from "../../hooks/useSchedule";
-import setYear from "date-fns/fp/setYear";
 import { Navbar } from "../../components/Navbar";
 import { Appointment } from "../../components/Appointment";
 import { useUserContext } from "../../context/userContext";
@@ -27,7 +26,7 @@ function classNames(...classes) {
 }
 
 export function SchedulePage() {
-  const { hours, createSchedule, busySchedule } = useSchedule();
+  const { hours, createSchedule } = useSchedule();
   const { user, isLoadingUser } = useUserContext();
   const { selectedDoctor } = useContext(SearchContext);
   let today = startOfToday();
@@ -199,9 +198,7 @@ export function SchedulePage() {
         user={user}
         selectedDoctor={selectedDoctor}
         selectedTime={selectedTime}
-        // month={selectedTime.getMonth()}
-        // day={selectedTime.getDate()}
-        // hour={selectedTime.getHours()}
+        today={today}
       ></Appointment>
       ;
     </div>

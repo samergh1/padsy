@@ -1,7 +1,17 @@
 import React, { useState } from "react";
-import { getDatabase, ref, set } from "firebase/database";
-import { addDoc, collection } from "firebase/firestore";
+import { getDatabase, ref, set, update } from "firebase/database";
+import {
+  addDoc,
+  arrayUnion,
+  collection,
+  doc,
+  serverTimestamp,
+  Timestamp,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../firebase/config";
+// import { updateUser } from "../firebase/users";
+import { async } from "@firebase/util";
 
 export function Appointment({
   showModal,
@@ -11,23 +21,59 @@ export function Appointment({
   user,
   selectedDoctor,
   selectedTime,
+  today,
 }) {
   async function createAppointment(data) {
     try {
-      await addDoc(collection(db, "appointments"), data);
+      return await addDoc(collection(db, "appointments"), data);
     } catch (error) {
       console.error("Error creating appointment ", error);
     }
   }
-  function handleAppointment() {
+  async function createChat(data) {
+    try {
+      await addDoc(collection(db, "chats"), data);
+    } catch (error) {
+      console.error("Error creating chat ", error);
+    }
+  }
+
+  async function updateUser(userId, data) {
+    try {
+      await updateDoc(doc(db, "users", userId), data);
+    } catch (error) {
+      console.error("Error creating chat ", error);
+    }
+  }
+
+  async function handleAppointment() {
     const data = {
       doctorId: selectedDoctor.id,
       patientId: user.id,
       date: selectedTime,
     };
-    console.log("a");
-    createAppointment(data);
+    const chat = {
+      doctorId: selectedDoctor.id,
+      patientId: user.id,
+      //   createdAt: Timestamp.fromDate(Date.now()),
+      createdAt: serverTimestamp(),
+    };
+    console.log(today);
+    const reference = await createAppointment(data);
+    console.log(reference.id);
+    await createChat(chat);
+
+    const patData = {
+      appointments: arrayUnion(reference.id),
+    };
+    const docData = {
+      appointments: arrayUnion(reference.id),
+      busySchedule: arrayUnion(selectedTime),
+    };
+    await updateUser(selectedDoctor.id, docData);
+    await updateUser(user.id, patData);
   }
+
   return (
     <>
       {showModal ? (

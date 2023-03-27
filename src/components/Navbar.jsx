@@ -48,6 +48,7 @@ export function Navbar() {
           onClick={() => setOpen(!open)}
         />
         <div className="flex gap-x-4 items-center w-58">
+          {/* Desde aquí */}
           {!isLoadingUser && !!user ? (
             <>
               <div className="w-8 h-8 bg-green-100 rounded-md visible"></div>
@@ -78,6 +79,7 @@ export function Navbar() {
               </h1>
             </>
           )}
+          {/* Hasta aquí */}
         </div>
         <div className="flex">
           <ul className="pt-6 flex-col items-center">

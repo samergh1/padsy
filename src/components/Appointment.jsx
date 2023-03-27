@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getDatabase, ref, set, update } from "firebase/database";
+// import { ToastContainer, toast } from "react-toastify";
 import {
   addDoc,
   arrayUnion,
@@ -12,6 +12,9 @@ import {
 import { db } from "../firebase/config";
 // import { updateUser } from "../firebase/users";
 import { async } from "@firebase/util";
+import { toast, Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router";
+import { PatientProfileUrl } from "../constants/urls";
 
 export function Appointment({
   showModal,
@@ -21,8 +24,9 @@ export function Appointment({
   user,
   selectedDoctor,
   selectedTime,
-  today,
 }) {
+  const navigate = useNavigate();
+
   async function createAppointment(data) {
     try {
       return await addDoc(collection(db, "appointments"), data);
@@ -46,6 +50,9 @@ export function Appointment({
     }
   }
 
+  function timeout(delay) {
+    return new Promise((res) => setTimeout(res, delay));
+  }
   async function handleAppointment() {
     const data = {
       doctorId: selectedDoctor.id,
@@ -55,14 +62,10 @@ export function Appointment({
     const chat = {
       doctorId: selectedDoctor.id,
       patientId: user.id,
-      //   createdAt: Timestamp.fromDate(Date.now()),
       createdAt: serverTimestamp(),
     };
-    console.log(today);
     const reference = await createAppointment(data);
-    console.log(reference.id);
     await createChat(chat);
-
     const patData = {
       appointments: arrayUnion(reference.id),
     };
@@ -72,10 +75,14 @@ export function Appointment({
     };
     await updateUser(selectedDoctor.id, docData);
     await updateUser(user.id, patData);
+    toast.success("Succesfully scheduled :)");
+    await timeout(4000);
+    navigate(PatientProfileUrl);
   }
 
   return (
     <>
+      <Toaster />
       {showModal ? (
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">

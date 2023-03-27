@@ -198,7 +198,6 @@ export function SchedulePage() {
         user={user}
         selectedDoctor={selectedDoctor}
         selectedTime={selectedTime}
-        today={today}
       ></Appointment>
       ;
     </div>

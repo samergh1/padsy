@@ -1,6 +1,8 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useContext } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { Stars } from "../../components/Stars";
+import { FilterContext } from "../../context/FilterContext";
 
 const options = [
   {
@@ -34,16 +36,25 @@ const options = [
 ];
 
 const costs = [
-  { range: "1", end: 25 },
-  { range: "2", start: 25, end: 50 },
-  { range: "3", start: 50, end: 100 },
-  { range: "4", start: 100, end: 150 },
-  { range: "5", start: 150 },
+  { end: 25 },
+  { start: 25, end: 50 },
+  { start: 50, end: 100 },
+  { start: 100, end: 150 },
+  { start: 150 },
 ];
 
+const ratings = [1, 2, 3, 4, 5];
+
 export function DashBoardFilter({ open, setOpen }) {
-  const [listSpeciality, setListSpeciality] = useState([]);
-  const [listCost, setListCost] = useState([]);
+  const {
+    handleListCost,
+    handleListSpecialty,
+    listSpecialty,
+    listCost,
+    rate,
+    handleRate,
+  } = useContext(FilterContext);
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -82,38 +93,21 @@ export function DashBoardFilter({ open, setOpen }) {
                       {/* Your content */}
                       {/* primera parte es la foto */}
                       <div>
-                        <div className="py-4 border-y-2">
+                        <div className="pt-2 pb-4 border-y-2">
                           <h4 className="text-medium text-gray-800 pr-3 pt-1 pb-4">
-                            Location
+                            Specialty
                           </h4>
-                          <input type="text" />
-                        </div>
-                        <div className="pt-2 pb-4 border-b-2">
-                          <h4 className="text-medium text-gray-800 pr-3 pt-1 pb-4">
-                            Speciality
-                          </h4>
-                          {options.map((speciality, idSpeciality) => {
-                            const isFound =
-                              listSpeciality.includes(idSpeciality);
+                          {options.map((specialty, idSpecialty) => {
+                            const isFound = listSpecialty.includes(
+                              specialty.value
+                            );
 
                             return (
                               <button
-                                key={idSpeciality}
-                                onClick={
-                                  isFound
-                                    ? () => {
-                                        setListSpeciality(
-                                          listSpeciality.filter(
-                                            (value) => value !== idSpeciality
-                                          )
-                                        );
-                                      }
-                                    : () => {
-                                        setListSpeciality(
-                                          listSpeciality.concat(idSpeciality)
-                                        );
-                                      }
-                                }
+                                key={idSpecialty}
+                                onClick={() => {
+                                  handleListSpecialty(specialty.value);
+                                }}
                                 type="button"
                                 className={` border ${
                                   isFound ? "bg-[#00786A]" : "bg-gray-300"
@@ -126,7 +120,7 @@ export function DashBoardFilter({ open, setOpen }) {
                                 
                                 focus:ring-2 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2`}
                               >
-                                {speciality.value}
+                                {specialty.value}
                               </button>
                             );
                           })}
@@ -137,24 +131,14 @@ export function DashBoardFilter({ open, setOpen }) {
                             Cost
                           </h4>
                           {costs.map((cost, idCost) => {
-                            const isFoundCost = listCost.includes(idCost);
+                            const isFoundCost = listCost.includes(cost);
 
                             return (
                               <button
                                 key={idCost}
-                                onClick={
-                                  isFoundCost
-                                    ? () => {
-                                        setListCost(
-                                          listCost.filter(
-                                            (value) => value !== idCost
-                                          )
-                                        );
-                                      }
-                                    : () => {
-                                        setListCost(listCost.concat(idCost));
-                                      }
-                                }
+                                onClick={() => {
+                                  handleListCost(cost);
+                                }}
                                 type="button"
                                 className={` border ${
                                   isFoundCost ? "bg-[#00786A]" : "bg-gray-300"
@@ -180,23 +164,10 @@ export function DashBoardFilter({ open, setOpen }) {
                         </div>
                         <div className="py-2">
                           <h4 className="text-medium text-gray-800 pr-3 pt-1 pb-4">
-                            Raiting
+                            Rating
                           </h4>
-                          <button
-                            type="button"
-                            className="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
-                          >
-                            Default
-                          </button>
-                        </div>
 
-                        <div>
-                          <button
-                            type="button"
-                            className="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
-                          >
-                            Search
-                          </button>
+                          {<Stars rate={rate} setRate={handleRate}></Stars>}
                         </div>
                       </div>
                       {/* <DoctorInfo selectedDoctor={selectedDoctor}></DoctorInfo> */}

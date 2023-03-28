@@ -8,22 +8,20 @@ export function DoctorInfo({ selectedDoctor }) {
         <div className="flex flex-col items-center pb-5">
           <img
             className="w-24 h-24 mb-3 rounded-full shadow-lg"
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/800px-Image_created_with_a_mobile_phone.png"
-            alt="Bonnie image"
+            src={selectedDoctor.profileImage}
+            alt={selectedDoctor.name}
           />
           <h5 className="mb-1 text-xl  text-gray-800 font-semibold">
             {selectedDoctor.name}
           </h5>
           <span className="text-sm text-gray-700">
-            Especialista en Motivacion
-            {/* {selectedDoctor.speciality} */}
+            {selectedDoctor.speciality}
           </span>
           <h4 className="mb-1 text-xl  text-gray-700 font-medium  pt-2 pb-1">
-            500$
-            {/* {selectedDoctor.cost} */}
+            {`${selectedDoctor.cost}$`}
           </h4>
           {/* Poner Estrella */}
-          <Stars></Stars>
+          <Stars rate={selectedDoctor.rating} />
           <div className="mb-1 text-xl font-medium text-gray-900 dark:text-white"></div>
           {/* <Link to={`${MakeAppoimentUrl}`}> */}
           <div className="flex mt-4 space-x-3 md:mt-6">
@@ -43,15 +41,13 @@ export function DoctorInfo({ selectedDoctor }) {
               <h3 className="text-gray-800 font-semibold">Location</h3>
             </div>
             <h4 className="text-xs text-gray-600 pr-3 pt-1">
-              Caracas, Venezuela
-              {/* {selectedDoctor.location} */}
+              {selectedDoctor.address}
             </h4>
             <div className="pt-3">
               <h3 className="text-gray-800 font-semibold">Phone</h3>
             </div>
             <h4 className="text-xs text-gray-600 pr-3 pt-1">
-              0414-2830961
-              {/* {selectedDoctor.phoneNumber} */}
+              {selectedDoctor.phoneNumber}
             </h4>
           </div>
         </div>
@@ -64,8 +60,7 @@ export function DoctorInfo({ selectedDoctor }) {
               <h3 className="text-gray-800 font-semibold">Degree</h3>
             </div>
             <h4 className="text-xs text-gray-600 pr-3 pt-1">
-              Universidad Metropolitana
-              {/* {selectedDoctor.degree} */}
+              {selectedDoctor.collegeDegree}
             </h4>
             <div className="pt-3">
               <h3 className="text-gray-800 font-semibold">Certificates</h3>

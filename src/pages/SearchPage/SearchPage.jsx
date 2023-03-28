@@ -3,23 +3,16 @@ import { useState, useEffect } from "react";
 import { UilMessage } from "@iconscout/react-unicons";
 import { Table } from "./Table";
 import { DashBoardInfo } from "./DashBoardInfo";
-import { getUsersDoctors } from "../../firebase/users";
 import { Loading } from "../../components/Loading";
-import { SearchContext } from "../../context/SearchContext";
 import { DashBoardFilter } from "./DashBoardFilter";
+import { FilterContext } from "../../context/FilterContext";
+
 export function SearchPage() {
-  const {
-    open,
-    setOpen,
-    selectedDoctor,
-    setSelectedDoctor,
-    loading,
-    filterList,
-    setFilterList,
-    searchFilterFunction,
-    setOpenFilter,
-    openFilter,
-  } = useContext(SearchContext);
+  const { filterDoctors, setSearch, loading, resetSearch } =
+    useContext(FilterContext);
+  const [selectedDoctor, setSelectedDoctor] = useState({});
+  const [open, setOpen] = useState(false);
+  const [openFilter, setOpenFilter] = useState(false);
 
   if (loading) {
     return <Loading />;
@@ -35,12 +28,17 @@ export function SearchPage() {
           <div className="flex flex-row-reverse items-center gap-4 pr-2 lg:pr-6">
             <div className="flex items-center space-x-2">
               <div className="relative">
-                <button className="relative  z-0 inline-flex text-sm rounded-md shadow-sm focus:ring-accent-500 focus:border-accent-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1">
-                  <span className="relative inline-flex items-center px-3 py-3 space-x-2 text-sm font-medium text-white -600 bg-[#00786A] border border-gray-300 rounded-md sm:py-2">
+                <button
+                  onClick={() => {
+                    resetSearch();
+                  }}
+                  className="relative  z-0 inline-flex text-sm rounded-md shadow-sm focus:ring-accent-500 focus:border-accent-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1"
+                >
+                  <span className="relative inline-flex items-center px-3 py-3 space-x-2 text-sm font-medium text-black -600 bg-white border border-gray-300 rounded-md sm:py-2">
                     <div>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="w-3 h-3"
+                        className="w-3 h-3 lg:h-5"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -49,11 +47,11 @@ export function SearchPage() {
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
+                          d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
                         />
                       </svg>
                     </div>
-                    <div className="hidden sm:block">Search</div>
+                    <div className="hidden sm:block">Reset</div>
                   </span>
                 </button>
               </div>
@@ -83,7 +81,7 @@ export function SearchPage() {
                         />
                       </svg>
                     </div>
-                    {/* <div className="hidden sm:block">Filters</div> */}
+                    <div className="hidden sm:block">Filters</div>
                   </span>
                 </button>
               </div>
@@ -98,10 +96,10 @@ export function SearchPage() {
                 type="text"
                 name="hs-table-search"
                 id="hs-table-search"
-                className="block w-full p-3 pl-10 text-sm border-gray-200 rounded-md dark:bg-white dark:border-gray-00 dark:text-gray-700"
+                className="block border w-full p-3 pl-10 text-sm border-gray-600 rounded-md dark:bg-white dark:border-gray-00 dark:text-gray-700"
                 placeholder="Search...."
                 onChange={(e) => {
-                  searchFilterFunction(e.target.value);
+                  setSearch(e.target.value);
                 }}
               />
               {/* div de la lupa */}
@@ -122,7 +120,7 @@ export function SearchPage() {
         </div>
         <div>
           <Table
-            list={filterList}
+            list={filterDoctors}
             setOpen={setOpen}
             setSelectedDoctor={setSelectedDoctor}
           ></Table>

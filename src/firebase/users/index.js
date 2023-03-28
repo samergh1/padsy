@@ -33,6 +33,10 @@ import {
     return getDoc(userRef);
   }
 
+  export async function getFeedBack(feedbackId) {
+    const feedBackRef = doc(db, FEEDBACKS_COLLECTION, feedbackId);
+    return getDoc(feedBackRef);
+  }
 
   export async function getUsersDoctors() {
     const userDoctorQuery = query(

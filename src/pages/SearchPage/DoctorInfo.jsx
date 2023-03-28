@@ -1,5 +1,6 @@
 // import { Link } from "react-router-dom";
 import { Stars } from "../../components/Stars";
+import { Review } from "./Review";
 export function DoctorInfo({ selectedDoctor }) {
   return (
     <>
@@ -35,10 +36,16 @@ export function DoctorInfo({ selectedDoctor }) {
           {/* </Link> */}
         </div>
         <div className="bg-white flex pt-3 pb-5 px-8 rounded-lg">
-          <div className="bg-gray-500 h-32 w-32 rounded-md "></div>
+          <div className="bg-gray-500 h-32 w-32 rounded-md ">
+            <img
+              className="w-full h-full rounded-lg mb-3  shadow-lg"
+              src="https://media.architecturaldigest.com/photos/56b524de4ac3d842677b9ac0/master/w_2323,h_1548,c_limit/home-office-01.jpg"
+              alt="Cargando..."
+            ></img>
+          </div>
           <div className="pl-6 w-max">
             <div className="pt-1">
-              <h3 className="text-gray-800 font-semibold">Location</h3>
+              <h3 className="text-gray-800 font-semibold">Address</h3>
             </div>
             <h4 className="text-xs text-gray-600 pr-3 pt-1">
               {selectedDoctor.address}
@@ -52,117 +59,40 @@ export function DoctorInfo({ selectedDoctor }) {
           </div>
         </div>
       </div>
+      <div className="pt-10">
+        <div className="bg-white px-3 border-gray-200 rounded-lg shadow">
+          {/* Reviews component */}
+          <div className="items-start py-3">
+            <div className="ml-6">
+              <div className="pt-1">
+                <h3 className="text-gray-800 text-base font-semibold">
+                  Degree
+                </h3>
+              </div>
+              <a
+                href={selectedDoctor.collegeDegree}
+                className="text-sm text-gray-600 pr-3 pt-1"
+              >
+                Degree.pdf
+              </a>
+              <div className="pt-1">
+                <h3 className="text-gray-800  text-base font-semibold">
+                  Description
+                </h3>
+              </div>
 
-      <div className="pt-10 ">
-        <div className="bg-white  py-3 px-1 border-gray-200 rounded-lg shadow">
-          <div className="pl-6 w-max flex-col flex">
-            <div className="pt-1">
-              <h3 className="text-gray-800 font-semibold">Degree</h3>
-            </div>
-            <h4 className="text-xs text-gray-600 pr-3 pt-1">
-              {selectedDoctor.collegeDegree}
-            </h4>
-            <div className="pt-3">
-              <h3 className="text-gray-800 font-semibold">Certificates</h3>
-            </div>
-            <h4 className="text-xs text-gray-600 pr-3 pt-1">
-              <ul>
-                <li>Certificado de la Univerdiad Simon Bolivar</li>
-                <li>Curso en Panama Psicologia infantil</li>
-              </ul>
-              {/* {selectedDoctor.certificates} */}
-            </h4>
-            <div className="pt-3">
-              <h3 className="text-gray-800 font-semibold">Description</h3>
-            </div>
-            <div className="mt-2">
-              <span className="text-gray-800 font-semibold text-sm">
-                Exelente Atencion!
-              </span>
-              <p className="mt-1 text-gray-500 font-light text-sm	">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur
-              </p>
+              <div className="mt-2">
+                <p className="mt-1 text-gray-500 font-light text-sm	">
+                  {selectedDoctor.description}
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       <div className="pt-10">
-        <div className="bg-white px-3 border-gray-200 rounded-lg shadow">
-          <div className=" pl-2 border-b-2">
-            <h3 className="text-gray-900 font-semibold pt-4 pb-2">Reviews</h3>
-          </div>
-          {/* Reviews component */}
-          <div className="items-start py-3">
-            <div className="ml-6">
-              <p className="flex items-baseline">
-                <span className="text-gray-600 font-bold">Abril Sar</span>
-                <span className="ml-2 text-green-600 text-xs">Verified</span>
-              </p>
-              <div className="flex items-center mt-1">
-                <div>
-                  <h4 className="text-xs text-gray-600 pr-3 ">
-                    Sesion Quality
-                  </h4>
-                </div>
-                <svg
-                  className="w-4 h-4 fill-current text-yellow-600"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
-                </svg>
-                <svg
-                  className="w-4 h-4 fill-current text-yellow-600"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
-                </svg>
-                <svg
-                  className="w-4 h-4 fill-current text-yellow-600"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
-                </svg>
-                <svg
-                  className="w-4 h-4 fill-current text-yellow-600"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
-                </svg>
-                <svg
-                  className="w-4 h-4 fill-current text-gray-400"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
-                </svg>
-              </div>
-
-              <div className="mt-2">
-                <span className="text-gray-800 font-semibold text-sm">
-                  Exelente Atencion!
-                </span>
-                <p className="mt-1 text-gray-500 font-light text-sm	">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Review doctor={selectedDoctor}></Review>
       </div>
     </>
   );

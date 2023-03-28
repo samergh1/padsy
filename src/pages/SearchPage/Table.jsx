@@ -1,7 +1,9 @@
+import { Stars } from "../../components/Stars";
+
 export const Table = ({ list, setOpen, setSelectedDoctor }) => {
   return (
-    <div className="p-1.5 w-full inline-block align-middle px-3.5 lg:px-10">
-      <div className="overflow-hidden border rounded-lg">
+    <div className="p-1.5 w-full inline-block align-middle px-3.5 relative overflow-x-auto lg:px-10">
+      <div className="relative overflow-x-auto border rounded-lg">
         <table className="min-w-full divide-y divide-gray-200 ">
           <thead className="bg-[#00786A]">
             <tr>
@@ -53,10 +55,10 @@ export const Table = ({ list, setOpen, setSelectedDoctor }) => {
                     even ? "bg-gray-50" : "bg-white"
                   }`}
                 >
-                  <td className="py-3 pl-4 pr-0">
-                    <div className="flex-shrink-0 pl-4 pr-0">
+                  <td className="py-3 px-4 lg:pl-4 lg:pr-0">
+                    <div className=" pl-4 pr-0">
                       <img
-                        className="w-8 h-8 rounded-full pr-0"
+                        className="w-7 h-7 rounded-full pr-0 "
                         src={doctor.profileImage}
                         alt={doctor.name}
                       />
@@ -75,7 +77,7 @@ export const Table = ({ list, setOpen, setSelectedDoctor }) => {
                     {doctor.cost}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                    {doctor.rating}
+                    <Stars rate={doctor.rating}></Stars>
                   </td>
                 </tr>
               );

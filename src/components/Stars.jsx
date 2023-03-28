@@ -11,15 +11,15 @@ export function Stars({ rate = -1, setRate }) {
 
         return (
           <button
+            key={idStar}
             className={`${!setRate ? "cursor-default" : ""}`}
             onClick={() => {
               if (!!setRate) setRate(star);
             }}
           >
             <svg
-              key={idStar}
               aria-hidden="true"
-              className={`w-7 h-7  ${
+              className={`w-6 h-6  ${
                 isStarComplete ? "text-yellow-400" : "text-gray-300"
               } `}
               fill="currentColor"

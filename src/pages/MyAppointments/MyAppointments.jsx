@@ -16,10 +16,10 @@ export default function MyAppointments() {
           {isLoadingUser ? (
             <h1>Loading...</h1>
           ) : (
-            user.appointments.map((appointment, appointmentId) => (
+            user.appointments.map((appointment) => (
               <AppointmentCard
                 appointmentId={appointment}
-                key={appointmentId}
+                // key={appointmentId}
               />
             ))
           )}

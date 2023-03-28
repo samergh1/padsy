@@ -14,7 +14,7 @@ import { updateUser } from "../firebase/users";
 import { async } from "@firebase/util";
 import { toast, Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router";
-import { FeedbackUrl } from "../constants/urls";
+import { AppointmentsUrl, FeedbackUrl } from "../constants/urls";
 
 export function Appointment({
   showModal,
@@ -78,7 +78,7 @@ export function Appointment({
     await updateUser(user.id, patData);
     toast.success("Succesfully scheduled :)");
     await timeout(4000);
-    navigate(FeedbackUrl);
+    navigate(AppointmentsUrl);
   }
 
   return (

@@ -27,10 +27,11 @@ export function UserChat({ chat }) {
             <button onClick={() => {
                 setNewChat(chat);
             }}
-                className="w-full text-left py-2 focus:outline-none hover:bg-[#00786a] rounded-l">
+                className="w-full text-left py-2 focus:outline-none hover:bg-gray-100 rounded-l">
                 <div className="flex items-center">
                     <div>
                         <h4 className="text-sm font-semibold text-gray-900">{loading ? 'Loading...' : chatUser.name}</h4>
+                        <h4 className="text-sm font-semibold text-gray-500">{loading ? 'Loading...' : chatUser.email}</h4>
                         <div className="text-[13px]">{loading ? 'Loading...' : chatUser.specialty}</div>
                     </div>
                 </div>

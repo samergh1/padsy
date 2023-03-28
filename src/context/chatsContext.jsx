@@ -14,7 +14,6 @@ export const ChatsProvider = ({ children }) => {
     const [loadingChats, setLoadingChats] = useState(true);
 
     useEffect(() => {
-        console.log('a')
         const unsubscribe = getChats(setChats)
         setLoadingChats(false);
         return () => unsubscribe;
@@ -28,9 +27,7 @@ export const ChatsProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        console.log('b')
         if (chat != null) {
-            console.log('c')
             const unsubscribe = getMessages(setMessages, chat.id)
             setLoadingMessages(false);
             return () => unsubscribe;

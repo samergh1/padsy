@@ -15,13 +15,13 @@ import { FilterContext } from "../context/FilterContext";
 import { useUserContext } from "../context/userContext";
 import { db } from "../firebase/config";
 
-export function FeedbackPage() {
+export function FeedbackPage({ selectedDoctor }) {
   const { user, isLoadingUser } = useUserContext();
-  const { selectedDoctor } = useContext(FilterContext);
+  // const { selectedDoctor } = useContext(FilterContext);
+  const [rate, setRate] = useState(0);
   const navigate = useNavigate();
   const [title, setTitle] = useState(" ");
   const [message, setMessage] = useState(" ");
-  const [rating, setRating] = useState(0);
   const [date, setDate] = useState(serverTimestamp());
 
   async function createFeedback(data) {
@@ -46,16 +46,14 @@ export function FeedbackPage() {
     return new Promise((res) => setTimeout(res, delay));
   }
 
-  const { rate, handleRate } = useContext(FilterContext);
-
   async function handleFeedback() {
     const data = {
-      doctorId: selectedDoctor.id,
+      // doctorId: selectedDoctor.id,
       patientId: user.id,
       date: date,
       message: message,
       title: title,
-      rating: rating,
+      rating: rate,
     };
     const reference = await createFeedback(data);
     const a = {
@@ -124,7 +122,7 @@ export function FeedbackPage() {
                 Rank your doctor!
               </div>
               <div className="mt-2.5">
-                <Stars rate={rate} setRate={handleRate}></Stars>
+                <Stars rate={rate} setRate={setRate}></Stars>
               </div>
             </div>
           </div>

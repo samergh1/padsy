@@ -8,8 +8,12 @@ import {
   updateAppointment,
 } from "../../firebase/users";
 import { format } from "date-fns";
+import { FeedbackPage } from "../../pages/FeedbackPage";
+import { useNavigate } from "react-router-dom";
+import { FeedbackUrl } from "../../constants/urls";
 
 export default function AppointmentCard({ appointmentId }) {
+  const navigate = useNavigate();
   const { user, isLoadingUser } = useUserContext();
   const [paid, setPaid] = useState(false);
   const [appointment, setAppointment] = useState({});
@@ -29,6 +33,7 @@ export default function AppointmentCard({ appointmentId }) {
       payed: result.payed,
     });
     setDoctorUser({
+      id: doctor.uid,
       name: doctor.name,
       image: doctor.profileImage,
       cost: doctor.cost,
@@ -93,6 +98,10 @@ export default function AppointmentCard({ appointmentId }) {
     console.log(ErrorMessage);
   };
 
+  // const handleFeedbackClick = () => {
+  //   <FeedbackPage selectedDoctor={doctorUser} />;
+  // };
+
   useEffect(() => {
     if (success) {
       alert("Payment successful!");
@@ -134,7 +143,19 @@ export default function AppointmentCard({ appointmentId }) {
                   />
                 </PayPalScriptProvider>
               </div>
-            ) : null}
+            ) : (
+              <div className="flex justify-center items-center p-6">
+                <button
+                  onClick={() => {
+                    navigate(FeedbackUrl);
+                    <FeedbackPage selectedDoctor={doctorUser} />;
+                  }}
+                  className="p-2 rounded-md border bg-[#00786A] text-white transition-all hover:scale-105"
+                >
+                  Give feedback
+                </button>
+              </div>
+            )}
           </div>
         </div>
       ) : (

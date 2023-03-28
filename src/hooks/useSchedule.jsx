@@ -26,7 +26,7 @@ export function useSchedule() {
         i + 1 < 12 ? "am" : "pm"
       }`;
       let busy = false;
-      selectedDoctor.busySchedule.map((timestamp) => {
+      selectedDoctor.busySchedule.map((timestamp, timestampId) => {
         if (isEqual(newDate, timestamp.toDate())) {
           busy = true;
         }

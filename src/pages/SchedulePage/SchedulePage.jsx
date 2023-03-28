@@ -173,7 +173,6 @@ export function SchedulePage() {
                         0
                       );
                       setSelectedTime(newTime);
-                      console.log(selectedTime);
                       setShowModal(true);
                     }}
                     className={

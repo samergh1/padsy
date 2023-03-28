@@ -10,11 +10,11 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../firebase/config";
-// import { updateUser } from "../firebase/users";
+import { updateUser } from "../firebase/users";
 import { async } from "@firebase/util";
 import { toast, Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router";
-import { PatientProfileUrl } from "../constants/urls";
+import { FeedbackUrl } from "../constants/urls";
 
 export function Appointment({
   showModal,
@@ -78,7 +78,7 @@ export function Appointment({
     await updateUser(user.id, patData);
     toast.success("Succesfully scheduled :)");
     await timeout(4000);
-    navigate(PatientProfileUrl);
+    navigate(FeedbackUrl);
   }
 
   return (

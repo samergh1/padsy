@@ -20,8 +20,11 @@ export default function AppointmentCard({ appointmentId }) {
 
   const getAppointment = async () => {
     const result = await getAppointmentId(appointmentId);
-    const doctor = await getUserById(result.doctorId);
-    const patient = await getUserById(result.patientId);
+    let doctor = await getUserById(result.doctorId);
+    let patient = await getUserById(result.patientId);
+    doctor = doctor.data();
+    patient = patient.data();
+
     setAppointment({
       payed: result.payed,
     });
@@ -106,7 +109,7 @@ export default function AppointmentCard({ appointmentId }) {
     <div>
       {!isLoadingUser && !!user && !user.isDoctor ? (
         <div className="w-full">
-          <div className="flex flex-col rounded-md border">
+          <div className="flex flex-col rounded-md border shadow-md">
             <div className="flex h-1/2 p-3 gap-4 items-center justify-start">
               <img src={doctorUser.image} className="w-12 h-12 bg-gray-100" />
               <span>{doctorUser.name}</span>
@@ -136,7 +139,7 @@ export default function AppointmentCard({ appointmentId }) {
         </div>
       ) : (
         <div className="w-full">
-          <div className="flex flex-col rounded-md border">
+          <div className="flex flex-col rounded-md border shadow-md">
             <div className="flex h-1/2 p-3 gap-4 items-center justify-start">
               <img src={patientUser.image} className="w-12 h-12 bg-gray-100" />
               <span>{patientUser.name}</span>

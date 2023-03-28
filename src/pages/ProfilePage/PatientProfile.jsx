@@ -7,8 +7,11 @@ import { useUserContext } from "../../context/userContext";
 import { doc, onSnapshot, query } from "@firebase/firestore";
 import { db } from "../../firebase/config";
 import { Loading } from "../../components/Loading";
+import { useNavigate } from "react-router-dom";
+import { AppointmentsUrl } from "../../constants/urls";
 
 export function PatientProfile() {
+  const navigate = useNavigate();
   const { user } = useUserContext();
   const [editProfile, setEditProfile] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
@@ -29,6 +32,10 @@ export function PatientProfile() {
       setCurrentUser(snapshotUser);
     });
   }
+
+  const handleViewAppointments = () => {
+    navigate(AppointmentsUrl);
+  };
 
   return (
     <div className="flex">
@@ -105,13 +112,16 @@ export function PatientProfile() {
         )}
 
         {/* Appointments */}
-        {/* <div className="flex gap-10 bg-white w-full h-full border-b p-10">
+        <div className="flex gap-10 bg-white w-full h-full border-b p-10">
           <div className="flex flex-col w-full">
             <div className="flex justify-between items-center mb-8">
               <h2 className="text-1xl lg:text-3xl font-bold">
                 My appointments
               </h2>
-              <button className="bg-[#00786A] text-center text-white px-2 lg:px-6 py-2 hover:scale-105 transition-all rounded-md">
+              <button
+                onClick={handleViewAppointments}
+                className="bg-[#00786A] text-center text-white px-2 lg:px-6 py-2 hover:scale-105 transition-all rounded-md"
+              >
                 View all
               </button>
             </div>
@@ -149,7 +159,7 @@ export function PatientProfile() {
               </div>
             </div>
           </div>
-        </div> */}
+        </div>
       </div>
     </div>
   );

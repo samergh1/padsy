@@ -37,6 +37,10 @@ export function DoctorProfile() {
     });
   }
 
+  const handleViewAppointments = () => {
+    navigate(AppointmentsUrl);
+  };
+
   return (
     <div className="flex">
       {/* Sidebar */}
@@ -78,7 +82,7 @@ export function DoctorProfile() {
                   Edit profile
                 </button>
               </div>
-              <div className="flex flex-col gap-12 justify-center lg:grid lg:grid-cols-2">
+              <div className="flex flex-col gap-12 mb-4 justify-center lg:grid lg:grid-cols-2">
                 <div className="flex flex-col gap-4 lg:col-span-1">
                   <div className="flex flex-col gap-2">
                     <span className="font-bold">Description</span>
@@ -179,7 +183,7 @@ export function DoctorProfile() {
         )}
 
         {/* Appointments */}
-        {/* <div className="flex gap-10 bg-white w-full h-full border-b p-10">
+        <div className="flex gap-10 bg-white w-full h-full border-b p-10">
           <div className="flex flex-col w-full">
             <div className="flex justify-between items-center mb-8">
               <h2 className="text-1xl lg:text-3xl font-bold">
@@ -223,7 +227,7 @@ export function DoctorProfile() {
               </div>
             </div>
           </div>
-        </div> */}
+        </div>
 
         {/* Calendar */}
         {/* <div className="flex gap-10 bg-white w-full h-full border-b p-10">

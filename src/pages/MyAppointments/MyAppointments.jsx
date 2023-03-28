@@ -13,7 +13,7 @@ export default function MyAppointments() {
         <Navbar />
       </div>
       <div className="w-full p-8">
-        <div className="flex flex-col lg:grid lg:grid-cols-3 gap-6">
+        <div className="flex flex-col items-center lg:grid lg:grid-cols-3 gap-6">
           {isLoadingUser ? (
             <Loading />
           ) : user.appointments.length > 0 ? (

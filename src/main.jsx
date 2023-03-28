@@ -30,6 +30,8 @@ import { SchedulePage } from "./pages/SchedulePage/SchedulePage";
 import { FeedbackPage } from "./pages/FeedbackPage";
 import { FilterContextProvider } from "./context/FilterContext";
 import { FeedBackContextProvider } from "./context/FeedBackContext";
+import { NotFoundPage } from "./pages/NotFoundPage/NotFoundPage";
+import { PrivateRoute } from "./components/PrivateRoute/PrivateRoute";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -40,6 +42,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <FeedBackContextProvider>
             <BrowserRouter>
               <Routes>
+                {/* <Route path={HomePageUrl} element={<HomePage />} /> */}
                 <Route path={LandingPageUrl} element={<LandingPage />} />
                 <Route path={RegisterPageUrl} element={<RegisterPage />} />
                 <Route path={LoginPageUrl} element={<LoginPage />} />
@@ -48,13 +51,55 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                   path={RegisterPatientUrl}
                   element={<PatientRegister />}
                 />
-                <Route path={ChatPageUrl} element={<ChatPage />} />
-                <Route path={DoctorProfileUrl} element={<DoctorProfile />} />
-                <Route path={PatientProfileUrl} element={<PatientProfile />} />
-                <Route path={SearchPageurl} element={<SearchPage />} />
-                <Route path={SchedulePageUrl} element={<SchedulePage />} />
-                <Route path={FeedbackUrl} element={<FeedbackPage />} />
-                {/* </Route> */}
+                <Route path="*" element={<NotFoundPage />} />
+
+                <Route
+                  path={ChatPageUrl}
+                  element={
+                    <PrivateRoute>
+                      <ChatPage />
+                    </PrivateRoute>
+                  }
+                />
+
+                <Route
+                  path={DoctorProfileUrl()}
+                  element={
+                    <PrivateRoute>
+                      <DoctorProfile />
+                    </PrivateRoute>
+                  }
+                />
+
+                <Route
+                  path={PatientProfileUrl()}
+                  element={<PatientProfile />}
+                />
+                <Route
+                  path={SearchPageurl}
+                  element={
+                    <PrivateRoute>
+                      <SearchPage />
+                    </PrivateRoute>
+                  }
+                />
+
+                <Route
+                  path={SchedulePageUrl}
+                  element={
+                    <PrivateRoute>
+                      <SchedulePage />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path={FeedbackUrl}
+                  element={
+                    <PrivateRoute>
+                      <FeedbackPage />
+                    </PrivateRoute>
+                  }
+                />
               </Routes>
             </BrowserRouter>
           </FeedBackContextProvider>

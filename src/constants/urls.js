@@ -6,6 +6,6 @@ export const SchedulePageUrl = "/schedule";
 export const RegisterDoctorUrl = "/register/doctor";
 export const RegisterPatientUrl = "/register/patient";
 export const ChatPageUrl = "/chat";
-export const DoctorProfileUrl = "/profile/doctor";
-export const PatientProfileUrl = "/profile/patient";
+export const DoctorProfileUrl = (userId = ":userId") => `/profile/doctor/${userId}`;
+export const PatientProfileUrl = (userId = ":userId") => `/profile/patient/${userId}`;
 export const FeedbackUrl = "/feedback";

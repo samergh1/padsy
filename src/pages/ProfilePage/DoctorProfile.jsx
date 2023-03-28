@@ -1,64 +1,126 @@
 import React from "react";
+import { useState, useEffect } from "react";
+import EditDoctorProfile from "../../components/Navbar/EditProfile/EditDoctorProfile";
 import { Navbar } from "../../components/Navbar";
 import { useUserContext } from "../../context/userContext";
+import { doc, onSnapshot, query } from "@firebase/firestore";
+import { db } from "../../firebase/config";
 
 export function DoctorProfile() {
-  const { user, isLoadingUser } = useUserContext();
+  const { user } = useUserContext();
+  const [editProfile, setEditProfile] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loadingCurrentUser, setLoadingCurrentUser] = useState(true);
+
+  useEffect(() => {
+    if (user != null) {
+      const unsubscribe = getUser(setCurrentUser);
+      setLoadingCurrentUser(false);
+      return () => unsubscribe;
+    }
+  }, [user]);
+
+  async function getUser(setCurrentUser) {
+    const q = query(doc(db, "users", user.uid));
+    return onSnapshot(q, (querySnapshot) => {
+      const snapshotUser = querySnapshot.data();
+      setCurrentUser(snapshotUser);
+    });
+  }
 
   return (
-    <div className="flex bg-white h-full w-full">
+    <div className="flex">
       {/* Sidebar */}
-      {/* <div className="w-1/6 bg-gray-300">
-      </div> */}
-      <Navbar></Navbar>
+      <div>
+        <Navbar></Navbar>
+      </div>
 
       {/* Profile */}
       <div className="w-full flex flex-col">
         {/* Information */}
-        {!isLoadingUser && !!user && user.isDoctor ? (
-          <div className="flex gap-10 bg-white w-full h-full border-b p-10">
-            {/* <img className="w-1/3 bg-gray-100" /> */}
+        {!loadingCurrentUser &&
+        !!currentUser &&
+        currentUser.isDoctor &&
+        !editProfile ? (
+          <div className="md:flex md:justify-center md:gap-10 bg-white w-full h-full border-b p-10">
+            <div className="flex justify-center">
+              <img
+                src={currentUser.profileImage}
+                className="rounded-md w-28 h-28 md:w-20 md:h-20 bg-gray-100"
+                alt="Profile image"
+              />
+            </div>
             <div className="flex flex-col w-full">
               <div className="flex justify-between items-center mb-10">
                 <div className="flex flex-col gap-2">
-                  <h2 className="text-4xl font-bold">{user.name}</h2>
-                  <span>{user.specialty}</span>
+                  <h2 className="text-2xl lg:text-4xl font-bold">
+                    {user.name}
+                  </h2>
+                  <span className="text-xs md:text-lg">
+                    {currentUser.specialty}
+                  </span>
                 </div>
-                <button className="bg-[#00786A] text-center text-white px-6 py-2 hover:scale-105 transition-all rounded-md">
+                <button
+                  onClick={() => {
+                    setEditProfile(true);
+                  }}
+                  className="bg-[#00786A] text-center text-white px-2 lg:px-6 py-2 hover:scale-105 transition-all rounded-md"
+                >
                   Edit profile
                 </button>
               </div>
-              <div className="grid grid-cols-2 gap-12">
-                <div className="flex flex-col col-span-1">
-                  <span>Description</span>
-                  <span>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Quasi placeat possimus, ex vitae eius ea quidem numquam quo
-                    sequi tempora? Lorem, ipsum dolor sit amet consectetur
-                    adipisicing elit. Tenetur, enim!
-                  </span>
+              <div className="flex flex-col gap-12 justify-center lg:grid lg:grid-cols-2">
+                <div className="flex flex-col gap-4 lg:col-span-1">
+                  <div className="flex flex-col gap-2">
+                    <span className="font-bold">Description</span>
+                    <span className="text-[#646464]">
+                      {currentUser.description}
+                    </span>
+                  </div>
+                  <div className="flex gap-6">
+                    <span className="font-bold">Cost:</span>
+                    <span className="text-[#646464]">${currentUser.cost}</span>
+                  </div>
                 </div>
-                <div className="flex flex-col col-span-1 justify-evenly">
+                <div className="flex flex-col lg:col-span-1 gap-8">
                   <div className="flex gap-8">
-                    <span>Email:</span>
-                    <span>{user.email}</span>
+                    <span className="font-bold">Email:</span>
+                    <span className="text-[#646464]">{currentUser.email}</span>
                   </div>
                   <div className="flex gap-8">
-                    <span>Address:</span>
-                    <span>{user.address}</span>
+                    <span className="font-bold">Address:</span>
+                    <span className="text-[#646464]">
+                      {currentUser.address}
+                    </span>
                   </div>
                   <div className="flex gap-8">
-                    <span>Phone Number:</span>
-                    <span>{user.phoneNumber}</span>
+                    <span className="font-bold">Phone Number:</span>
+                    <span className="text-[#646464]">
+                      {currentUser.phoneNumber}
+                    </span>
                   </div>
                   <div className="flex gap-8">
-                    <span>Degree:</span>
-                    <span>Universidad Metropolitana</span>
+                    <span className="font-bold">Degree:</span>
+                    <a
+                      href={currentUser.collegeDegree}
+                      className="text-[#646464] underline"
+                      target="_blank"
+                    >
+                      degree.pdf
+                    </a>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        ) : !loadingCurrentUser &&
+          !!currentUser &&
+          currentUser.isDoctor &&
+          editProfile ? (
+          <EditDoctorProfile
+            user={currentUser}
+            setEditProfile={setEditProfile}
+          />
         ) : (
           <div className="flex gap-10 bg-white w-full h-full border-b p-10">
             {/* <img className="w-1/3 bg-gray-100" /> */}
@@ -107,18 +169,20 @@ export function DoctorProfile() {
 
         {/* Appointments */}
         <div className="flex gap-10 bg-white w-full h-full border-b p-10">
-          <div className="flex flex-col w-full h-full">
+          <div className="flex flex-col w-full">
             <div className="flex justify-between items-center mb-8">
-              <h2 className="text-3xl font-bold">My appointments</h2>
-              <button className="bg-[#00786A] text-center text-white px-6 py-2 hover:scale-105 transition-all rounded-md">
+              <h2 className="text-1xl lg:text-3xl font-bold">
+                My appointments
+              </h2>
+              <button className="bg-[#00786A] text-center text-white px-2 lg:px-6 py-2 hover:scale-105 transition-all rounded-md">
                 View all
               </button>
             </div>
 
-            <div className="flex h-full gap-10">
-              <div className="flex flex-col w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
+            <div className="flex flex-col lg:flex-row h-full gap-10">
+              <div className="flex flex-col lg:w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
                 <div className="flex h-1/2 p-3 gap-4 items-center justify-start">
-                  {/* <img className="w-1/5 h-full bg-gray-100" /> */}
+                  <img className="w-12 h-12 bg-gray-100" />
                   <span>Patient 1</span>
                 </div>
                 <div className="flex h-1/2 bg-gray-100 p-4 items-center justify-between">
@@ -126,9 +190,9 @@ export function DoctorProfile() {
                   <span>11:00-12:00m</span>
                 </div>
               </div>
-              <div className="flex flex-col w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
+              <div className="flex flex-col lg:w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
                 <div className="flex h-1/2 p-3 gap-4 items-center justify-start">
-                  {/* <img className="w-1/5 h-full bg-gray-100" /> */}
+                  <img className="w-12 h-12 bg-gray-100" />
                   <span>Patient 2</span>
                 </div>
                 <div className="flex h-1/2 bg-gray-100 p-4 items-center justify-between">
@@ -136,9 +200,9 @@ export function DoctorProfile() {
                   <span>11:00-12:00m</span>
                 </div>
               </div>
-              <div className="flex flex-col w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
+              <div className="flex flex-col lg:w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
                 <div className="flex h-1/2 p-3 gap-4 items-center justify-start">
-                  {/* <img className="w-1/5 h-full bg-gray-100" /> */}
+                  <img className="w-12 h-12 bg-gray-100" />
                   <span>Patient 3</span>
                 </div>
                 <div className="flex h-1/2 bg-gray-100 p-4 items-center justify-between">
@@ -154,16 +218,39 @@ export function DoctorProfile() {
         <div className="flex gap-10 bg-white w-full h-full border-b p-10">
           <div className="flex flex-col w-full">
             <div className="flex justify-between items-center mb-8">
-              <h2 className="text-3xl font-bold">My calendar</h2>
-              <button className="bg-[#00786A] text-center text-white px-6 py-2 hover:scale-105 transition-all rounded-md">
+              <h2 className="text-1xl lg:text-3xl font-bold">My feedbacks</h2>
+              <button className="bg-[#00786A] text-center text-white px-2 lg:px-6 py-2 hover:scale-105 transition-all rounded-md">
+                View feedbacks
+              </button>
+            </div>
+
+            <div className="flex flex-col lg:flex-row h-full gap-10">
+              <div className="flex flex-col lg:w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
+                <div className="flex h-1/2 p-3 gap-4 items-center justify-start">
+                  <img className="w-12 h-12 bg-gray-100" />
+                  <span>Patient 1</span>
+                </div>
+                <div className="flex h-1/2 bg-gray-100 p-4 items-center justify-between">
+                  <span>15 may</span>
+                  <span>11:00-12:00m</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex gap-10 bg-white w-full h-full border-b p-10">
+          <div className="flex flex-col w-full">
+            <div className="flex justify-between items-center mb-8">
+              <h2 className="text-1xl lg:text-3xl font-bold">My calendar</h2>
+              <button className="bg-[#00786A] text-center text-white px-2 lg:px-6 py-2 hover:scale-105 transition-all rounded-md">
                 Edit calendar
               </button>
             </div>
 
-            <div className="flex h-full gap-10">
-              <div className="flex flex-col w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
+            <div className="flex flex-col lg:flex-row h-full gap-10">
+              <div className="flex flex-col lg:w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
                 <div className="flex h-1/2 p-3 gap-4 items-center justify-start">
-                  {/* <img className="w-1/5 h-full bg-gray-100" /> */}
+                  <img className="w-12 h-12 bg-gray-100" />
                   <span>Patient 1</span>
                 </div>
                 <div className="flex h-1/2 bg-gray-100 p-4 items-center justify-between">

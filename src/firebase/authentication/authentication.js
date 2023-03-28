@@ -22,18 +22,11 @@ export const signInWithGoogle = async ({ onSuccess, onFail }) => {
     try {
         const res = await signInWithPopup(auth, googleProvider);
         const user = res.user;
-        // console.log(user);
         const q = query(collection(db, "users"), where("uid", "==", user.uid));
         const docs = await getDocs(q);
         {docs.docs.length === 0 ? onFail() : onSuccess()};
-        // if (docs.docs.length === 0) {
-        //     onFail();
-        // } else {
-        //     onSuccess();
-        // }
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 };
 
@@ -45,18 +38,7 @@ export const signUpWithGoogle = async ({ isDoctor, onSuccess }) => {
         const q = query(collection(db, "users"), where("uid", "==", user.uid));
         const docs = await getDocs(q);
         if (docs.docs.length === 0) {
-            if (!isDoctor) {
-                await setDoc(doc(db, "users", user.uid), {
-                    uid: user.uid,
-                    name: user.displayName,
-                    phoneNumber: user.phoneNumber,
-                    authProvider: "google",
-                    isDoctor: false,
-                    email: user.email,
-                });
-            } else {
-                return user;
-            }
+            return user;
         }
 
         if (onSuccess) {
@@ -64,9 +46,56 @@ export const signUpWithGoogle = async ({ isDoctor, onSuccess }) => {
         }
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 };
+
+export const createDoctorGoogleUser = async ({name, email, uid, phoneNumber, address, specialty, description, profileImage, collegeDegree, cost, isDoctor, onSuccess}) => {
+    try {
+        await setDoc(doc(db, "users", uid), {
+            uid: uid,
+            name: name,
+            profileImage: profileImage,
+            authProvider: "google",
+            isDoctor: isDoctor,
+            email: email,
+            phoneNumber: phoneNumber,
+            address: address,
+            specialty: specialty,
+            description: description,
+            collegeDegree: collegeDegree,
+            cost: cost,
+            busySchedule: [],
+        })
+
+        if (onSuccess){
+            onSuccess();
+        }
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export const createPatientGoogleUser = async ({name, email, uid, phoneNumber, gender, birthdate, profileImage, isDoctor, onSuccess}) => {
+    try {
+        await setDoc(doc(db, "users", uid), {
+            uid: uid,
+            name: name,
+            profileImage: profileImage,
+            authProvider: "google",
+            isDoctor: isDoctor,
+            email: email,
+            phoneNumber: phoneNumber,
+            gender: gender,
+            birthdate: birthdate,
+        })
+
+        if (onSuccess){
+            onSuccess();
+        }
+    } catch (err) {
+        console.log(err);
+    }
+}
 
 export const logInWithEmailAndPassword = async ({ email, password, onSuccess }) => {
     try {
@@ -77,11 +106,15 @@ export const logInWithEmailAndPassword = async ({ email, password, onSuccess }) 
         }
     } catch (err) {
         console.error(err);
-        alert(err.message);
+        if (err.toString().includes("password")) {
+            alert("Wrong password")
+        } else {
+            alert("Wrong email")
+        }
     }
 };
 
-export const registerWithEmailAndPasswordDoctor = async ({ name, email, password, phoneNumber, address, specialty, isDoctor, onSuccess }) => {
+export const registerWithEmailAndPasswordDoctor = async ({ name, email, password, phoneNumber, address, specialty, description, profileImage, collegeDegree, cost, isDoctor, onSuccess }) => {
     try {
         const res = await createUserWithEmailAndPassword(auth, email, password);
         const user = res.user;
@@ -93,7 +126,12 @@ export const registerWithEmailAndPasswordDoctor = async ({ name, email, password
             phoneNumber,
             address,
             specialty,
-            isDoctor
+            description,
+            profileImage,
+            collegeDegree,
+            cost,
+            isDoctor,
+            busySchedule: [],
         });
 
         if (onSuccess) {
@@ -101,11 +139,10 @@ export const registerWithEmailAndPasswordDoctor = async ({ name, email, password
         }
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 };
 
-export const registerWithEmailAndPasswordPatient = async ({ name, email, password, phoneNumber, isDoctor, onSuccess }) => {
+export const registerWithEmailAndPasswordPatient = async ({ name, email, password, phoneNumber, gender, birthdate, profileImage, isDoctor, onSuccess }) => {
     try {
         const res = await createUserWithEmailAndPassword(auth, email, password);
         const user = res.user;
@@ -115,6 +152,9 @@ export const registerWithEmailAndPasswordPatient = async ({ name, email, passwor
             authProvider: "local",
             email,
             phoneNumber,
+            gender,
+            birthdate,
+            profileImage,
             isDoctor
         });
 
@@ -123,7 +163,6 @@ export const registerWithEmailAndPasswordPatient = async ({ name, email, passwor
         }
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 };
 
@@ -133,7 +172,6 @@ export const sendPasswordReset = async (email) => {
         alert("Password reset link sent!");
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 };
 

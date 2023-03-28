@@ -6,17 +6,41 @@ import {
   getUserById,
   getUserProfile,
 } from "../../firebase/users";
+import { format } from "date-fns";
 
 export default function AppointmentCard({ appointmentId }) {
   const { user, isLoadingUser } = useUserContext();
+  const [paid, setPaid] = useState(false);
   const [doctorUser, setDoctorUser] = useState({});
+  let [currentMonth, setCurrentMonth] = useState("");
+  let [currentHour, setCurrentHour] = useState("");
 
   const getAppointment = async () => {
-    const appointment = await getAppointmentId(appointmentId);
-    console.log(appointment.date.toDate());
-    const doctor = await getUserById(appointment.doctorId);
-    setDoctorUser({ name: doctor.name, image: doctor.profileImage });
+    const result = await getAppointmentId(appointmentId);
+    const doctor = await getUserById(result.doctorId);
+    setDoctorUser({
+      name: doctor.name,
+      image: doctor.profileImage,
+      cost: doctor.cost,
+    });
+    setCurrentMonth(format(result.date.toDate(), "dd MMM yyyy"));
+    setCurrentHour(format(result.date.toDate(), "hh:mm"));
+    let finalHour = convertHour(currentHour);
+    finalHour = finalHour.toString();
+    setCurrentHour(format(result.date.toDate(), `hh:mm-${finalHour}:mm`));
   };
+
+  const convertHour = (currentHour) => {
+    const hour = parseInt(currentHour.toString());
+    const newHour = hour + 1;
+    return newHour;
+  };
+
+  useEffect(() => {
+    if (!isLoadingUser) {
+      getAppointment();
+    }
+  }, [currentHour, currentMonth]);
 
   return (
     <div>
@@ -27,8 +51,8 @@ export default function AppointmentCard({ appointmentId }) {
             <span>{doctorUser.name}</span>
           </div>
           <div className="flex h-1/2 bg-gray-100 p-4 items-center justify-between">
-            <span>15 may</span>
-            <span>11:00-12:00m</span>
+            <span>{currentMonth}</span>
+            <span>{currentHour}</span>
           </div>
           <div className="p-6">
             <PayPalScriptProvider
@@ -38,13 +62,14 @@ export default function AppointmentCard({ appointmentId }) {
               }}
             >
               <PayPalButtons
-                style={{ layout: "horizontal" }}
+                style={{ layout: "horizontal", tagline: false }}
                 createOrder={(data, actions) => {
                   return actions.order.create({
                     purchase_units: [
                       {
                         amount: {
-                          value: "13.99",
+                          currency_code: "USD",
+                          value: "10",
                         },
                       },
                     ],

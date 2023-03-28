@@ -11,6 +11,7 @@ import {
   RegisterPatientUrl,
   ChatPageUrl,
   SchedulePageUrl,
+  FeedbackUrl,
 } from "./constants/urls";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { LandingPage } from "./pages/LandingPage/LandingPage";
@@ -28,6 +29,7 @@ import { DoctorProfile } from "./pages/ProfilePage/DoctorProfile";
 import { PatientProfile } from "./pages/ProfilePage/PatientProfile";
 import { SchedulePage } from "./pages/SchedulePage/SchedulePage";
 import { Layout } from "./pages/Layout/Layout";
+import { FeedbackPage } from "./pages/FeedbackPage";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -49,6 +51,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               <Route path={PatientProfileUrl} element={<PatientProfile />} />
               <Route path={SearchPageurl} element={<SearchPage />} />
               <Route path={SchedulePageUrl} element={<SchedulePage />} />
+              <Route path={FeedbackUrl} element={<FeedbackPage />} />
               {/* </Route> */}
             </Routes>
           </BrowserRouter>

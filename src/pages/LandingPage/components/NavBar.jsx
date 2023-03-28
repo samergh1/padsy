@@ -82,8 +82,9 @@ export function NavBar() {
         {/* Menu Options */}
 
         <div className="hidden lg:flex lg:gap-x-12">
-          {menuOptions.map((option) => (
+          {menuOptions.map((option, id) => (
             <a
+              id={id}
               href={option.href}
               className="text-sm py-2 px-3 block rounded-lg font-semibold leading-6 text-gray-900 hover:bg-gray-50"
             >
@@ -123,7 +124,7 @@ export function NavBar() {
           <div className="hidden ml-6 lg:flex">
             <a href="login" className="ml-3 sm:block">
               <button
-                onclick="login"
+                onClick="login"
                 type="button"
                 className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               >
@@ -165,8 +166,9 @@ export function NavBar() {
               {/* Menu Options */}
 
               <div className="space-y-2 py-6">
-                {menuOptions.map((option) => (
+                {menuOptions.map((option, id) => (
                   <a
+                    id={id}
                     href={option.href}
                     className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                   >

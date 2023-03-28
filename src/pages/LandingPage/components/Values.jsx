@@ -52,8 +52,9 @@ export function Values() {
 
         <div className="mx-auto">
           <div className="mx-auto mt-10 grid max-w-6xl grid-cols-1 gap-y-16 gap-x-8 border-t border-gray-400 pt-10 sm:mt-16 sm:pt-16 md:grid-cols-2">
-            {values.map((value) => (
-              <div className="flex items-start text-start">
+            {values.map((value, id) => (
+              <div id={id}
+                className="flex items-start text-start">
                 <div className="inline-flex items-center rounded-md border border-transparent bg-[#00786a] px-2 py-2 text-sm font-medium">
                   <value.icon
                     className="h-6 w-6 text-white"

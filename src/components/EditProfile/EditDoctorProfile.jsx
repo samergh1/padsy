@@ -190,8 +190,8 @@ export function EditDoctorProfile({ user, setEditProfile }) {
             value={newUser.specialty}
             className="relative block w-full mt-1 rounded-md border border-gray-300 px-2 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
           >
-            {options.map((option) => (
-              <option>{option.label}</option>
+            {options.map((option, id) => (
+              <option id={id}>{option.label}</option>
             ))}
           </select>
         </div>

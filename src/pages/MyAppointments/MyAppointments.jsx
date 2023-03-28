@@ -17,10 +17,10 @@ export default function MyAppointments() {
           {isLoadingUser ? (
             <Loading />
           ) : user.appointments.length > 0 ? (
-            user.appointments.map((appointment) => (
+            user.appointments.map((appointment, id) => (
               <AppointmentCard
                 appointmentId={appointment}
-                // key={appointmentId}
+              // key={appointmentId}
               />
             ))
           ) : (

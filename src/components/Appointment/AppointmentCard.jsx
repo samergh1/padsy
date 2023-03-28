@@ -106,7 +106,7 @@ export default function AppointmentCard({ appointmentId }) {
   }, [currentHour, currentMonth]);
 
   return (
-    <div>
+    <div id={appointmentId}>
       {!isLoadingUser && !!user && !user.isDoctor ? (
         <div className="w-full">
           <div className="flex flex-col rounded-md border shadow-md">

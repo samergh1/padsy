@@ -5,12 +5,14 @@ import {
   getAppointmentId,
   getUserById,
   getUserProfile,
+  updateAppointment,
 } from "../../firebase/users";
 import { format } from "date-fns";
 
 export default function AppointmentCard({ appointmentId }) {
   const { user, isLoadingUser } = useUserContext();
   const [paid, setPaid] = useState(false);
+  const [appointment, setAppointment] = useState({});
   const [doctorUser, setDoctorUser] = useState({});
   const [patientUser, setPatientUser] = useState({});
   let [currentMonth, setCurrentMonth] = useState("");
@@ -20,6 +22,9 @@ export default function AppointmentCard({ appointmentId }) {
     const result = await getAppointmentId(appointmentId);
     const doctor = await getUserById(result.doctorId);
     const patient = await getUserById(result.patientId);
+    setAppointment({
+      payed: result.payed,
+    });
     setDoctorUser({
       name: doctor.name,
       image: doctor.profileImage,
@@ -56,7 +61,7 @@ export default function AppointmentCard({ appointmentId }) {
             description: "Payment",
             amount: {
               currency_code: "USD",
-              value: parseFloat(doctorUser.cost),
+              value: 20,
             },
           },
         ],
@@ -73,19 +78,23 @@ export default function AppointmentCard({ appointmentId }) {
       const { payer } = details;
       setSuccess(true);
       setPaid(true);
+      updateAppointment(appointmentId, {
+        payed: true,
+      });
     });
   };
 
   //capture likely error
   const onError = (data, actions) => {
     setErrorMessage("An Error occured with your payment ");
+    console.log(ErrorMessage);
   };
 
-  // useEffect(() => {
-  //   if (success) {
-  //     alert("Payment successful!");
-  //   }
-  // }, [success]);
+  useEffect(() => {
+    if (success) {
+      alert("Payment successful!");
+    }
+  }, [success]);
 
   useEffect(() => {
     if (!isLoadingUser) {
@@ -106,7 +115,7 @@ export default function AppointmentCard({ appointmentId }) {
               <span>{currentMonth}</span>
               <span>{currentHour}</span>
             </div>
-            {!paid ? (
+            {!appointment.payed ? (
               <div className="p-6">
                 <PayPalScriptProvider
                   options={{

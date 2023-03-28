@@ -46,6 +46,11 @@ export async function updateUser(userId, data) {
   return updateDoc(userRef, data);
 }
 
+export async function updateAppointment(appointmentId, data) {
+  const appointmentRef = doc(db, "appointments", appointmentId);
+  return updateDoc(appointmentRef, data);
+}
+
 export async function getUsersDoctors() {
   const userDoctorQuery = query(
     collection(db, USERS_COLLECTION),

@@ -1,5 +1,6 @@
 import React from "react";
 import AppointmentCard from "../../components/Appointment/AppointmentCard";
+import { Loading } from "../../components/Loading";
 import { Navbar } from "../../components/Navbar";
 import { useUserContext } from "../../context/userContext";
 
@@ -14,7 +15,7 @@ export default function MyAppointments() {
       <div className="w-full p-8">
         <div className="flex flex-col lg:grid lg:grid-cols-3 gap-6">
           {isLoadingUser ? (
-            <h1>Loading...</h1>
+            <Loading />
           ) : (
             user.appointments.map((appointment) => (
               <AppointmentCard

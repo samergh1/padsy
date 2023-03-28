@@ -6,6 +6,7 @@ import { Navbar } from "../../components/Navbar";
 import { useUserContext } from "../../context/userContext";
 import { doc, onSnapshot, query } from "@firebase/firestore";
 import { db } from "../../firebase/config";
+import { Loading } from "../../components/Loading";
 
 export function PatientProfile() {
   const { user } = useUserContext();
@@ -99,7 +100,7 @@ export function PatientProfile() {
           />
         ) : (
           <span className="flex justify-center items-center">
-            LOADING USER...
+            <Loading />
           </span>
         )}
 

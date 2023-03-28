@@ -11,6 +11,7 @@ import {
   RegisterPatientUrl,
   ChatPageUrl,
   SchedulePageUrl,
+  AppointmentsUrl,
 } from "./constants/urls";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { LandingPage } from "./pages/LandingPage/LandingPage";
@@ -30,62 +31,80 @@ import { SchedulePage } from "./pages/SchedulePage/SchedulePage";
 import { NotFoundPage } from "./pages/NotFoundPage/NotFoundPage";
 import { PrivateRoute } from "./components/PrivateRoute/PrivateRoute";
 import { Layout } from "./pages/Layout/Layout";
+import MyAppointments from "./pages/MyAppointments/MyAppointments";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     {/* <AuthProvider> */}
     <UserContextProvider>
       <ChatsProvider>
-        <BrowserRouter>
-          <Routes>
-            {/* <Route path={HomePageUrl} element={<HomePage />} /> */}
-            <Route path={LandingPageUrl} element={<LandingPage />} />
-            <Route path={RegisterPageUrl} element={<RegisterPage />} />
-            <Route path={LoginPageUrl} element={<LoginPage />} />
-            <Route path={RegisterDoctorUrl} element={<DoctorRegister />} />
-            <Route path={RegisterPatientUrl} element={<PatientRegister />} />
-            <Route path="*" element={<NotFoundPage />} />
+        <SearchContextProvider>
+          <BrowserRouter>
+            <Routes>
+              {/* <Route path={HomePageUrl} element={<HomePage />} /> */}
+              <Route path={LandingPageUrl} element={<LandingPage />} />
+              <Route path={RegisterPageUrl} element={<RegisterPage />} />
+              <Route path={LoginPageUrl} element={<LoginPage />} />
+              <Route path={RegisterDoctorUrl} element={<DoctorRegister />} />
+              <Route path={RegisterPatientUrl} element={<PatientRegister />} />
+              <Route path="*" element={<NotFoundPage />} />
 
-            <Route
-              path={ChatPageUrl}
-              element={
-                <PrivateRoute>
-                  <ChatPage />
-                </PrivateRoute>
-              }
-            />
+              <Route
+                path={ChatPageUrl}
+                element={
+                  <PrivateRoute>
+                    <ChatPage />
+                  </PrivateRoute>
+                }
+              />
 
-            <Route
-              path={DoctorProfileUrl()}
-              element={
-                <PrivateRoute>
-                  <DoctorProfile />
-                </PrivateRoute>
-              }
-            />
+              <Route
+                path={DoctorProfileUrl()}
+                element={
+                  <PrivateRoute>
+                    <DoctorProfile />
+                  </PrivateRoute>
+                }
+              />
 
-            <Route path={PatientProfileUrl()} element={<PatientProfile />} />
-            <Route
-              path={SearchPageurl}
-              element={
-                <PrivateRoute>
-                  <SearchContextProvider>
+              <Route
+                path={PatientProfileUrl()}
+                element={
+                  <PrivateRoute>
+                    <PatientProfile />
+                  </PrivateRoute>
+                }
+              />
+
+              <Route
+                path={SearchPageurl}
+                element={
+                  <PrivateRoute>
                     <SearchPage />
-                  </SearchContextProvider>
-                </PrivateRoute>
-              }
-            />
+                  </PrivateRoute>
+                }
+              />
 
-            <Route
-              path={SchedulePageUrl}
-              element={
-                <PrivateRoute>
-                  <SchedulePage />
-                </PrivateRoute>
-              }
-            />
-          </Routes>
-        </BrowserRouter>
+              <Route
+                path={SchedulePageUrl}
+                element={
+                  <PrivateRoute>
+                    <SchedulePage />
+                  </PrivateRoute>
+                }
+              />
+
+              <Route
+                path={AppointmentsUrl}
+                element={
+                  <PrivateRoute>
+                    <MyAppointments />
+                  </PrivateRoute>
+                }
+              />
+            </Routes>
+          </BrowserRouter>
+        </SearchContextProvider>
       </ChatsProvider>
     </UserContextProvider>
     {/* </AuthProvider> */}

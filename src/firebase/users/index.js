@@ -12,14 +12,23 @@ import {
 import { db } from "../config";
 
 export const USERS_COLLECTION = "users";
+export const APPOINTMENT_COLLECTION = "appointments";
 
 export async function getUserById(userId) {
-  const userRef = doc(db, USERS_COLLECTION, userId);
-  const user = await getDoc(userRef);
-  return ({
-    ...user.data(),
-    id: user.id,
-  });
+  const userQuery = query(
+    collection(db, USERS_COLLECTION),
+    where("uid", "==", userId)
+  );
+
+  const results = await getDocs(userQuery);
+
+  if (results.size > 0) {
+    const [user] = results.docs.map((item) => ({
+      ...item.data(),
+      id: item.id,
+    }));
+    return user;
+  }
 }
 
 export async function createUser(data) {
@@ -36,7 +45,6 @@ export async function updateUser(userId, data) {
   const userRef = doc(db, USERS_COLLECTION, userId);
   return updateDoc(userRef, data);
 }
-
 
 export async function getUsersDoctors() {
   const userDoctorQuery = query(
@@ -72,4 +80,10 @@ export async function getUserProfile(email) {
     }));
     return user;
   }
+}
+
+export async function getAppointmentId(id) {
+  const appointmentQuery = doc(db, APPOINTMENT_COLLECTION, id)
+  const results = await getDoc(appointmentQuery);
+  return results.data();
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { updateUser } from "../../../firebase/users";
+import { updateUser } from "../../firebase/users";
 
 export function EditDoctorProfile({ user, setEditProfile }) {
   const [newUser, setNewUser] = useState({ ...user });

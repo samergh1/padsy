@@ -5,6 +5,7 @@ import { DashBoardInfo } from "./DashBoardInfo";
 import { Loading } from "../../components/Loading";
 import { DashBoardFilter } from "./DashBoardFilter";
 import { FilterContext } from "../../context/FilterContext";
+import { Navbar } from "../../components/Navbar";
 
 export function SearchPage() {
   const {
@@ -23,8 +24,11 @@ export function SearchPage() {
   }
 
   return (
-    <div className="flex flex-col">
-      <div className="overflow-x-auto">
+    <div className="flex">
+      <div>
+        <Navbar></Navbar>
+      </div>
+      <div className="grow overflow-x-auto">
         <div className="flex justify-between py-3 pl-2 lg:pl-10 pr-5 ">
           <div className="pl-2 font-bold pt-2 text-x-3  lg:pl-3">
             <p>Directory Search</p>

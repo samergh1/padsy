@@ -105,7 +105,7 @@ export function PatientProfile() {
         )}
 
         {/* Appointments */}
-        <div className="flex gap-10 bg-white w-full h-full border-b p-10">
+        {/* <div className="flex gap-10 bg-white w-full h-full border-b p-10">
           <div className="flex flex-col w-full">
             <div className="flex justify-between items-center mb-8">
               <h2 className="text-1xl lg:text-3xl font-bold">
@@ -149,7 +149,7 @@ export function PatientProfile() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

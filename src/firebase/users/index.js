@@ -29,6 +29,8 @@ export const APPOINTMENT_COLLECTION = "appointments";
     const userRef = doc(db, USERS_COLLECTION, userId);
     return updateDoc(userRef, data);
   }
+
+  
   
   // export async function getUserById(userId) {
   //   const userRef = doc(db, USERS_COLLECTION, userId);
@@ -42,6 +44,16 @@ export const APPOINTMENT_COLLECTION = "appointments";
   export async function getUserById(userId) {
     const userRef = doc(db, USERS_COLLECTION, userId);
     return getDoc(userRef);
+  }
+
+  
+  export async function getUserById2(userId) {
+    const userRef = doc(db, USERS_COLLECTION, userId);
+    const user = await getDoc(userRef)
+    return ({
+      ...user.data(),
+      id: user.id,
+    })
   }
 
   export async function getFeedBack(feedbackId) {

@@ -18,8 +18,7 @@ export async function createChat(doctorId, patientId) {
 export async function getChats(setChats) {
     const q = query(
         collection(db, CHATS_COLLECTION),
-        orderBy("lastMessageAt"),
-
+        orderBy("createdAt"),
     );
     return onSnapshot(q, (querySnapshot) => {
         const chats = [];

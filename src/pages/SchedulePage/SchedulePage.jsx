@@ -122,6 +122,7 @@ export function SchedulePage() {
                       createSchedule(day);
                     }}
                     className={classNames(
+                      isEqual(day, day) && "text-green",
                       isEqual(day, selectedDay) && "text-white",
                       !isEqual(day, selectedDay) &&
                         isToday(day) &&

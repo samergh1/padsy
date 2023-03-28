@@ -4,19 +4,6 @@ import { getUsersDoctors } from "../firebase/users";
 export const SearchContext = React.createContext();
 
 export function SearchContextProvider({ children }) {
-  const [open, setOpen] = useState(false);
-  const [selectedDoctor, setSelectedDoctor] = useState({});
-  const [loading, setIsLoading] = useState(true);
-  const [list, setList] = useState([]);
-  const [filterList, setFilterList] = useState([]);
-
-  const getDoctors = async () => {
-    const data = await getUsersDoctors();
-    setList(data);
-    setIsLoading(false);
-    setFilterList(data);
-  };
-
   const searchFilterFunction = (text) => {
     if (text) {
       const newList = list.filter((user) => {
@@ -29,10 +16,6 @@ export function SearchContextProvider({ children }) {
       setFilterList(list);
     }
   };
-
-  useEffect(() => {
-    getDoctors();
-  }, []);
 
   return (
     <SearchContext.Provider
@@ -49,6 +32,8 @@ export function SearchContextProvider({ children }) {
         setFilterList,
         searchFilterFunction,
         getDoctors,
+        openFilter,
+        setOpenFilter,
       }}
     >
       {children}

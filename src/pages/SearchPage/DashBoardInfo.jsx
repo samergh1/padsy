@@ -1,10 +1,9 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
 import { DoctorInfo } from "./DoctorInfo";
 
-export function DashBoard({
+export function DashBoardInfo({
   open,
   setOpen,
   selectedDoctor,
@@ -61,7 +60,7 @@ export function DashBoard({
                       </button>
                     </div>
                   </Transition.Child>
-                  <div className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
+                  <div className="flex h-full flex-col overflow-y-scroll bg-gray-300 py-6 shadow-xl">
                     <div className="px-4 sm:px-6">
                       <Dialog.Title className="text-base font-semibold leading-6 text-gray-900 text-center">
                         Doctor Details
@@ -69,7 +68,6 @@ export function DashBoard({
                     </div>
                     <div className="relative mt-6 flex-1 px-4 sm:px-6">
                       {/* Your content */}
-                      {/* primera parte es la foto */}
                       <DoctorInfo selectedDoctor={selectedDoctor}></DoctorInfo>
                     </div>
                   </div>

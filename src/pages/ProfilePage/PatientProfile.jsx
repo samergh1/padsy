@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar } from "../../components/Navbar/Navbar";
+import { Navbar } from "../../components/Navbar";
 import { useUserContext } from "../../context/userContext";
 
 export function PatientProfile() {
@@ -8,16 +8,15 @@ export function PatientProfile() {
   return (
     <div className="flex bg-white h-full w-full">
       {/* Sidebar */}
-      <div className="w-1/6 bg-gray-300">
-        <Navbar></Navbar>
-      </div>
+      {/* <div className="w-1/6 bg-gray-300"></div> */}
+      <Navbar></Navbar>
 
       {/* Profile */}
       <div className="w-full flex flex-col">
         {/* Information */}
         {!isLoadingUser && !!user && !user.isDoctor ? (
           <div className="flex gap-10 bg-white w-full h-full border-b p-10">
-            <img className="w-1/3 bg-gray-100" alt="Profile image" />
+            {/* <img className="w-1/3 bg-gray-100" alt="Profile image" /> */}
             <div className="flex flex-col w-full">
               <div className="flex justify-between items-center mb-16">
                 <h2 className="text-4xl font-bold">{user.name}</h2>
@@ -47,7 +46,7 @@ export function PatientProfile() {
           </div>
         ) : (
           <div className="flex gap-10 bg-white w-full h-full border-b p-10">
-            <img className="w-1/3 bg-gray-100" />
+            {/* <img className="w-1/3 bg-gray-100" /> */}
             <div className="flex flex-col w-full">
               <div className="flex justify-between items-center mb-16">
                 <h2 className="text-4xl font-bold">Username</h2>
@@ -90,7 +89,7 @@ export function PatientProfile() {
             <div className="flex h-full gap-10">
               <div className="flex flex-col w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
                 <div className="flex h-1/2 p-3 gap-4 items-center justify-start">
-                  <img className="w-1/5 h-full bg-gray-100" />
+                  {/* <img className="w-1/5 h-full bg-gray-100" /> */}
                   <span>Dr. Daniel Rojas</span>
                 </div>
                 <div className="flex h-1/2 bg-gray-100 p-4 items-center justify-between">
@@ -100,7 +99,7 @@ export function PatientProfile() {
               </div>
               <div className="flex flex-col w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
                 <div className="flex h-1/2 p-3 gap-4 items-center justify-start">
-                  <img className="w-1/5 h-full bg-gray-100" />
+                  {/* <img className="w-1/5 h-full bg-gray-100" /> */}
                   <span>Dr. Daniel Rojas</span>
                 </div>
                 <div className="flex h-1/2 bg-gray-100 p-4 items-center justify-between">
@@ -110,7 +109,7 @@ export function PatientProfile() {
               </div>
               <div className="flex flex-col w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
                 <div className="flex h-1/2 p-3 gap-4 items-center justify-start">
-                  <img className="w-1/5 h-full bg-gray-100" />
+                  {/* <img className="w-1/5 h-full bg-gray-100" /> */}
                   <span>Dr. Daniel Rojas</span>
                 </div>
                 <div className="flex h-1/2 bg-gray-100 p-4 items-center justify-between">

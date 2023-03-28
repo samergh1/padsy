@@ -97,10 +97,15 @@ export function NavBar() {
         {/* User Name */}
         {!isLoadingUser && !!user ? (
           <div className="flex items-center ml-8">
-            <span className="mr-8 cursor-pointer" onClick={handleProfile}>
+            <span
+              className="mr-8 cursor-pointer text-sm py-2 px-3 block rounded-lg font-semibold leading-6 text-gray-900 hover:bg-gray-50"
+              onClick={handleProfile}
+            >
               Profile
             </span>
-            <span className="text-black mr-5">{user.name}</span>
+            <span className="text-[#00786a] mr-5 text-sm py-2 px-3 block rounded-lg font-bold leading-6">
+              {user.name}
+            </span>
 
             {/* Logout */}
             <div>

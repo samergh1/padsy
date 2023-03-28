@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   add,
   eachDayOfInterval,
@@ -13,35 +13,22 @@ import {
   parseISO,
   startOfToday,
 } from "date-fns";
-import { Fragment, useState } from "react";
-import { Menu, Transition } from "@headlessui/react";
-// import {
-//   ChevronLeftIcon,
-//   ChevronRightIcon,
-//   ChevronDownIcon,
-// } from "@heroicons/react/solid";
+import { useState } from "react";
+import { UilAngleLeft, UilAngleRight } from "@iconscout/react-unicons";
 import { useSchedule } from "../../hooks/useSchedule";
-import setYear from "date-fns/fp/setYear";
-
-// let hours = () => createSchedule();
-// const Hours = [
-//   { title: "9:00am - 10:00am" },
-//   { title: "10:00am - 11:00am" },
-//   { title: "11:00am - 12:00m" },
-//   { title: "2:00pm - 3:00pm" },
-//   { title: "3:00pm - 4:00pm" },
-//   { title: "3:00pm - 4:00pm" },
-//   { title: "3:00pm - 4:00pm" },
-//   { title: "4:00pm - 5:00pm" },
-//   { title: "5:00pm - 6:00pm" },
-// ];
+import { Navbar } from "../../components/Navbar";
+import { Appointment } from "../../components/Appointment";
+import { useUserContext } from "../../context/userContext";
+import { FilterContext } from "../../context/FilterContext";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export function SchedulePage() {
-  const { hours, createSchedule, busySchedule } = useSchedule();
+  const { hours, createSchedule } = useSchedule();
+  const { user, isLoadingUser } = useUserContext();
+  const { selectedDoctor } = useContext(FilterContext);
   let today = startOfToday();
   let [selectedDay, setSelectedDay] = useState(today);
   let [selectedTime, setSelectedTime] = useState(
@@ -57,7 +44,7 @@ export function SchedulePage() {
   useEffect(() => {
     createSchedule(selectedDay);
   }, [createSchedule]);
-
+  let [showModal, setShowModal] = useState(false);
   let [currentMonth, setCurrentMonth] = useState(format(today, "MMM-yyyy"));
   let firstDayCurrentMonth = parse(currentMonth, "MMM-yyyy", new Date());
   // console.log(selectedTime);
@@ -80,8 +67,11 @@ export function SchedulePage() {
     isSameDay(parseISO(meeting.startDatetime), selectedDay)
   ) */
   return (
-    <div className="pt-16">
-      <div className="max-w-md px-4 mx-auto sm:px-7 md:max-w-4xl md:px-6">
+    <div className="flex">
+      <div>
+        <Navbar></Navbar>
+      </div>
+      <div className=" pt-16 max-w-md px-4 mx-auto sm:px-7 md:max-w-4xl md:px-6">
         <div className="md:grid md:grid-cols-2 md:divide-x md:divide-gray-200">
           <div className="md:pr-14">
             <div className="flex items-center">
@@ -94,7 +84,7 @@ export function SchedulePage() {
                 className="-my-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
               >
                 <span className="sr-only">Previous month</span>
-                {/* <ChevronLeftIcon className="w-5 h-5" aria-hidden="true" /> */}
+                <UilAngleLeft className="w-5 h-5" aria-hidden="true" />
               </button>
               <button
                 onClick={nextMonth}
@@ -102,7 +92,7 @@ export function SchedulePage() {
                 className="-my-1.5 -mr-1.5 ml-2 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
               >
                 <span className="sr-only">Next month</span>
-                {/* <ChevronRightIcon className="w-5 h-5" aria-hidden="true" /> */}
+                <UilAngleRight className="w-5 h-5" aria-hidden="true" />
               </button>
             </div>
             <div className="grid grid-cols-7 mt-10 text-xs leading-6 text-center text-gray-500">
@@ -133,23 +123,23 @@ export function SchedulePage() {
                     className={classNames(
                       isEqual(day, selectedDay) && "text-white",
                       !isEqual(day, selectedDay) &&
-                      isToday(day) &&
-                      "text-red-500",
+                        isToday(day) &&
+                        "text-red-500",
                       !isEqual(day, selectedDay) &&
-                      !isToday(day) &&
-                      isSameMonth(day, firstDayCurrentMonth) &&
-                      "text-gray-900",
+                        !isToday(day) &&
+                        isSameMonth(day, firstDayCurrentMonth) &&
+                        "text-gray-900",
                       !isEqual(day, selectedDay) &&
-                      !isToday(day) &&
-                      !isSameMonth(day, firstDayCurrentMonth) &&
-                      "text-gray-400",
+                        !isToday(day) &&
+                        !isSameMonth(day, firstDayCurrentMonth) &&
+                        "text-gray-400",
                       isEqual(day, selectedDay) && isToday(day) && "bg-red-500",
                       isEqual(day, selectedDay) &&
-                      !isToday(day) &&
-                      "bg-gray-900",
+                        !isToday(day) &&
+                        "bg-gray-900",
                       !isEqual(day, selectedDay) && "hover:bg-gray-200",
                       (isEqual(day, selectedDay) || isToday(day)) &&
-                      "font-semibold",
+                        "font-semibold",
                       "mx-auto flex h-8 w-8 items-center justify-center rounded-full"
                     )}
                   >
@@ -173,16 +163,17 @@ export function SchedulePage() {
                 <div key={idxHour}>
                   <button
                     onClick={() => {
+                      console.log(hour.startHour);
                       const newTime = new Date(
                         selectedDay.getFullYear(),
                         selectedDay.getMonth(),
                         selectedDay.getDate(),
-                        hour.startSchedule,
+                        hour.startHour,
                         0,
                         0
                       );
                       setSelectedTime(newTime);
-                      console.log(hour.busy);
+                      setShowModal(true);
                     }}
                     className={
                       hour.busy === true
@@ -198,6 +189,16 @@ export function SchedulePage() {
           </section>
         </div>
       </div>
+      <Appointment
+        showModal={showModal}
+        setShowModal={setShowModal}
+        date={selectedTime.toDateString()}
+        hour={selectedTime.toTimeString().split(" ")[0]}
+        user={user}
+        selectedDoctor={selectedDoctor}
+        selectedTime={selectedTime}
+      ></Appointment>
+      ;
     </div>
   );
 }

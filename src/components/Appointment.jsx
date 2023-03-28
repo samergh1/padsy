@@ -58,6 +58,7 @@ export function Appointment({
       doctorId: selectedDoctor.id,
       patientId: user.id,
       date: selectedTime,
+      payed: false,
     };
     const chat = {
       doctorId: selectedDoctor.id,

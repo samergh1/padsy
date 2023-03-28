@@ -8,3 +8,4 @@ export const RegisterPatientUrl = "/register/patient";
 export const ChatPageUrl = "/chat";
 export const DoctorProfileUrl = "/profile/doctor";
 export const PatientProfileUrl = "/profile/patient";
+export const FeedbackUrl = "/feedback";

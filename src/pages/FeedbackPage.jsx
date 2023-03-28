@@ -9,14 +9,15 @@ import {
 import { useContext, useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router";
-import { LandingPageUrl, PatientProfileUrl } from "../constants/urls";
-import { SearchContext } from "../context/SearchContext";
+import { Stars } from "../components/Stars";
+import { LandingPageUrl } from "../constants/urls";
+import { FilterContext } from "../context/FilterContext";
 import { useUserContext } from "../context/userContext";
 import { db } from "../firebase/config";
 
 export function FeedbackPage() {
   const { user, isLoadingUser } = useUserContext();
-  const { selectedDoctor } = useContext(SearchContext);
+  const { selectedDoctor } = useContext(FilterContext);
   const navigate = useNavigate();
   const [title, setTitle] = useState(" ");
   const [message, setMessage] = useState(" ");
@@ -44,6 +45,8 @@ export function FeedbackPage() {
   function timeout(delay) {
     return new Promise((res) => setTimeout(res, delay));
   }
+
+  const { rate, handleRate } = useContext(FilterContext);
 
   async function handleFeedback() {
     const data = {
@@ -114,6 +117,14 @@ export function FeedbackPage() {
                   value={message}
                   onChange={(event) => setMessage(event.target.value)}
                 />
+              </div>
+            </div>
+            <div className="sm:col-span-2">
+              <div className="block text-sm font-semibold leading-6 text-gray-900">
+                Rank your doctor!
+              </div>
+              <div className="mt-2.5">
+                <Stars rate={rate} setRate={handleRate}></Stars>
               </div>
             </div>
           </div>

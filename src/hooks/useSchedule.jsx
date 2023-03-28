@@ -1,9 +1,9 @@
 import { useCallback, useContext, useState } from "react";
 import { isEqual } from "date-fns";
-import { SearchContext } from "../context/SearchContext";
+import { FilterContext } from "../context/FilterContext";
 
 export function useSchedule() {
-  const { selectedDoctor } = useContext(SearchContext);
+  const { selectedDoctor } = useContext(FilterContext);
   const [hours, setHours] = useState([]);
   const startSchedule = 5;
   const endSchedule = 15;

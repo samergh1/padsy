@@ -1,23 +1,22 @@
 import React, { useContext } from "react";
-import { useState, useEffect } from "react";
-import { UilMessage } from "@iconscout/react-unicons";
+import { useState } from "react";
 import { Table } from "./Table";
-import { DashBoard } from "./DashBoard";
-import { getUsersDoctors } from "../../firebase/users/index";
+import { DashBoardInfo } from "./DashBoardInfo";
 import { Loading } from "../../components/Loading";
-import { SearchContext } from "../../context/SearchContext";
+import { DashBoardFilter } from "./DashBoardFilter";
+import { FilterContext } from "../../context/FilterContext";
 
 export function SearchPage() {
   const {
-    open,
-    setOpen,
+    filterDoctors,
+    setSearch,
+    loading,
+    resetSearch,
     selectedDoctor,
     setSelectedDoctor,
-    loading,
-    filterList,
-    setFilterList,
-    searchFilterFunction,
-  } = useContext(SearchContext);
+  } = useContext(FilterContext);
+  const [open, setOpen] = useState(false);
+  const [openFilter, setOpenFilter] = useState(false);
 
   if (loading) {
     return <Loading />;
@@ -33,32 +32,42 @@ export function SearchPage() {
           <div className="flex flex-row-reverse items-center gap-4 pr-2 lg:pr-6">
             <div className="flex items-center space-x-2">
               <div className="relative">
-                <button className="relative  z-0 inline-flex text-sm rounded-md shadow-sm focus:ring-accent-500 focus:border-accent-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1">
-                  <span className="relative inline-flex items-center px-3 py-3 space-x-2 text-sm font-medium text-white -600 bg-[#00786A] border border-gray-300 rounded-md sm:py-2">
+                <button
+                  onClick={() => {
+                    resetSearch();
+                  }}
+                  className="relative  z-0 inline-flex text-sm rounded-md shadow-sm focus:ring-accent-500 focus:border-accent-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1"
+                >
+                  <span className="relative inline-flex items-center px-3 py-3 space-x-2 text-sm font-medium text-black -600 bg-white border border-gray-300 rounded-md sm:py-2">
                     <div>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="w-3 h-3"
                         fill="none"
                         viewBox="0 0 24 24"
-                        stroke="currentColor"
                         strokeWidth={2}
+                        stroke="currentColor"
+                        className="w-3 h-3 lg:h-5"
                       >
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
+                          d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
                         />
                       </svg>
                     </div>
-                    <div className="hidden sm:block">Search</div>
+                    <div className="hidden sm:block">Reset</div>
                   </span>
                 </button>
               </div>
             </div>
             <div className="flex items-center space-x-2">
               <div className="relative">
-                <button className="relative  z-0 inline-flex text-sm rounded-md shadow-sm focus:ring-accent-500 focus:border-accent-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1">
+                <button
+                  onClick={() => {
+                    setOpenFilter(true);
+                  }}
+                  className="relative  z-0 inline-flex text-sm rounded-md shadow-sm focus:ring-accent-500 focus:border-accent-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1"
+                >
                   <span className="relative inline-flex items-center px-3 py-3 space-x-2 text-sm font-medium text-black -600 bg-white border border-gray-300 rounded-md sm:py-2">
                     <div>
                       <svg
@@ -76,7 +85,7 @@ export function SearchPage() {
                         />
                       </svg>
                     </div>
-                    {/* <div className="hidden sm:block">Filters</div> */}
+                    <div className="hidden sm:block">Filters</div>
                   </span>
                 </button>
               </div>
@@ -91,10 +100,10 @@ export function SearchPage() {
                 type="text"
                 name="hs-table-search"
                 id="hs-table-search"
-                className="block w-full p-3 pl-10 text-sm border-gray-200 rounded-md dark:bg-white dark:border-gray-00 dark:text-gray-700"
+                className="block border w-full p-3 pl-10 text-sm border-gray-600 rounded-md dark:bg-white dark:border-gray-00 dark:text-gray-700"
                 placeholder="Search...."
                 onChange={(e) => {
-                  searchFilterFunction(e.target.value);
+                  setSearch(e.target.value);
                 }}
               />
               {/* div de la lupa */}
@@ -115,31 +124,19 @@ export function SearchPage() {
         </div>
         <div>
           <Table
-            list={filterList}
+            list={filterDoctors}
             setOpen={setOpen}
             setSelectedDoctor={setSelectedDoctor}
           ></Table>
         </div>
       </div>
-      <DashBoard
+      <DashBoardInfo
         open={open}
         setOpen={setOpen}
         selectedDoctor={selectedDoctor}
         setSelectedDoctor={setSelectedDoctor}
       />
+      <DashBoardFilter open={openFilter} setOpen={setOpenFilter} />
     </div>
-
-    // <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-    //     <div className="flex items-center justify-between pb-4 bg-white">
-    //         <label for="table-search" className="sr-only">Search</label>
-    //         <div className="relative">
-    //             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-    //                 <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
-    //             </div>
-    //             <input type="text" id="table-search-users" className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for users"/>
-    //         </div>
-    //     </div>
-    //     <Table name="Samer" speciality='Psicologo' location='Caracas' cost="12" rating="10/10" />
-    // </div>
   );
 }

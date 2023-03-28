@@ -19,7 +19,7 @@ import { useSchedule } from "../../hooks/useSchedule";
 import { Navbar } from "../../components/Navbar";
 import { Appointment } from "../../components/Appointment";
 import { useUserContext } from "../../context/userContext";
-import { SearchContext } from "../../context/SearchContext";
+import { FilterContext } from "../../context/FilterContext";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -28,7 +28,7 @@ function classNames(...classes) {
 export function SchedulePage() {
   const { hours, createSchedule } = useSchedule();
   const { user, isLoadingUser } = useUserContext();
-  const { selectedDoctor } = useContext(SearchContext);
+  const { selectedDoctor } = useContext(FilterContext);
   let today = startOfToday();
   let [selectedDay, setSelectedDay] = useState(today);
   let [selectedTime, setSelectedTime] = useState(

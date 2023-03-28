@@ -1,42 +1,73 @@
 import {
-  doc,
-  addDoc,
-  collection,
-  updateDoc,
-  getDoc,
-  setDoc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
-import { db } from "../config";
+    doc,
+    addDoc,
+    collection,
+    updateDoc,
+    getDoc,
+    setDoc,
+    getDocs,
+    query,
+    where,
+  } from "firebase/firestore";
+  import { db } from "../config";
+  
+  export const USERS_COLLECTION = "users";
+  export const FEEDBACKS_COLLECTION = "feedbacks";
+  
+  export async function createUser(data) {
+    const { uid, ...restData } = data;
+  
+    if (uid) {
+      return setDoc(doc(db, USERS_COLLECTION, uid), restData);
+    }
+  
+    return addDoc(collection(db, USERS_COLLECTION), restData);
+  }
+  
+  export async function updateUser(userId, data) {
+    const userRef = doc(db, USERS_COLLECTION, userId);
+    return updateDoc(userRef, data);
+  }
+  
+  // export async function getUserById(userId) {
+  //   const userRef = doc(db, USERS_COLLECTION, userId);
+  //   const user = await getDoc(userRef);
+  //   return ({
+  //     ...user.data(),
+  //     id: user.id,
+  //   });
+  // }
 
-export const USERS_COLLECTION = "users";
-
-export async function getUserById(userId) {
-  const userRef = doc(db, USERS_COLLECTION, userId);
-  const user = await getDoc(userRef);
-  return ({
-    ...user.data(),
-    id: user.id,
-  });
-}
-
-export async function createUser(data) {
-  const { uid, ...restData } = data;
-
-  if (uid) {
-    return setDoc(doc(db, USERS_COLLECTION, uid), restData);
+  export async function getUserById(userId) {
+    const userRef = doc(db, USERS_COLLECTION, userId);
+    return getDoc(userRef);
   }
 
-  return addDoc(collection(db, USERS_COLLECTION), restData);
-}
+  export async function getFeedBack(feedbackId) {
+    const feedBackRef = doc(db, FEEDBACKS_COLLECTION, feedbackId);
+    return getDoc(feedBackRef);
+  }
+  
+  export async function getFeedBacks(feedbackIds) {
+    if (feedbackIds.length == 0 ){
+      return null
+    }
+    const feedbackDoctorQuery = query(
+      collection(db, FEEDBACKS_COLLECTION),
+      where("id", "in", feedbackIds)
+    );
+    const results = await getDocs(feedbackDoctorQuery);
+    if (results.size > 0) {
+      const feedbacks = results.docs.map((item) => ({
+        ...item.data(),
+        id: item.id,
+      }));
+     
+      return feedbacks;
+    }
 
-export async function updateUser(userId, data) {
-  const userRef = doc(db, USERS_COLLECTION, userId);
-  return updateDoc(userRef, data);
-}
-
+    return null;
+  }
 
 export async function getUsersDoctors() {
   const userDoctorQuery = query(

@@ -1,4 +1,4 @@
-import { auth, db } from "./../config";
+import { auth, db } from "../config";
 import {
     GoogleAuthProvider,
     signInWithPopup,
@@ -18,22 +18,45 @@ import {
 
 const googleProvider = new GoogleAuthProvider();
 
-const signInWithGoogle = async ({ isDoctor, onSuccess }) => {
+export const signInWithGoogle = async ({ onSuccess, onFail }) => {
     try {
         const res = await signInWithPopup(auth, googleProvider);
         const user = res.user;
-        console.log(user);
+        // console.log(user);
+        const q = query(collection(db, "users"), where("uid", "==", user.uid));
+        const docs = await getDocs(q);
+        {docs.docs.length === 0 ? onFail() : onSuccess()};
+        // if (docs.docs.length === 0) {
+        //     onFail();
+        // } else {
+        //     onSuccess();
+        // }
+    } catch (err) {
+        console.error(err);
+        alert(err.message);
+    }
+};
+
+export const signUpWithGoogle = async ({ isDoctor, onSuccess }) => {
+    try {
+        const res = await signInWithPopup(auth, googleProvider);
+        const user = res.user;
+        // console.log(user);
         const q = query(collection(db, "users"), where("uid", "==", user.uid));
         const docs = await getDocs(q);
         if (docs.docs.length === 0) {
-            await setDoc(doc(db, "users", user.uid), {
-                uid: user.uid,
-                name: user.displayName,
-                phoneNumber: user.phoneNumber,
-                authProvider: "google",
-                isDoctor: isDoctor,
-                email: user.email,
-            });
+            if (!isDoctor) {
+                await setDoc(doc(db, "users", user.uid), {
+                    uid: user.uid,
+                    name: user.displayName,
+                    phoneNumber: user.phoneNumber,
+                    authProvider: "google",
+                    isDoctor: false,
+                    email: user.email,
+                });
+            } else {
+                return user;
+            }
         }
 
         if (onSuccess) {
@@ -45,7 +68,7 @@ const signInWithGoogle = async ({ isDoctor, onSuccess }) => {
     }
 };
 
-const logInWithEmailAndPassword = async ({ email, password, onSuccess }) => {
+export const logInWithEmailAndPassword = async ({ email, password, onSuccess }) => {
     try {
         await signInWithEmailAndPassword(auth, email, password);
 
@@ -58,7 +81,7 @@ const logInWithEmailAndPassword = async ({ email, password, onSuccess }) => {
     }
 };
 
-const registerWithEmailAndPasswordDoctor = async ({ name, email, password, phoneNumber, address, specialty, isDoctor, onSuccess }) => {
+export const registerWithEmailAndPasswordDoctor = async ({ name, email, password, phoneNumber, address, specialty, isDoctor, onSuccess }) => {
     try {
         const res = await createUserWithEmailAndPassword(auth, email, password);
         const user = res.user;
@@ -81,7 +104,8 @@ const registerWithEmailAndPasswordDoctor = async ({ name, email, password, phone
         alert(err.message);
     }
 };
-const registerWithEmailAndPasswordPatient = async ({ name, email, password, phoneNumber, isDoctor, onSuccess }) => {
+
+export const registerWithEmailAndPasswordPatient = async ({ name, email, password, phoneNumber, isDoctor, onSuccess }) => {
     try {
         const res = await createUserWithEmailAndPassword(auth, email, password);
         const user = res.user;
@@ -103,7 +127,7 @@ const registerWithEmailAndPasswordPatient = async ({ name, email, password, phon
     }
 };
 
-const sendPasswordReset = async (email) => {
+export const sendPasswordReset = async (email) => {
     try {
         await sendPasswordResetEmail(auth, email);
         alert("Password reset link sent!");
@@ -113,8 +137,6 @@ const sendPasswordReset = async (email) => {
     }
 };
 
-const logout = () => {
+export const logout = () => {
     signOut(auth);
 };
-
-export { signInWithGoogle, logInWithEmailAndPassword, registerWithEmailAndPasswordDoctor, registerWithEmailAndPasswordPatient, sendPasswordReset, logout }

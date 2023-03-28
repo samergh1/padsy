@@ -16,6 +16,7 @@ import {
 import { useState } from "react";
 import { UilAngleLeft, UilAngleRight } from "@iconscout/react-unicons";
 import { useSchedule } from "../../hooks/useSchedule";
+import setYear from "date-fns/fp/setYear";
 import { Navbar } from "../../components/Navbar";
 import { Appointment } from "../../components/Appointment";
 import { useUserContext } from "../../context/userContext";

@@ -1,12 +1,13 @@
 import { Navigate, Outlet } from "react-router";
 import { LoginPageUrl } from "../../constants/urls";
 import { useUserContext } from "../../context/userContext";
+import { Loading } from "../Loading";
 
 export function PrivateRoute({ children }) {
   const { user, isLoadingUser } = useUserContext();
 
   if (isLoadingUser) {
-    return <h1>LOADING USER...</h1>;
+    return <Loading />;
   }
 
   if (!isLoadingUser && !user) {

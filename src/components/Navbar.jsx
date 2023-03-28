@@ -17,6 +17,7 @@ import {
   PatientProfileUrl,
   ChatPageUrl,
   SchedulePageUrl,
+  AppointmentsUrl,
 } from "../constants/urls";
 
 export function Navbar() {
@@ -26,7 +27,7 @@ export function Navbar() {
 
   const Menus = [
     { title: "Search doctors", src: UilSearch, to: SearchPageurl },
-    { title: "My appointments", src: UilCalendarAlt, to: SchedulePageUrl },
+    { title: "My appointments", src: UilCalendarAlt, to: AppointmentsUrl },
     { title: "My chats", src: UilCommentAltDots, to: ChatPageUrl },
   ];
 
@@ -59,8 +60,8 @@ export function Navbar() {
                   }`}
                   onClick={() =>
                     user.isDoctor
-                      ? navigate(DoctorProfileUrl)
-                      : navigate(PatientProfileUrl)
+                      ? navigate(DoctorProfileUrl(user.uid))
+                      : navigate(PatientProfileUrl(user.uid))
                   }
                 >
                   {user.name}

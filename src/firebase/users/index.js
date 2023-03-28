@@ -13,6 +13,7 @@ import {
   
   export const USERS_COLLECTION = "users";
   export const FEEDBACKS_COLLECTION = "feedbacks";
+export const APPOINTMENT_COLLECTION = "appointments";
   
   export async function createUser(data) {
     const { uid, ...restData } = data;
@@ -68,6 +69,11 @@ import {
 
     return null;
   }
+  
+export async function updateAppointment(appointmentId, data) {
+  const appointmentRef = doc(db, "appointments", appointmentId);
+  return updateDoc(appointmentRef, data);
+}
 
 export async function getUsersDoctors() {
   const userDoctorQuery = query(
@@ -103,4 +109,10 @@ export async function getUserProfile(email) {
     }));
     return user;
   }
+}
+
+export async function getAppointmentId(id) {
+  const appointmentQuery = doc(db, APPOINTMENT_COLLECTION, id)
+  const results = await getDoc(appointmentQuery);
+  return results.data();
 }

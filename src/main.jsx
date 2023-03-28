@@ -12,6 +12,7 @@ import {
   ChatPageUrl,
   SchedulePageUrl,
   FeedbackUrl,
+  AppointmentsUrl,
 } from "./constants/urls";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { LandingPage } from "./pages/LandingPage/LandingPage";
@@ -32,6 +33,8 @@ import { FilterContextProvider } from "./context/FilterContext";
 import { FeedBackContextProvider } from "./context/FeedBackContext";
 import { NotFoundPage } from "./pages/NotFoundPage/NotFoundPage";
 import { PrivateRoute } from "./components/PrivateRoute/PrivateRoute";
+import { Layout } from "./pages/Layout/Layout";
+import MyAppointments from "./pages/MyAppointments/MyAppointments";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -97,6 +100,14 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                   element={
                     <PrivateRoute>
                       <FeedbackPage />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path={AppointmentsUrl}
+                  element={
+                    <PrivateRoute>
+                      <MyAppointments />
                     </PrivateRoute>
                   }
                 />

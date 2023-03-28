@@ -1,39 +1,23 @@
 import React from "react";
 import { useState } from "react";
-import { updateUser } from "../../../firebase/users";
+import { updateUser } from "../../firebase/users";
 
-export default function EditDoctorProfile({ user, setEditProfile }) {
+export function EditPatientProfile({ user, setEditProfile }) {
   const [newUser, setNewUser] = useState({ ...user });
   const [error, setErrors] = useState({});
 
   const options = [
     {
-      label: "Clinical Psychology",
-      value: "Clinical Psychology",
+      label: "Male",
+      value: "male",
     },
     {
-      label: "Educational Psychology",
-      value: "Educational Psychology",
+      label: "Female",
+      value: "female",
     },
     {
-      label: "Neuropsychology",
-      value: "Neuropsychology",
-    },
-    {
-      label: "Child Psychology",
-      value: "Child Psychology",
-    },
-    {
-      label: "Forensic Psychology",
-      value: "Forensic Psychology",
-    },
-    {
-      label: "Health Psychology",
-      value: "Health Psychology",
-    },
-    {
-      label: "Cognitive and Perceptual Psychology",
-      value: "Cognitive and Perceptual Psychology",
+      label: "Other",
+      value: "other",
     },
   ];
 
@@ -64,27 +48,14 @@ export default function EditDoctorProfile({ user, setEditProfile }) {
       errors.name = "Name is required";
     }
 
-    if (!value.address) {
-      errors.address = "Address is required";
-    }
-
     if (!value.phoneNumber) {
       errors.phoneNumber = "Phone number is required";
     } else if (value.phoneNumber.length < 7) {
       errors.phoneNumber = "Phone number should be at least 7 characters";
     }
 
-    if (!value.description.trim()) {
-      errors.description = "Description is required";
-    } else if (value.description.trim().length > 250) {
-      errors.description =
-        "The description reached the max limit of characters";
-    }
-
-    if (!value.cost) {
-      errors.cost = "Cost of appointment is required";
-    } else if (value.cost < 0) {
-      errors.cost = "Cost must be positive";
+    if (!value.birthdate) {
+      errors.birthdate = "Birth date is required";
     }
 
     return errors;
@@ -165,29 +136,12 @@ export default function EditDoctorProfile({ user, setEditProfile }) {
         </div>
 
         <div>
-          <label htmlFor="address">Address</label>
-          <input
-            id="address"
-            name="address"
-            type="text"
-            onChange={onChange}
-            onBlur={handleBlur}
-            value={newUser.address}
-            className="relative block w-full mt-1 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            placeholder="Your address"
-          />
-          {error.address && (
-            <span className="text-red-700">{error.address}</span>
-          )}
-        </div>
-
-        <div>
-          <label htmlFor="specialty">Specialty</label>
+          <label htmlFor="gender">Gender</label>
           <select
-            id="specialty"
-            name="specialty"
+            id="gender"
+            name="gender"
+            value={newUser.gender}
             onChange={onChange}
-            value={newUser.specialty}
             className="relative block w-full mt-1 rounded-md border border-gray-300 px-2 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
           >
             {options.map((option) => (
@@ -197,34 +151,19 @@ export default function EditDoctorProfile({ user, setEditProfile }) {
         </div>
 
         <div>
-          <label htmlFor="description">Description</label>
-          <textarea
-            id="description"
-            name="description"
-            onChange={onChange}
-            value={newUser.description}
-            onBlur={handleBlur}
-            className="relative block w-full mt-1 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            placeholder="Write a description about yourself (max 250 characters)"
-          ></textarea>
-          {error.description && (
-            <span className="text-red-700">{error.description}</span>
-          )}
-        </div>
-
-        <div>
-          <label htmlFor="cost">Cost ($)</label>
+          <label htmlFor="birthdate">Birth date</label>
           <input
-            id="cost"
-            name="cost"
-            type="number"
-            onChange={onChange}
+            id="birthdate"
+            name="birthdate"
+            type="date"
             onBlur={handleBlur}
-            value={newUser.cost}
+            onChange={onChange}
+            value={newUser.birthdate}
             className="relative block w-full mt-1 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            placeholder="Cost of the appointment"
           />
-          {error.cost && <span className="text-red-700">{error.cost}</span>}
+          {error.birthdate && (
+            <span className="text-red-700">{error.birthdate}</span>
+          )}
         </div>
       </form>
 

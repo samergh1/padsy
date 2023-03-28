@@ -12,6 +12,7 @@ import {
   import { db } from "../config";
   
   export const USERS_COLLECTION = "users";
+  export const FEEDBACKS_COLLECTION = "feedbacks";
   
   export async function createUser(data) {
     const { uid, ...restData } = data;
@@ -36,6 +37,27 @@ import {
   export async function getFeedBack(feedbackId) {
     const feedBackRef = doc(db, FEEDBACKS_COLLECTION, feedbackId);
     return getDoc(feedBackRef);
+  }
+  
+  export async function getFeedBacks(feedbackIds) {
+    if (feedbackIds.length == 0 ){
+      return null
+    }
+    const feedbackDoctorQuery = query(
+      collection(db, FEEDBACKS_COLLECTION),
+      where("id", "in", feedbackIds)
+    );
+    const results = await getDocs(feedbackDoctorQuery);
+    if (results.size > 0) {
+      const feedbacks = results.docs.map((item) => ({
+        ...item.data(),
+        id: item.id,
+      }));
+     
+      return feedbacks;
+    }
+
+    return null;
   }
 
   export async function getUsersDoctors() {

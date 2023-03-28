@@ -8,9 +8,14 @@ import { DashBoardFilter } from "./DashBoardFilter";
 import { FilterContext } from "../../context/FilterContext";
 
 export function SearchPage() {
-  const { filterDoctors, setSearch, loading, resetSearch } =
-    useContext(FilterContext);
-  const [selectedDoctor, setSelectedDoctor] = useState({});
+  const {
+    filterDoctors,
+    setSearch,
+    loading,
+    resetSearch,
+    selectedDoctor,
+    setSelectedDoctor,
+  } = useContext(FilterContext);
   const [open, setOpen] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
 

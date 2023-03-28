@@ -1,37 +1,30 @@
-import React, { useEffect, useState } from "react";
-import { getFeedBack } from "../firebase/users";
+import { async } from "@firebase/util";
+import React, { useEffect, useState, useContext } from "react";
+import { getFeedBacks, getUserById } from "../firebase/users";
+import { FilterContext } from "./FilterContext";
 
 export const FeedbackContext = React.createContext();
 
-export function FilterContextProvider({ children }) {
-  const [doctor, setDoctor] = useState([]);
-  const [feedback, setFeedBack] = useState([]);
-  const [pacient, setPacient] = useState({});
+export function FeedBackContextProvider({ children }) {
+  const { selectedDoctor, loading } = useContext(FilterContext);
+  const [feedbacks, setFeedBacks] = useState([]);
+  const [feedbackLoading, setIsLoading] = useState(true);
 
   const getFeedBack = async () => {
-    const data = await getFeedBack();
-    setDoctors(data);
-    setFilterDoctors(data);
+    const feedbacks = await getFeedBacks(selectedDoctor.feedbacks);
+    setFeedBacks(feedbacks);
     setIsLoading(false);
   };
 
   useEffect(() => {
-    getFeedBack();
-  }, []);
+    if (!loading) getFeedBack();
+  }, [selectedDoctor]);
 
   return (
     <FeedbackContext.Provider
       value={{
-        resetSearch,
-        handleRate,
-        handleListCost,
-        handleListSpecialty,
-        setSearch,
-        listSpecialty,
-        listCost,
-        rate,
+        feedbacks,
         loading,
-        filterDoctors,
       }}
     >
       {children}

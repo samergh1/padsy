@@ -7,6 +7,7 @@ export function FilterContextProvider({ children }) {
   const [listSpecialty, setListSpecialty] = useState([]);
   const [listCost, setListCost] = useState([]);
   const [rate, setRate] = useState(0);
+  const [selectedDoctor, setSelectedDoctor] = useState({});
 
   const [search, setSearch] = useState("");
 
@@ -107,6 +108,8 @@ export function FilterContextProvider({ children }) {
         rate,
         loading,
         filterDoctors,
+        selectedDoctor,
+        setSelectedDoctor,
       }}
     >
       {children}

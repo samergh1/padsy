@@ -21,6 +21,7 @@ import { SearchPage } from "./pages/SearchPage/SearchPage";
 import { DoctorRegister } from "./pages/RegisterPage/DoctorRegister/DoctorRegister";
 import { PatientRegister } from "./pages/RegisterPage/PatientRegister/PatientRegister";
 import { FilterContextProvider } from "./context/FilterContext";
+import { FeedBackContextProvider } from "./context/FeedBackContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -28,19 +29,24 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <UserContextProvider>
       <ChatProvider>
         <FilterContextProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route path={LandingPageUrl} element={<LandingPage />} />
-              <Route path={RegisterPageUrl} element={<RegisterPage />} />
-              <Route path={LoginPageUrl} element={<LoginPage />} />
-              <Route path={RegisterDoctorUrl} element={<DoctorRegister />} />
-              <Route path={RegisterPatientUrl} element={<PatientRegister />} />
-              <Route path={ChatPageUrl} element={<ChatPage />} />
-              {/* <Route path={SearchPageurl} element={<SearchPage />} /> */}
+          <FeedBackContextProvider>
+            <BrowserRouter>
+              <Routes>
+                <Route path={LandingPageUrl} element={<LandingPage />} />
+                <Route path={RegisterPageUrl} element={<RegisterPage />} />
+                <Route path={LoginPageUrl} element={<LoginPage />} />
+                <Route path={RegisterDoctorUrl} element={<DoctorRegister />} />
+                <Route
+                  path={RegisterPatientUrl}
+                  element={<PatientRegister />}
+                />
+                <Route path={ChatPageUrl} element={<ChatPage />} />
+                {/* <Route path={SearchPageurl} element={<SearchPage />} /> */}
 
-              <Route path={SearchPageurl} element={<SearchPage />} />
-            </Routes>
-          </BrowserRouter>
+                <Route path={SearchPageurl} element={<SearchPage />} />
+              </Routes>
+            </BrowserRouter>
+          </FeedBackContextProvider>
         </FilterContextProvider>
       </ChatProvider>
     </UserContextProvider>

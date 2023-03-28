@@ -6,17 +6,17 @@ import {
   format,
   getDay,
   isEqual,
-  isSameDay,
   isSameMonth,
   isToday,
   parse,
-  parseISO,
   startOfToday,
+  isBefore,
+  isAfter,
+  startOfTomorrow,
 } from "date-fns";
 import { useState } from "react";
 import { UilAngleLeft, UilAngleRight } from "@iconscout/react-unicons";
 import { useSchedule } from "../../hooks/useSchedule";
-import setYear from "date-fns/fp/setYear";
 import { Navbar } from "../../components/Navbar";
 import { Appointment } from "../../components/Appointment";
 import { useUserContext } from "../../context/userContext";
@@ -31,7 +31,8 @@ export function SchedulePage() {
   const { user, isLoadingUser } = useUserContext();
   const { selectedDoctor } = useContext(FilterContext);
   let today = startOfToday();
-  let [selectedDay, setSelectedDay] = useState(today);
+  let tomorrow = startOfTomorrow();
+  let [selectedDay, setSelectedDay] = useState(tomorrow);
   let [selectedTime, setSelectedTime] = useState(
     new Date(
       selectedDay.getFullYear(),
@@ -48,7 +49,6 @@ export function SchedulePage() {
   let [showModal, setShowModal] = useState(false);
   let [currentMonth, setCurrentMonth] = useState(format(today, "MMM-yyyy"));
   let firstDayCurrentMonth = parse(currentMonth, "MMM-yyyy", new Date());
-  // console.log(selectedTime);
   let days = eachDayOfInterval({
     start: firstDayCurrentMonth,
     end: endOfMonth(firstDayCurrentMonth),
@@ -63,16 +63,12 @@ export function SchedulePage() {
     let firstDayNextMonth = add(firstDayCurrentMonth, { months: 1 });
     setCurrentMonth(format(firstDayNextMonth, "MMM-yyyy"));
   }
-
-  /* let selectedDayMeetings = meetings.filter((meeting) =>
-    isSameDay(parseISO(meeting.startDatetime), selectedDay)
-  ) */
   return (
     <div className="flex">
       <div>
         <Navbar></Navbar>
       </div>
-      <div className=" pt-16 max-w-md px-4 mx-auto sm:px-7 md:max-w-4xl md:px-6">
+      <div className=" grow pt-16 max-w-md px-4 mx-auto sm:px-7 md:max-w-4xl md:px-6">
         <div className="md:grid md:grid-cols-2 md:divide-x md:divide-gray-200">
           <div className="md:pr-14">
             <div className="flex items-center">
@@ -118,15 +114,13 @@ export function SchedulePage() {
                   <button
                     type="button"
                     onClick={() => {
-                      setSelectedDay(day);
-                      createSchedule(day);
+                      if (!isBefore(day, today) && isAfter(day, today)) {
+                        setSelectedDay(day);
+                        createSchedule(day);
+                      }
                     }}
                     className={classNames(
-                      isEqual(day, day) && "text-green",
                       isEqual(day, selectedDay) && "text-white",
-                      !isEqual(day, selectedDay) &&
-                        isToday(day) &&
-                        "text-red-500",
                       !isEqual(day, selectedDay) &&
                         !isToday(day) &&
                         isSameMonth(day, firstDayCurrentMonth) &&
@@ -135,10 +129,14 @@ export function SchedulePage() {
                         !isToday(day) &&
                         !isSameMonth(day, firstDayCurrentMonth) &&
                         "text-gray-400",
-                      isEqual(day, selectedDay) && isToday(day) && "bg-red-500",
+                      isToday(day) && "text-red-600",
+                      isToday(day) && "cursor-not-allowed",
                       isEqual(day, selectedDay) &&
                         !isToday(day) &&
+                        !isBefore(day, today) &&
                         "bg-gray-900",
+                      isBefore(day, today) && "cursor-not-allowed",
+                      isBefore(day, today) && "text-gray-100",
                       !isEqual(day, selectedDay) && "hover:bg-gray-200",
                       (isEqual(day, selectedDay) || isToday(day)) &&
                         "font-semibold",

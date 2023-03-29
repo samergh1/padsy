@@ -20,7 +20,6 @@ export default function MyAppointments() {
             user.appointments.map((appointment, id) => (
               <AppointmentCard
                 appointmentId={appointment}
-              // key={appointmentId}
               />
             ))
           ) : (

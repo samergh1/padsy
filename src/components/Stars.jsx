@@ -1,28 +1,29 @@
 const stars = [1, 2, 3, 4, 5];
 
-export function Stars({ rate = -1, setRate }) {
-  if (rate == -1) {
+export function Stars({ rating = -1, setRating }) {
+
+  if (rating == -1) {
     return <p className="text-gray-600">Not rated</p>;
   }
 
   return (
     <div className="flex items-center">
       {stars.map((star, idStar) => {
-        const isStarComplete = star <= rate;
+        const isStarComplete = star <= rating;
 
         return (
           <button
             key={idStar}
-            className={`${!setRate ? "cursor-default" : ""}`}
+            className={`${!setRating ? "cursor-default" : ""}`}
             onClick={() => {
-              if (!!setRate) setRate(star);
+              if (!!setRating) setRating(star);
+
             }}
           >
             <svg
               aria-hidden="true"
-              className={`w-6 h-6  ${
-                isStarComplete ? "text-yellow-400" : "text-gray-300"
-              } `}
+              className={`w-6 h-6  ${isStarComplete ? "text-yellow-400" : "text-gray-300"
+                } `}
               fill="currentColor"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"

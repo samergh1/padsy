@@ -46,7 +46,7 @@ export function Review() {
                     Sesion Quality
                   </h4>
                 </div>
-                <Stars rate={feedback.rating}></Stars>
+                <Stars rating={feedback.rating}></Stars>
               </div>
 
               <div className="mt-2">

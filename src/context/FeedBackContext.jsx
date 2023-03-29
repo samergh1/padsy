@@ -18,7 +18,7 @@ export function FeedBackContextProvider({ children }) {
 
   useEffect(() => {
     if (!loading) getFeedBack();
-  }, [selectedDoctor]);
+  }, [selectedDoctor],);
 
   return (
     <FeedbackContext.Provider

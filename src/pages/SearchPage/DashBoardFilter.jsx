@@ -51,8 +51,8 @@ export function DashBoardFilter({ open, setOpen }) {
     handleListSpecialty,
     listSpecialty,
     listCost,
-    rate,
-    handleRate,
+    rating,
+    handleRating,
   } = useContext(FilterContext);
 
   return (
@@ -109,13 +109,11 @@ export function DashBoardFilter({ open, setOpen }) {
                                   handleListSpecialty(specialty.value);
                                 }}
                                 type="button"
-                                className={` border ${
-                                  isFound ? "bg-[#00786A]" : "bg-gray-300"
-                                } ${
-                                  isFound
+                                className={` border ${isFound ? "bg-[#00786A]" : "bg-gray-300"
+                                  } ${isFound
                                     ? "border-[#00786A]"
                                     : "border-gray-700"
-                                } 
+                                  } 
                                 ${isFound ? "text-white" : "text-black"} 
                                 
                                 focus:ring-2 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2`}
@@ -140,24 +138,20 @@ export function DashBoardFilter({ open, setOpen }) {
                                   handleListCost(cost);
                                 }}
                                 type="button"
-                                className={` border ${
-                                  isFoundCost ? "bg-[#00786A]" : "bg-gray-300"
-                                } ${
-                                  isFoundCost
+                                className={` border ${isFoundCost ? "bg-[#00786A]" : "bg-gray-300"
+                                  } ${isFoundCost
                                     ? "border-[#00786A]"
                                     : "border-gray-700"
-                                } 
+                                  } 
                                 ${isFoundCost ? "text-white" : "text-black"} 
                                 
                                 focus:ring-2 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2`}
                               >
-                                {`${
-                                  !cost.start ? "Menos de " : `$${cost.start}`
-                                }${
-                                  cost.start != null && cost.end != null
+                                {`${!cost.start ? "Menos de " : `$${cost.start}`
+                                  }${cost.start != null && cost.end != null
                                     ? " - "
                                     : " "
-                                }${!cost.end ? "y Más" : `$${cost.end}`}`}
+                                  }${!cost.end ? "y Más" : `$${cost.end}`}`}
                               </button>
                             );
                           })}
@@ -167,7 +161,7 @@ export function DashBoardFilter({ open, setOpen }) {
                             Rating
                           </h4>
 
-                          {<Stars rate={rate} setRate={handleRate}></Stars>}
+                          {<Stars rating={rating} setRating={handleRating}></Stars>}
                         </div>
                       </div>
                       {/* <DoctorInfo selectedDoctor={selectedDoctor}></DoctorInfo> */}

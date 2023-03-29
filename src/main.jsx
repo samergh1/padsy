@@ -96,7 +96,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                   }
                 />
                 <Route
-                  path={FeedbackUrl}
+                  path={FeedbackUrl()}
                   element={
                     <PrivateRoute>
                       <FeedbackPage />

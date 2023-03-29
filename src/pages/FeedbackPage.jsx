@@ -3,26 +3,27 @@ import {
   arrayUnion,
   collection,
   doc,
+  getDoc,
   serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
 import { useContext, useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { Stars } from "../components/Stars";
-import { LandingPageUrl } from "../constants/urls";
-import { FilterContext } from "../context/FilterContext";
+import { LandingPageUrl, AppointmentsUrl } from "../constants/urls";
 import { useUserContext } from "../context/userContext";
 import { db } from "../firebase/config";
+import { getUserById2, updateAppointment } from "../firebase/users";
 
-export function FeedbackPage({ selectedDoctor }) {
-  const { user, isLoadingUser } = useUserContext();
-  // const { selectedDoctor } = useContext(FilterContext);
-  const [rate, setRate] = useState(0);
+export function FeedbackPage() {
+  const { appointmentId } = useParams();
+
+  const { user } = useUserContext();
+  const [rating, setRating] = useState(0);
   const navigate = useNavigate();
   const [title, setTitle] = useState(" ");
   const [message, setMessage] = useState(" ");
-  const [date, setDate] = useState(serverTimestamp());
 
   async function createFeedback(data) {
     try {
@@ -34,12 +35,21 @@ export function FeedbackPage({ selectedDoctor }) {
     }
   }
 
-  async function updateUser(userId, a) {
+  async function updateUser(userId, data) {
     try {
-      await updateDoc(doc(db, "users", userId), a);
+      await updateDoc(doc(db, "users", userId), data);
     } catch (error) {
       console.error("Error updating user ", error);
     }
+  }
+
+  async function getAppointment(appointmentId) {
+    const appointmentRef = doc(db, "appointments", appointmentId);
+    const appointment = await getDoc(appointmentRef)
+    return ({
+      ...appointment.data(),
+      id: appointment.id,
+    })
   }
 
   function timeout(delay) {
@@ -47,22 +57,45 @@ export function FeedbackPage({ selectedDoctor }) {
   }
 
   async function handleFeedback() {
+    const appointment = await getAppointment(appointmentId)
+    console.log(appointment);
+    const selectedDoctor = await getUserById2(appointment.doctorId);
+    console.log(selectedDoctor);
+
     const data = {
-      // doctorId: selectedDoctor.id,
+      doctorId: selectedDoctor.id,
       patientId: user.id,
-      date: date,
+      date: serverTimestamp(),
       message: message,
       title: title,
-      rating: rate,
+      rating: rating,
     };
+
     const reference = await createFeedback(data);
-    const a = {
+
+    const newSumFeedbacks = (!selectedDoctor.rating ? 0 : selectedDoctor.rating) + rating;
+    const newLenFeedbacks = (!selectedDoctor.len ? 0 : selectedDoctor.len) + 1;
+    const newRating = Math.round(newSumFeedbacks / newLenFeedbacks);
+
+    const newUser = {
       feedbacks: arrayUnion(reference.id),
+      sumFeedbacks: newSumFeedbacks,
+      lenFeedbacks: newLenFeedbacks,
+      rating: newRating
     };
-    await updateUser(data.doctorId, a);
+    await updateUser(data.doctorId, newUser);
+    const newAppointment = {
+      haveFeedback: true,
+    };
+    await updateAppointment(appointmentId, newAppointment)
+
     toast.success("Succesfully registered feedback :)");
     await timeout(4000);
-    navigate(LandingPageUrl);
+    navigate(AppointmentsUrl);
+  }
+
+  function handleCancel() {
+    navigate(AppointmentsUrl)
   }
 
   return (
@@ -122,12 +155,13 @@ export function FeedbackPage({ selectedDoctor }) {
                 Rank your doctor!
               </div>
               <div className="mt-2.5">
-                <Stars rate={rate} setRate={setRate}></Stars>
+                <Stars rating={rating} setRating={setRating}></Stars>
               </div>
             </div>
           </div>
           <div className="mt-6 flex items-center justify-end gap-x-6">
             <button
+              onClick={() => handleCancel()}
               type="button"
               className="text-sm font-semibold leading-6 text-gray-900"
             >

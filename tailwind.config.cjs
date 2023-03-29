@@ -10,9 +10,11 @@ module.exports = {
         sans: ['Poppins', 'sans-serif']
       },
     },
-    extend: {fontFamily: {
-      sans: ['Poppins', 'sans-serif']
-    }},
+    extend: {
+      fontFamily: {
+        sans: ['Poppins', 'sans-serif']
+      }
+    },
   },
   plugins: [
     require('@tailwindcss/line-clamp'),

@@ -22,7 +22,7 @@ export function DoctorInfo({ selectedDoctor }) {
           <h4 className="mb-1 text-xl  text-gray-700 font-medium  pt-2 pb-1">
             {`${selectedDoctor.cost}$`}
           </h4>
-          <Stars rate={selectedDoctor.rating} />
+          <Stars rating={selectedDoctor.rating} />
           <div className="mb-1 text-xl font-medium text-gray-900 dark:text-white"></div>
           <Link to={SchedulePageUrl}>
             <div className="flex mt-4 space-x-3 md:mt-6">

@@ -51,9 +51,8 @@ export const Table = ({ list, setOpen, setSelectedDoctor }) => {
                     setOpen(true);
                     setSelectedDoctor(doctor);
                   }}
-                  className={`hover:bg-gray-200 border cursor-pointer ${
-                    even ? "bg-gray-50" : "bg-white"
-                  }`}
+                  className={`hover:bg-gray-200 border cursor-pointer ${even ? "bg-gray-50" : "bg-white"
+                    }`}
                 >
                   <td className="py-3 px-4 lg:pl-4 lg:pr-0">
                     <div className=" pl-4 pr-0">
@@ -77,7 +76,7 @@ export const Table = ({ list, setOpen, setSelectedDoctor }) => {
                     {doctor.cost}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                    <Stars rate={doctor.rating}></Stars>
+                    <Stars rating={doctor.rating}></Stars>
                   </td>
                 </tr>
               );

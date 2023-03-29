@@ -6,7 +6,7 @@ export const FilterContext = React.createContext();
 export function FilterContextProvider({ children }) {
   const [listSpecialty, setListSpecialty] = useState([]);
   const [listCost, setListCost] = useState([]);
-  const [rate, setRate] = useState(0);
+  const [rating, setRating] = useState(0);
   const [selectedDoctor, setSelectedDoctor] = useState({});
 
   const [search, setSearch] = useState("");
@@ -24,12 +24,12 @@ export function FilterContextProvider({ children }) {
       const costCondition =
         listCost.length > 0
           ? listCost.filter(
-              (cost) =>
-                (cost.start ?? 0) <= doctor.cost &&
-                doctor.cost <= (cost.end ?? 10000000)
-            ).length > 0
+            (cost) =>
+              (cost.start ?? 0) <= doctor.cost &&
+              doctor.cost <= (cost.end ?? 10000000)
+          ).length > 0
           : true;
-      const ratingCondition = rate != 0 ? rate == doctor.rating : true;
+      const ratingCondition = rating != 0 ? rating == doctor.rating : true;
 
       const nameCondition =
         search.length > 0
@@ -45,7 +45,7 @@ export function FilterContextProvider({ children }) {
 
   useEffect(() => {
     filterFunction();
-  }, [search, listCost, listSpecialty, rate]);
+  }, [search, listCost, listSpecialty, rating]);
 
   const getDoctors = async () => {
     const data = await getUsersDoctors();
@@ -80,18 +80,18 @@ export function FilterContextProvider({ children }) {
     }
   };
 
-  const handleRate = (idRate) => {
-    const isFound = rate == idRate;
+  const handleRating = (idRating) => {
+    const isFound = rating == idRating;
     if (isFound) {
-      setRate(0);
+      setRating(0);
     } else {
-      setRate(idRate);
+      setRating(idRating);
     }
   };
 
   const resetSearch = () => {
     setListCost([]);
-    setRate(0);
+    setRating(0);
     setListSpecialty([]);
   };
 
@@ -99,13 +99,13 @@ export function FilterContextProvider({ children }) {
     <FilterContext.Provider
       value={{
         resetSearch,
-        handleRate,
+        handleRating,
         handleListCost,
         handleListSpecialty,
         setSearch,
         listSpecialty,
         listCost,
-        rate,
+        rating,
         loading,
         filterDoctors,
         selectedDoctor,

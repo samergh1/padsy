@@ -31,6 +31,7 @@ export default function AppointmentCard({ appointmentId }) {
 
     setAppointment({
       payed: result.payed,
+      haveFeedback: result.haveFeedback,
     });
     setDoctorUser({
       id: doctor.uid,
@@ -127,35 +128,35 @@ export default function AppointmentCard({ appointmentId }) {
               <span>{currentMonth}</span>
               <span>{currentHour}</span>
             </div>
-            {!appointment.payed ? (
-              <div className="p-6">
-                <PayPalScriptProvider
-                  options={{
-                    "client-id":
-                      "AaxjOY2T8QZDrlPh2Dv-NxeKoZrOZhF0rqRLrd7KzOoACmZv4Zi7-_5P9nDPr1mshdYfHlrszTHk4_4z",
-                  }}
-                >
-                  <PayPalButtons
-                    style={{ layout: "horizontal", tagline: false }}
-                    createOrder={createOrder}
-                    onApprove={onApprove}
-                    onError={onError}
-                  />
-                </PayPalScriptProvider>
-              </div>
-            ) : (
-              <div className="flex justify-center items-center p-6">
-                <button
-                  onClick={() => {
-                    navigate(FeedbackUrl);
-                    <FeedbackPage selectedDoctor={doctorUser} />;
-                  }}
-                  className="p-2 rounded-md border bg-[#00786A] text-white transition-all hover:scale-105"
-                >
-                  Give feedback
-                </button>
-              </div>
-            )}
+            {(appointment.payed ?? false) ?
+              (appointment.haveFeedback ?? false) ? (<></>) : (
+                <div className="flex justify-center items-center p-6">
+                  <button
+                    onClick={() => {
+                      navigate(FeedbackUrl(appointmentId));
+                    }}
+                    className="p-2 rounded-md border bg-[#00786A] text-white transition-all hover:scale-105"
+                  >
+                    Give feedback
+                  </button>
+                </div>
+              ) : (
+                <div className="p-6">
+                  <PayPalScriptProvider
+                    options={{
+                      "client-id":
+                        "AaxjOY2T8QZDrlPh2Dv-NxeKoZrOZhF0rqRLrd7KzOoACmZv4Zi7-_5P9nDPr1mshdYfHlrszTHk4_4z",
+                    }}
+                  >
+                    <PayPalButtons
+                      style={{ layout: "horizontal", tagline: false }}
+                      createOrder={createOrder}
+                      onApprove={onApprove}
+                      onError={onError}
+                    />
+                  </PayPalScriptProvider>
+                </div>
+              )}
           </div>
         </div>
       ) : (
@@ -173,5 +174,7 @@ export default function AppointmentCard({ appointmentId }) {
         </div>
       )}
     </div>
+
+
   );
 }

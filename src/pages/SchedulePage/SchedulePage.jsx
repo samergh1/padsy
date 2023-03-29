@@ -48,7 +48,7 @@ export function SchedulePage() {
   let [showModal, setShowModal] = useState(false);
   let [currentMonth, setCurrentMonth] = useState(format(today, "MMM-yyyy"));
   let firstDayCurrentMonth = parse(currentMonth, "MMM-yyyy", new Date());
-  // console.log(selectedTime);
+
   let days = eachDayOfInterval({
     start: firstDayCurrentMonth,
     end: endOfMonth(firstDayCurrentMonth),
@@ -125,23 +125,23 @@ export function SchedulePage() {
                       isEqual(day, day) && "text-green",
                       isEqual(day, selectedDay) && "text-white",
                       !isEqual(day, selectedDay) &&
-                        isToday(day) &&
-                        "text-red-500",
+                      isToday(day) &&
+                      "text-red-500",
                       !isEqual(day, selectedDay) &&
-                        !isToday(day) &&
-                        isSameMonth(day, firstDayCurrentMonth) &&
-                        "text-gray-900",
+                      !isToday(day) &&
+                      isSameMonth(day, firstDayCurrentMonth) &&
+                      "text-gray-900",
                       !isEqual(day, selectedDay) &&
-                        !isToday(day) &&
-                        !isSameMonth(day, firstDayCurrentMonth) &&
-                        "text-gray-400",
+                      !isToday(day) &&
+                      !isSameMonth(day, firstDayCurrentMonth) &&
+                      "text-gray-400",
                       isEqual(day, selectedDay) && isToday(day) && "bg-red-500",
                       isEqual(day, selectedDay) &&
-                        !isToday(day) &&
-                        "bg-gray-900",
+                      !isToday(day) &&
+                      "bg-gray-900",
                       !isEqual(day, selectedDay) && "hover:bg-gray-200",
                       (isEqual(day, selectedDay) || isToday(day)) &&
-                        "font-semibold",
+                      "font-semibold",
                       "mx-auto flex h-8 w-8 items-center justify-center rounded-full"
                     )}
                   >

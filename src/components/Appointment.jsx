@@ -5,13 +5,13 @@ import {
   arrayUnion,
   collection,
   doc,
+  getDocs,
+  query,
   serverTimestamp,
   Timestamp,
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../firebase/config";
-import { updateUser } from "../firebase/users";
-import { async } from "@firebase/util";
 import { toast, Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router";
 import { AppointmentsUrl, FeedbackUrl } from "../constants/urls";
@@ -50,6 +50,21 @@ export function Appointment({
     }
   }
 
+  async function getChats() {
+    const chatsQuery = query(collection(db, 'chats'));
+    const results = await getDocs(chatsQuery);
+    if (results.size > 0) {
+      const chats = results.docs.map((item) => ({
+        ...item.data(),
+        id: item.id,
+      }));
+
+      return chats;
+    }
+
+    return [];
+  }
+
   function timeout(delay) {
     return new Promise((res) => setTimeout(res, delay));
   }
@@ -66,7 +81,12 @@ export function Appointment({
       createdAt: serverTimestamp(),
     };
     const reference = await createAppointment(data);
-    await createChat(chat);
+    const chats = await getChats();
+
+    if (chats.filter((element) => element.doctorId == chat.doctorId && element.patientId == chat.patientId).length == 0) {
+      await createChat(chat);
+    }
+
     const patData = {
       appointments: arrayUnion(reference.id),
     };
@@ -77,7 +97,7 @@ export function Appointment({
     await updateUser(selectedDoctor.id, docData);
     await updateUser(user.id, patData);
     toast.success("Succesfully scheduled :)");
-    await timeout(4000);
+    await timeout(2000);
     navigate(AppointmentsUrl);
   }
 

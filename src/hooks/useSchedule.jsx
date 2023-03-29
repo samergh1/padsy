@@ -22,11 +22,10 @@ export function useSchedule() {
         0,
         0
       );
-      const title = `${i}:00${i < 12 ? "am" : "pm"} - ${i + 1}:00${
-        i + 1 < 12 ? "am" : "pm"
-      }`;
+      const title = `${i}:00${i < 12 ? "am" : "pm"} - ${i + 1}:00${i + 1 < 12 ? "am" : "pm"
+        }`;
       let busy = false;
-      selectedDoctor.busySchedule.map((timestamp) => {
+      (selectedDoctor.busySchedule ?? []).map((timestamp) => {
         if (isEqual(newDate, timestamp.toDate())) {
           busy = true;
         }

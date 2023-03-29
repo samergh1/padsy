@@ -16,7 +16,7 @@ export default function MyAppointments() {
         <div className="flex flex-col items-center lg:grid lg:grid-cols-3 gap-6">
           {isLoadingUser ? (
             <Loading />
-          ) : user.appointments.length > 0 ? (
+          ) : (user.appointments ?? []).length > 0 ? (
             user.appointments.map((appointment, id) => (
               <AppointmentCard
                 appointmentId={appointment}

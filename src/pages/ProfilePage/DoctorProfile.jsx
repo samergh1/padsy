@@ -7,6 +7,7 @@ import { useUserContext } from "../../context/userContext";
 import { doc, onSnapshot, query } from "@firebase/firestore";
 import { db } from "../../firebase/config";
 import { Loading } from "../../components/Loading";
+import { updateUser } from "../../firebase/users";
 
 export function DoctorProfile() {
   const { user } = useUserContext();
@@ -151,7 +152,7 @@ export function DoctorProfile() {
                     onChange={onChange}
                     required
                     className="relative block w-full rounded py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    placeholder="3"
+                    placeholder={currentUser.startSchedule ?? '5'}
                   />
                 </div>
                 <div>
@@ -166,7 +167,7 @@ export function DoctorProfile() {
                     onChange={onChange}
                     required
                     className="relative block w-full rounded py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    placeholder="8"
+                    placeholder={currentUser.endSchedule ?? '13'}
                   />
                 </div>
               </div>

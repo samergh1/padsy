@@ -5,15 +5,10 @@ import { FilterContext } from "../context/FilterContext";
 export function useSchedule() {
   const { selectedDoctor } = useContext(FilterContext);
   const [hours, setHours] = useState([]);
-  const startSchedule = 5;
-  const endSchedule = 15;
-  // const busySchedule = [
-  //   new Date(2023, 2, 16, 11, 0, 0),
-  //   new Date(2023, 2, 18, 14, 0, 0),
-  // ];
+
   const createSchedule = useCallback(async (date) => {
     let aux = [];
-    for (let i = startSchedule; i < endSchedule; i++) {
+    for (let i = (parseInt(selectedDoctor.startSchedule) ?? 4); i < (parseInt(selectedDoctor.endSchedule) ?? 15); i++) {
       const newDate = new Date(
         date.getFullYear(),
         date.getMonth(),

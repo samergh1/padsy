@@ -76,8 +76,13 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 
                 <Route
                   path={PatientProfileUrl()}
-                  element={<PatientProfile />}
+                  element={
+                    <PrivateRoute>
+                      <PatientProfile />
+                    </PrivateRoute>
+                  }
                 />
+
                 <Route
                   path={SearchPageurl}
                   element={

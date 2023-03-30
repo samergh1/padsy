@@ -10,6 +10,7 @@ import { Loading } from "../../components/Loading";
 import { useNavigate } from "react-router-dom";
 import { AppointmentsUrl } from "../../constants/urls";
 import { updateUser } from "../../firebase/users";
+import AppointmentCard from "../../components/Appointment/AppointmentCard";
 
 export function PatientProfile() {
   const navigate = useNavigate();
@@ -17,7 +18,6 @@ export function PatientProfile() {
   const [editProfile, setEditProfile] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [loadingCurrentUser, setLoadingCurrentUser] = useState(true);
-
 
   useEffect(() => {
     if (user != null) {
@@ -35,10 +35,9 @@ export function PatientProfile() {
     });
   }
 
-  /* const handleViewAppointments = () => {
+  const handleViewAppointments = () => {
     navigate(AppointmentsUrl);
-  }; */
-
+  };
 
   return (
     <div className="flex">
@@ -51,9 +50,9 @@ export function PatientProfile() {
       <div className="w-full flex flex-col">
         {/* Information */}
         {!loadingCurrentUser &&
-          !!currentUser &&
-          !currentUser.isDoctor &&
-          !editProfile ? (
+        !!currentUser &&
+        !currentUser.isDoctor &&
+        !editProfile ? (
           <div className="md:flex justify-center gap-10 bg-white w-full h-full border-b p-10">
             <div className="flex justify-center mb-6 md:mb-0">
               <img
@@ -98,8 +97,6 @@ export function PatientProfile() {
                   </span>
                 </div>
               </div>
-
-
             </div>
           </div>
         ) : !loadingCurrentUser &&
@@ -116,10 +113,8 @@ export function PatientProfile() {
           </span>
         )}
 
-
-
         {/* Appointments */}
-        {/* <div className="flex gap-10 bg-white w-full h-full border-b p-10">
+        <div className="flex gap-10 bg-white w-full h-full border-b p-10">
           <div className="flex flex-col w-full">
             <div className="flex justify-between items-center mb-8">
               <h2 className="text-1xl lg:text-3xl font-bold">
@@ -133,40 +128,21 @@ export function PatientProfile() {
               </button>
             </div>
 
-            <div className="flex flex-col lg:flex-row h-full gap-10">
-              <div className="flex flex-col lg:w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
-                <div className="flex h-1/2 p-3 gap-4 items-center justify-start">
-                  <img className="w-12 h-12 bg-gray-100" />
-                  <span>Dr. Daniel Rojas</span>
-                </div>
-                <div className="flex h-1/2 bg-gray-100 p-4 items-center justify-between">
-                  <span>15 may</span>
-                  <span>11:00-12:00m</span>
-                </div>
-              </div>
-              <div className="flex flex-col lg:w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
-                <div className="flex h-1/2 p-3 gap-4 items-center justify-start">
-                  <img className="w-12 h-12 bg-gray-100" />
-                  <span>Dr. Daniel Rojas</span>
-                </div>
-                <div className="flex h-1/2 bg-gray-100 p-4 items-center justify-between">
-                  <span>15 may</span>
-                  <span>11:00-12:00m</span>
-                </div>
-              </div>
-              <div className="flex flex-col lg:w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
-                <div className="flex h-1/2 p-3 gap-4 items-center justify-start">
-                  <img className="w-12 h-12 bg-gray-100" />
-                  <span>Dr. Daniel Rojas</span>
-                </div>
-                <div className="flex h-1/2 bg-gray-100 p-4 items-center justify-between">
-                  <span>15 may</span>
-                  <span>11:00-12:00m</span>
-                </div>
-              </div>
+            <div className="flex flex-col items-center lg:grid lg:grid-cols-3 gap-6">
+              {loadingCurrentUser ? (
+                <Loading />
+              ) : (user.appointments ?? []).length > 0 ? (
+                user.appointments
+                  .slice(0, 3)
+                  .map((appointment, id) => (
+                    <AppointmentCard appointmentId={appointment} />
+                  ))
+              ) : (
+                <></>
+              )}
             </div>
           </div>
-        </div> */}
+        </div>
       </div>
     </div>
   );

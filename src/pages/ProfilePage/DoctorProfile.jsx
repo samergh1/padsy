@@ -7,13 +7,17 @@ import { useUserContext } from "../../context/userContext";
 import { doc, onSnapshot, query } from "@firebase/firestore";
 import { db } from "../../firebase/config";
 import { Loading } from "../../components/Loading";
+import AppointmentCard from "../../components/Appointment/AppointmentCard";
+import { AppointmentsUrl } from "../../constants/urls";
+import { useNavigate } from "react-router-dom";
 
 export function DoctorProfile() {
+  const navigate = useNavigate();
   const { user } = useUserContext();
   const [editProfile, setEditProfile] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [loadingCurrentUser, setLoadingCurrentUser] = useState(true);
-  const [schedule, setSchedule] = useState({})
+  const [schedule, setSchedule] = useState({});
 
   async function handleSchedule(start, end) {
     await updateUser(user.id, { startSchedule: start, endSchedule: end });
@@ -43,13 +47,11 @@ export function DoctorProfile() {
     const { name, value } = event.target;
     setSchedule((oldData) => ({ ...oldData, [name]: value }));
     console.log(schedule);
-  }
+  };
 
   async function handleSetSchedule() {
     await updateUser(user.id, schedule);
   }
-
-
 
   return (
     <div className="flex">
@@ -62,9 +64,9 @@ export function DoctorProfile() {
       <div className="w-full flex flex-col">
         {/* Information */}
         {!loadingCurrentUser &&
-          !!currentUser &&
-          currentUser.isDoctor &&
-          !editProfile ? (
+        !!currentUser &&
+        currentUser.isDoctor &&
+        !editProfile ? (
           <div className="md:flex md:justify-center md:gap-10 bg-white w-full h-full border-b p-10">
             <div className="flex justify-center">
               <img
@@ -140,9 +142,7 @@ export function DoctorProfile() {
               </h2>
               <div className="-space-y-px rounded-md shadow-sm grid grid-cols-2 gap-x-6 mb-5">
                 <div>
-                  <label htmlFor="startSchedule">
-                    Start Schedule
-                  </label>
+                  <label htmlFor="startSchedule">Start Schedule</label>
                   <input
                     id="startSchedule"
                     name="startSchedule"
@@ -150,14 +150,12 @@ export function DoctorProfile() {
                     autoComplete="startSchedule"
                     onChange={onChange}
                     required
-                    className="relative block w-full rounded py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="relative px-2 block w-full rounded py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     placeholder="3"
                   />
                 </div>
                 <div>
-                  <label htmlFor="endSchedule">
-                    End Schedule
-                  </label>
+                  <label htmlFor="endSchedule">End Schedule</label>
                   <input
                     id="endSchedule"
                     name="endSchedule"
@@ -165,7 +163,7 @@ export function DoctorProfile() {
                     autoComplete="current-endSchedule"
                     onChange={onChange}
                     required
-                    className="relative block w-full rounded py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="relative px-2 block w-full rounded py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     placeholder="8"
                   />
                 </div>
@@ -201,42 +199,26 @@ export function DoctorProfile() {
               <h2 className="text-1xl lg:text-3xl font-bold">
                 My appointments
               </h2>
-              <button className="bg-[#00786A] text-center text-white px-2 lg:px-6 py-2 hover:scale-105 transition-all rounded-md">
+              <button
+                onClick={handleViewAppointments}
+                className="bg-[#00786A] text-center text-white px-2 lg:px-6 py-2 hover:scale-105 transition-all rounded-md"
+              >
                 View all
               </button>
             </div>
 
-            <div className="flex flex-col lg:flex-row h-full gap-10">
-              <div className="flex flex-col lg:w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
-                <div className="flex h-1/2 p-3 gap-4 items-center justify-start">
-                  <img className="w-12 h-12 bg-gray-100" />
-                  <span>Patient 1</span>
-                </div>
-                <div className="flex h-1/2 bg-gray-100 p-4 items-center justify-between">
-                  <span>15 may</span>
-                  <span>11:00-12:00m</span>
-                </div>
-              </div>
-              <div className="flex flex-col lg:w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
-                <div className="flex h-1/2 p-3 gap-4 items-center justify-start">
-                  <img className="w-12 h-12 bg-gray-100" />
-                  <span>Patient 2</span>
-                </div>
-                <div className="flex h-1/2 bg-gray-100 p-4 items-center justify-between">
-                  <span>16 may</span>
-                  <span>11:00-12:00m</span>
-                </div>
-              </div>
-              <div className="flex flex-col lg:w-1/3 rounded-md border hover:scale-105 transition-all cursor-pointer">
-                <div className="flex h-1/2 p-3 gap-4 items-center justify-start">
-                  <img className="w-12 h-12 bg-gray-100" />
-                  <span>Patient 3</span>
-                </div>
-                <div className="flex h-1/2 bg-gray-100 p-4 items-center justify-between">
-                  <span>17 may</span>
-                  <span>11:00-12:00m</span>
-                </div>
-              </div>
+            <div className="flex flex-col items-center lg:grid lg:grid-cols-3 gap-6">
+              {loadingCurrentUser ? (
+                <Loading />
+              ) : (user.appointments ?? []).length > 0 ? (
+                user.appointments
+                  .slice(0, 3)
+                  .map((appointment, id) => (
+                    <AppointmentCard appointmentId={appointment} />
+                  ))
+              ) : (
+                <></>
+              )}
             </div>
           </div>
         </div>

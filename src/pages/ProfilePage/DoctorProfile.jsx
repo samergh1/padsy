@@ -13,9 +13,7 @@ export function DoctorProfile() {
   const [editProfile, setEditProfile] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [loadingCurrentUser, setLoadingCurrentUser] = useState(true);
-
-  const [start, setStart] = useState();
-  const [end, setEnd] = useState();
+  const [schedule, setSchedule] = useState({})
 
   async function handleSchedule(start, end) {
     await updateUser(user.id, { startSchedule: start, endSchedule: end });
@@ -41,6 +39,18 @@ export function DoctorProfile() {
     navigate(AppointmentsUrl);
   };
 
+  const onChange = (event) => {
+    const { name, value } = event.target;
+    setSchedule((oldData) => ({ ...oldData, [name]: value }));
+    console.log(schedule);
+  }
+
+  async function handleSetSchedule() {
+    await updateUser(user.id, schedule);
+  }
+
+
+
   return (
     <div className="flex">
       {/* Sidebar */}
@@ -52,9 +62,9 @@ export function DoctorProfile() {
       <div className="w-full flex flex-col">
         {/* Information */}
         {!loadingCurrentUser &&
-        !!currentUser &&
-        currentUser.isDoctor &&
-        !editProfile ? (
+          !!currentUser &&
+          currentUser.isDoctor &&
+          !editProfile ? (
           <div className="md:flex md:justify-center md:gap-10 bg-white w-full h-full border-b p-10">
             <div className="flex justify-center">
               <img
@@ -124,47 +134,49 @@ export function DoctorProfile() {
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4 pb-4">
-                <div className="mt-2">
-                  <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                    <span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">
-                      Start Schedule
-                    </span>
-                    <input
-                      value={start}
-                      onChange={(event) => setStart(event.target.value)}
-                      type="text"
-                      name="start"
-                      id="start"
-                      className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                      placeholder="13"
-                    />
-                  </div>
+              {/* Schedule Gestion */}
+              <h2 className="text-1xl lg:text-3xl mb-6 font-bold">
+                Schedule Management
+              </h2>
+              <div className="-space-y-px rounded-md shadow-sm grid grid-cols-2 gap-x-6 mb-5">
+                <div>
+                  <label htmlFor="startSchedule">
+                    Start Schedule
+                  </label>
+                  <input
+                    id="startSchedule"
+                    name="startSchedule"
+                    type="startSchedule"
+                    autoComplete="startSchedule"
+                    onChange={onChange}
+                    required
+                    className="relative block w-full rounded py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    placeholder="3"
+                  />
                 </div>
-                <div className="mt-2">
-                  <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                    <span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">
-                      End Schedule
-                    </span>
-                    <input
-                      value={end}
-                      onChange={(event) => setEnd(event.target.value)}
-                      type="text"
-                      name="end"
-                      id="end"
-                      className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                      placeholder="15"
-                    />
-                  </div>
+                <div>
+                  <label htmlFor="endSchedule">
+                    End Schedule
+                  </label>
+                  <input
+                    id="endSchedule"
+                    name="endSchedule"
+                    type="endSchedule"
+                    autoComplete="current-endSchedule"
+                    onChange={onChange}
+                    required
+                    className="relative block w-full rounded py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    placeholder="8"
+                  />
                 </div>
               </div>
               <button
                 onClick={() => {
-                  handleSchedule(start, end);
+                  handleSetSchedule();
                 }}
-                className="w-1/5 bg-[#00786A] text-center text-white px-2 lg:px-6 py-2 hover:scale-105 transition-all rounded-md"
+                className="bg-[#00786A] text-center w-1/5 text-white px-2 lg:px-6 py-2 hover:scale-105 transition-all rounded-md"
               >
-                Edit Schedule
+                Set Schedule
               </button>
             </div>
           </div>

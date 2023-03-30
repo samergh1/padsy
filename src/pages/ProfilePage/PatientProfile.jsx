@@ -48,9 +48,9 @@ export function PatientProfile() {
       <div className="w-full flex flex-col">
         {/* Information */}
         {!loadingCurrentUser &&
-        !!currentUser &&
-        !currentUser.isDoctor &&
-        !editProfile ? (
+          !!currentUser &&
+          !currentUser.isDoctor &&
+          !editProfile ? (
           <div className="md:flex justify-center gap-10 bg-white w-full h-full border-b p-10">
             <div className="flex justify-center mb-6 md:mb-0">
               <img
@@ -84,7 +84,7 @@ export function PatientProfile() {
                     {currentUser.phoneNumber}
                   </span>
                 </div>
-                <div className="flex gap-8 justify-center lg:justify-start">
+                <div className="flex gap-8 justify-center mb-12 lg:justify-start">
                   <span className="font-bold">Gender:</span>
                   <span className="text-[#646464]">{currentUser.gender}</span>
                 </div>
@@ -95,6 +95,49 @@ export function PatientProfile() {
                   </span>
                 </div>
               </div>
+
+              {/* Schedule Gestion */}
+              <h2 className="text-1xl lg:text-3xl mb-6 font-bold">
+                Schedule Management
+              </h2>
+              <div className="-space-y-px rounded-md shadow-sm grid grid-cols-2 gap-x-6 mb-5">
+                <div>
+                  <label htmlFor="startSchedule">
+                    Start Schedule
+                  </label>
+                  <input
+                    id="startSchedule"
+                    name="startSchedule"
+                    type="startSchedule"
+                    autoComplete="startSchedule"
+                    required
+                    className="relative block w-full rounded py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    placeholder="Start Schedule"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="endSchedule">
+                    End Schedule
+                  </label>
+                  <input
+                    id="endSchedule"
+                    name="endSchedule"
+                    type="endSchedule"
+                    autoComplete="current-endSchedule"
+                    required
+                    className="relative block w-full rounded py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    placeholder="End Schedule"
+                  />
+                </div>
+              </div>
+              <button
+                onClick={() => {
+                  setEditProfile(true);
+                }}
+                className="bg-[#00786A] text-center w-1/5 text-white px-2 lg:px-6 py-2 hover:scale-105 transition-all rounded-md"
+              >
+                Set Schedule
+              </button>
             </div>
           </div>
         ) : !loadingCurrentUser &&
@@ -111,8 +154,10 @@ export function PatientProfile() {
           </span>
         )}
 
+
+
         {/* Appointments */}
-        <div className="flex gap-10 bg-white w-full h-full border-b p-10">
+        {/* <div className="flex gap-10 bg-white w-full h-full border-b p-10">
           <div className="flex flex-col w-full">
             <div className="flex justify-between items-center mb-8">
               <h2 className="text-1xl lg:text-3xl font-bold">
@@ -159,7 +204,7 @@ export function PatientProfile() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

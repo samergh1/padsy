@@ -39,9 +39,8 @@ export function Navbar() {
   return (
     <>
       <div
-        className={`${
-          open ? "md:w-72 w-40" : "w-20 "
-        } bg-gray-300 h-screen p-5 pt-8 duration-300 flex flex-col justify-between sticky top-0`}
+        className={`${open ? "md:w-72 w-40" : "w-20 "
+          } bg-gray-300 h-screen p-5 pt-8 duration-300 flex flex-col justify-between sticky top-0`}
       >
         <UilAngleDoubleLeft
           className={`absolute cursor-pointer -right-3 top-9 w-7 border-dark-purple
@@ -52,12 +51,15 @@ export function Navbar() {
           {/* Desde aquí */}
           {!isLoadingUser && !!user ? (
             <>
-              <div className="w-8 h-8 bg-green-100 rounded-md visible"></div>
+              <img
+                src={user.profileImage}
+                className="rounded-md w-8 h-8 bg-gray-100"
+                alt="Profile image"
+              />
               {open ? (
                 <button
-                  className={`text-black origin-left font-medium text-base duration-200 ${
-                    !open && "scale-0"
-                  }`}
+                  className={`text-black origin-left font-medium text-base duration-200 ${!open && "scale-0"
+                    }`}
                   onClick={() =>
                     user.isDoctor
                       ? navigate(DoctorProfileUrl(user.uid))
@@ -72,9 +74,8 @@ export function Navbar() {
             <>
               <div className="w-12 h-12 bg-green-100 rounded-md visible"></div>
               <h1
-                className={`text-black origin-left font-medium text-base duration-200 ${
-                  !open && "scale-0"
-                }`}
+                className={`text-black origin-left font-medium text-base duration-200 ${!open && "scale-0"
+                  }`}
               >
                 @USERNAME
               </h1>
@@ -89,15 +90,13 @@ export function Navbar() {
                 key={index}
                 onClick={() => navigate(Menu.to)}
                 className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-black-300 text-sm items-center gap-x-4 
-                        ${Menu.gap ? "mt-9" : "mt-2"} ${
-                  index === 0 && "bg-light-white"
-                } `}
+                        ${Menu.gap ? "mt-9" : "mt-2"} ${index === 0 && "bg-light-white"
+                  } `}
               >
                 <Menu.src className="fill-[#00786A]" />
                 <span
-                  className={`${
-                    !open && "hidden"
-                  } origin-left duration-200 not-italic font-normal text-base leading-6 flex items-center text-center text-black`}
+                  className={`${!open && "hidden"
+                    } origin-left duration-200 not-italic font-normal text-base leading-6 flex items-center text-center text-black`}
                 >
                   {Menu.title}
                 </span>

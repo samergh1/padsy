@@ -10,6 +10,7 @@ import { Loading } from "../../components/Loading";
 import AppointmentCard from "../../components/Appointment/AppointmentCard";
 import { AppointmentsUrl } from "../../constants/urls";
 import { useNavigate } from "react-router-dom";
+import { updateUser } from "../../firebase/users";
 
 export function DoctorProfile() {
   const navigate = useNavigate();
@@ -151,7 +152,7 @@ export function DoctorProfile() {
                     onChange={onChange}
                     required
                     className="relative px-2 block w-full rounded py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    placeholder="3"
+                    placeholder={currentUser.startSchedule ?? "5"}
                   />
                 </div>
                 <div>
@@ -164,7 +165,7 @@ export function DoctorProfile() {
                     onChange={onChange}
                     required
                     className="relative px-2 block w-full rounded py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    placeholder="8"
+                    placeholder={currentUser.endSchedule ?? "13"}
                   />
                 </div>
               </div>
